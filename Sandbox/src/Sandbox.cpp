@@ -3,7 +3,7 @@
 class Sandbox : public OSE::Engine {
 public:
 	Sandbox() {
-
+		OSE_LOG(LOG_APP_TRACE, "Sandbox startup...");
 	}
 
 	~Sandbox() {

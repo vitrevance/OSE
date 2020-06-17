@@ -1,7 +1,8 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#ifndef OSE_ENGINE_H
+#define OSE_ENGINE_H
 
 #include"Core.h"
+#include"Logger.h"
 
 namespace OSE {
 
@@ -11,6 +12,8 @@ namespace OSE {
 		~Engine();
 
 		void run();
+
+		void init();
 	};
 }
 
