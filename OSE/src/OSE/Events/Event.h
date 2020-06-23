@@ -1,19 +1,21 @@
 #ifndef OSE_EVENT_H
 #define OSE_EVENT_H
 
-#include"../Core.h"
+#include <OSE/Core.h>
 
 
 namespace OSE {
 
 	enum class EventType {
 		None = 0,
-		WindowClose, WindowResize, WindowLostFocus, WindowMoved,
+		WindowClosed, WindowResized, WindowLostFocus, WindowMoved,
 		KeyPressed, KeyReleased,
-		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
+		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
+		Tick,
+		EVENTTYPE_ITEMS
 	};
 
-	enum class EventCategory {
+	enum EventCategory {
 		None                = 0,
 		CategoryApp         = BIT(0),
 		CategoryWindow      = BIT(1),
@@ -24,11 +26,6 @@ namespace OSE {
 	};
 
 	class OSE_API Event {
-	protected:
-		bool m_isHandled = false;
-		bool m_isCanceled = false;
-		bool m_isCancelable = false;
-
 	public:
 
 		virtual EventType getEventType() const = 0;
@@ -43,9 +40,14 @@ namespace OSE {
 
 		Event();
 		~Event();
-
-	
+	protected:
+		bool m_isHandled = false;
+		bool m_isCanceled = false;
+		bool m_isCancelable = false;
 	};
+
+#define EVENT_CLASS_TYPE(type) virtual EventType getEventType() const override { return type; } static EventType getStaticEventType() { return type; }
+#define EVENT_CLASS_CATEGORY(category) virtual int getEventCategories() const override { return category; }
 }
 
 #endif

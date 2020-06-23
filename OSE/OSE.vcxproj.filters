@@ -30,6 +30,21 @@
     <ClInclude Include="src\OSE\Events\Event.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="src\OSE\Events\KeyEvent.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OSE\Events\MouseEvent.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OSE\Events\WindowEvent.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OSE\Events\EngineEvent.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OSE\Systems\EventSystem.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\OSE\Engine.cpp">
@@ -39,6 +54,21 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="src\OSE\Events\Event.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OSE\Events\KeyEvent.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OSE\Events\MouseEvent.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OSE\Events\WindowEvent.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OSE\Events\EngineEvent.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OSE\Systems\EventSystem.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

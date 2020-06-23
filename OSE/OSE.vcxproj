@@ -58,7 +58,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN64;OSE_BUILD;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\lib\P7</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)src\lib\P7</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -79,7 +79,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN64;OSE_BUILD;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\lib\P7</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)src\lib\P7</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -99,16 +99,26 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\OSE\Systems\EventSystem.h" />
+    <ClInclude Include="src\OSE\Events\EngineEvent.h" />
+    <ClInclude Include="src\OSE\Events\MouseEvent.h" />
+    <ClInclude Include="src\OSE\Events\KeyEvent.h" />
     <ClInclude Include="src\OSE\Events\Event.h" />
     <ClInclude Include="src\OSE\Logger.h" />
     <ClInclude Include="src\OSE.h" />
     <ClInclude Include="src\OSE\Core.h" />
     <ClInclude Include="src\OSE\Engine.h" />
+    <ClInclude Include="src\OSE\Events\WindowEvent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\OSE\Systems\EventSystem.cpp" />
+    <ClCompile Include="src\OSE\Events\EngineEvent.cpp" />
+    <ClCompile Include="src\OSE\Events\MouseEvent.cpp" />
+    <ClCompile Include="src\OSE\Events\KeyEvent.cpp" />
     <ClCompile Include="src\OSE\Events\Event.cpp" />
     <ClCompile Include="src\OSE\Logger.cpp" />
     <ClCompile Include="src\OSE\Engine.cpp" />
+    <ClCompile Include="src\OSE\Events\WindowEvent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

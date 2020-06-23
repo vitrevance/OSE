@@ -1,4 +1,26 @@
-﻿  Event.cpp
+﻿  EventSystem.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(26): warning C4251: OSE::EventSystem::eventListeners: class "std::vector<OSE::EventListenerBase *,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+          with
+          [
+              _Ty=OSE::EventListenerBase *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(26): note:  см. объявление "std::vector<OSE::EventListenerBase *,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=OSE::EventListenerBase *
+          ]
+  Engine.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(26): warning C4251: OSE::EventSystem::eventListeners: class "std::vector<OSE::EventListenerBase *,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+          with
+          [
+              _Ty=OSE::EventListenerBase *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(26): note:  см. объявление "std::vector<OSE::EventListenerBase *,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=OSE::EventListenerBase *
+          ]
+  Создание кода...
      ╤ючфрхЄё  сшсышюЄхър C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\OSE\OSE.lib ш юс·хъЄ C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\OSE\OSE.exp
   OSE.vcxproj -> C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\OSE\OSE.dll
   Copy output dll to sanbox directory
