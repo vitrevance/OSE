@@ -1,27 +1,17 @@
 ﻿  EventSystem.cpp
-c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(26): warning C4251: OSE::EventSystem::eventListeners: class "std::vector<OSE::EventListenerBase *,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(30): warning C4251: OSE::EventSystem::eventListeners: class "std::map<OSE::EventType,std::vector<OSE::EventListenerBase *,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
           with
           [
-              _Ty=OSE::EventListenerBase *
+              _Ty=OSE::EventListenerBase *,
+              _Kty=OSE::EventType
           ]
-  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(26): note:  см. объявление "std::vector<OSE::EventListenerBase *,std::allocator<_Ty>>"
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(30): note:  см. объявление "std::map<OSE::EventType,std::vector<OSE::EventListenerBase *,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>"
           with
           [
-              _Ty=OSE::EventListenerBase *
+              _Ty=OSE::EventListenerBase *,
+              _Kty=OSE::EventType
           ]
-  Engine.cpp
-c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(26): warning C4251: OSE::EventSystem::eventListeners: class "std::vector<OSE::EventListenerBase *,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
-          with
-          [
-              _Ty=OSE::EventListenerBase *
-          ]
-  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(26): note:  см. объявление "std::vector<OSE::EventListenerBase *,std::allocator<_Ty>>"
-          with
-          [
-              _Ty=OSE::EventListenerBase *
-          ]
-  Создание кода...
-     ╤ючфрхЄё  сшсышюЄхър C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\OSE\OSE.lib ш юс·хъЄ C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\OSE\OSE.exp
+     Создается библиотека C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\OSE\OSE.lib и объект C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\OSE\OSE.exp
   OSE.vcxproj -> C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\OSE\OSE.dll
   Copy output dll to sanbox directory
   Скопировано файлов:         1.

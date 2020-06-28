@@ -16,14 +16,10 @@ namespace OSE {
 
 		void run();
 
-		inline EventSystem* getEventSystem() { return this->eventSystem; }
-
 	private:
 		void init();
 
 		void stop();
-
-		EventSystem* eventSystem;
 	};
 }
 

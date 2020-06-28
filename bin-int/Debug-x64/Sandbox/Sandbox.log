@@ -1,12 +1,1 @@
-﻿  Sandbox.cpp
-c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(26): warning C4251: OSE::EventSystem::eventListeners: class "std::vector<OSE::EventListenerBase *,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
-          with
-          [
-              _Ty=OSE::EventListenerBase *
-          ]
-  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(26): note:  см. объявление "std::vector<OSE::EventListenerBase *,std::allocator<_Ty>>"
-          with
-          [
-              _Ty=OSE::EventListenerBase *
-          ]
-  Sandbox.vcxproj -> C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\Sandbox\Sandbox.exe
+﻿  Sandbox.vcxproj -> C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\Sandbox\Sandbox.exe

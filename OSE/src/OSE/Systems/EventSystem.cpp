@@ -2,6 +2,8 @@
 
 namespace OSE {
 
+	EventSystem* EventSystem::instance = nullptr;
+
 	EventSystem::EventSystem() {
 	}
 
@@ -10,13 +12,15 @@ namespace OSE {
 	}
 	
 	void EventSystem::subscribeEventListener(EventListenerBase* eventListener) {
-		this->eventListeners.push_back(eventListener);
+		std::vector<EventListenerBase*>& listeners = this->eventListeners[eventListener->getEventType()];
+		listeners.push_back(eventListener);
 	}
 
 	void EventSystem::postEvent(Event& event) {
-		for (EventListenerBase* listener : this->eventListeners) {
-			if (listener->getEventType() == event.getEventType()) {
-				listener->onEvent(event);
+		if (this->eventListeners.count(event.getEventType())) {
+			std::vector<EventListenerBase*>& listeners = this->eventListeners[event.getEventType()];
+			for (EventListenerBase* listener : listeners) {
+				listener->onBaseEvent(event);
 			}
 		}
 	}

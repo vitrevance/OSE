@@ -17,11 +17,11 @@ namespace OSE {
 
 	void Engine::init() {
 		OSE_LOG(LOG_OSE_TRACE, "Engine initialization...");
-		this->eventSystem = new EventSystem();
+		EventSystem::instance = new EventSystem();
 	}
 
 	void Engine::stop() {
-		delete this->eventSystem;
+		delete EventSystem::instance;
 	}
 
 	void Engine::run() {
