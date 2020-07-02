@@ -2,8 +2,6 @@
 #define OSE_EVENTSYSTEM_H
 
 #include <OSE/Events/Event.h>
-#include <vector>
-#include <map>
 
 namespace OSE {
 
@@ -12,7 +10,8 @@ namespace OSE {
 		virtual EventType getEventType() = 0;
 		virtual bool onBaseEvent(Event&  event) = 0;
 	protected:
-		EventListenerBase() {};
+		EventListenerBase() {}
+		~EventListenerBase() {}
 	};
 
 	class OSE_API EventSystem {

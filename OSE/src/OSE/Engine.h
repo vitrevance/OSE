@@ -1,8 +1,8 @@
 #ifndef OSE_ENGINE_H
 #define OSE_ENGINE_H
 
-#include "Core.h"
-#include "Logger.h"
+#include <OSE/Core.h>
+#include <OSE/Logger.h>
 #include <OSE/Systems/EventSystem.h>
 
 namespace OSE {

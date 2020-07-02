@@ -58,13 +58,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN64;OSE_BUILD;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)src\lib\P7</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)src\lib\</AdditionalIncludeDirectories>
+      <CompileAs>Default</CompileAs>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)src\lib\P7\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>p7-shared.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)src\lib\P7\;$(ProjectDir)src\lib\GLFW\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\OSE\OSE.dll C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\Sandbox\OSE.dll</Command>
@@ -79,15 +80,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN64;OSE_BUILD;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)src\lib\P7</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)src\lib\</AdditionalIncludeDirectories>
+      <CompileAs>Default</CompileAs>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)src\lib\P7\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>p7-shared.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)src\lib\P7\;$(ProjectDir)src\lib\GLFW\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -109,6 +111,8 @@
     <ClInclude Include="src\OSE\Core.h" />
     <ClInclude Include="src\OSE\Engine.h" />
     <ClInclude Include="src\OSE\Events\WindowEvent.h" />
+    <ClInclude Include="src\OSE\Window.h" />
+    <ClInclude Include="src\OSE\Platforms\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\OSE\Systems\EventSystem.cpp" />
@@ -119,6 +123,7 @@
     <ClCompile Include="src\OSE\Logger.cpp" />
     <ClCompile Include="src\OSE\Engine.cpp" />
     <ClCompile Include="src\OSE\Events\WindowEvent.cpp" />
+    <ClCompile Include="src\OSE\Platforms\WindowsWindow.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

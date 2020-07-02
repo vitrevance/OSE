@@ -14,4 +14,11 @@
 #define BIT(place) (1 << place)
 #define ISBIT(num, place) ((bool)((num >> place) & 1))
 
+namespace OSE {
+#include <string>
+#include <vector>
+#include <map>
+	using std::string;
+}
+
 #endif

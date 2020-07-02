@@ -8,8 +8,6 @@
 
 namespace OSE {
 
-	using std::string;
-
 	#define LOG_OSE_TRACE   1
 	#define LOG_OSE_INFO    2
 	#define LOG_OSE_WARNING 3
@@ -40,7 +38,7 @@ namespace OSE {
 #define OSE_LOG(...)
 #else
 #define OSE_LOG(...)	::OSE::Logger::instance->Log(__VA_ARGS__);
-#endif // !OSE_DISABLE_LOGGER
+#endif
 
 
 #endif
