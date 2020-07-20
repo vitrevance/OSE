@@ -1,3 +1,4 @@
+#ifndef OSE_DISABLE_LOGGER
 #include "Logger.h"
 
 namespace OSE {
@@ -47,3 +48,4 @@ namespace OSE {
 		#endif
 	}
 }
+#endif

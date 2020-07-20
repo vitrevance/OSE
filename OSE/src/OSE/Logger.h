@@ -1,12 +1,15 @@
 #ifndef OSE_LOGGER_H
 #define OSE_LOGGER_H
 
-#include "Core.h"
+#ifndef OSE_DISABLE_LOGGER
 
+#include <OSE/Core.h>
 #include <iostream>
 #include <string>
 
 namespace OSE {
+
+	using std::string;
 
 	#define LOG_OSE_TRACE   1
 	#define LOG_OSE_INFO    2
@@ -34,11 +37,10 @@ namespace OSE {
 	};
 }
 
-#ifdef OSE_DISABLE_LOGGER
-#define OSE_LOG(...)
-#else
 #define OSE_LOG(...)	::OSE::Logger::instance->Log(__VA_ARGS__);
-#endif
 
+#else
+#define OSE_LOG(...)
+#endif
 
 #endif

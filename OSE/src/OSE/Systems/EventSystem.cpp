@@ -12,16 +12,20 @@ namespace OSE {
 	}
 	
 	void EventSystem::subscribeEventListener(EventListenerBase* eventListener) {
-		std::vector<EventListenerBase*>& listeners = this->eventListeners[eventListener->getEventType()];
-		listeners.push_back(eventListener);
+		std::map<EventType, void*>& callbacks = eventListener->getEventType();
+		std::map<EventType, void*>::iterator it;
+		it = callbacks.begin();
+		for (it = callbacks.begin(); it != callbacks.end(); it++) {
+			this->m_subscribedEventListeners[it->first].insert(it->second);
+		}
 	}
 
-	void EventSystem::postEvent(Event& event) {
-		if (this->eventListeners.count(event.getEventType())) {
-			std::vector<EventListenerBase*>& listeners = this->eventListeners[event.getEventType()];
-			for (EventListenerBase* listener : listeners) {
-				listener->onBaseEvent(event);
-			}
+	void EventSystem::unsubscribeEventListener(EventListenerBase* eventListener) {
+		std::map<EventType, void*>& callbacks = eventListener->getEventType();
+		std::map<EventType, void*>::iterator it;
+		it = callbacks.begin();
+		for (it = callbacks.begin(); it != callbacks.end(); it++) {
+			this->m_subscribedEventListeners[it->first].erase(it->second);
 		}
 	}
 }

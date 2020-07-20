@@ -1,6 +1,6 @@
 /*
 Keys:
-OSE_BUILD - used only on OSE Engine build, mut not be used in application
+OSE_BUILD - used only on OSE Engine build, must not be used in application
 OSE_DISABLE_LOGGER - use to disable logging system (on Release)
 */
 #ifndef OSE_H

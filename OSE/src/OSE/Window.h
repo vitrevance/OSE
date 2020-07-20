@@ -10,12 +10,15 @@ namespace OSE {
 		string title;
 		int width, height;
 		bool isVSYNC;
+		bool isFullscreen;
 	};
 
-	class Window {
+	class OSE_API Window {
 	public:
-		virtual WindowProps getDefaultWindowParams() {
-			return WindowProps{ "OSE App", 1280, 720, false };
+		virtual ~Window() {};
+
+		static WindowProps getDefaultWindowProps() {
+			return WindowProps{ "OSE App", 1280, 720, false, false };
 		}
 
 		virtual int getWidth() {
@@ -30,13 +33,16 @@ namespace OSE {
 			return this->m_windowProps.isVSYNC;
 		}
 
+		virtual bool isFullscreen() {
+			return this->m_windowProps.isFullscreen;
+		}
+
 		virtual void setVSync(bool state) = 0;
 		virtual void onUpdate() = 0;
-	protected:
-		Window() {}
-		~Window() {}
 
 		WindowProps m_windowProps;
+	protected:
+		Window() {};
 	};
 }
 #endif

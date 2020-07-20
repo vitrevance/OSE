@@ -19,4 +19,8 @@ namespace OSE {
 		}
 		return false;
 	}
+
+	void Event::setHandled() {
+		this->m_isHandled = true;
+	}
 }

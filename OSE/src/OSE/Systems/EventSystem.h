@@ -5,15 +5,6 @@
 
 namespace OSE {
 
-	class OSE_API EventListenerBase {
-	public:
-		virtual EventType getEventType() = 0;
-		virtual bool onBaseEvent(Event&  event) = 0;
-	protected:
-		EventListenerBase() {}
-		~EventListenerBase() {}
-	};
-
 	class OSE_API EventSystem {
 	public:
 
@@ -23,34 +14,25 @@ namespace OSE {
 		~EventSystem();
 
 		void subscribeEventListener(EventListenerBase* eventListener);
-		void postEvent(Event& event);
+		void unsubscribeEventListener(EventListenerBase* eventListener);
 
-	private:
-		std::map<EventType, std::vector<EventListenerBase*> > eventListeners;
-	};
+		template<typename T>
+		void postEvent(T& event) {
+			std::set<void*>& callbacks = this->m_subscribedEventListeners[T::getStaticEventType()];
+			for (void* it : callbacks) {
+				std::function<void(T&)> callback = *((onEventWrapper<T>*)it);
+				callback(event);
+			}
 
-	template<typename T>
-	class OSE_API EventListener : private EventListenerBase {
-		static_assert(std::is_base_of<Event, T>::value, "T must inherit from Event");
-	public:
-
-		EventListener() {
-			EventSystem::instance->subscribeEventListener(this);
-		}
-
-		~EventListener() {
-		}
-
-		virtual bool onEvent(T& event) = 0;
-
-		EventType getEventType() override {
-			return T::getStaticEventType();
+			callbacks = this->m_subscribedEventListeners[EventType::None];
+			for (void* it : callbacks) {
+				std::function<void(Event&)> callback = *((onEventWrapper<Event>*)it);
+				callback(event);
+			}
 		}
 
 	private:
-		bool onBaseEvent(Event& event) override {
-			return this->onEvent((T&)event);
-		}
+		std::map<EventType, std::set<void*> > m_subscribedEventListeners;
 	};
 }
 

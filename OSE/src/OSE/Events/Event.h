@@ -2,7 +2,7 @@
 #define OSE_EVENT_H
 
 #include <OSE/Core.h>
-
+#include <functional>
 
 namespace OSE {
 
@@ -27,6 +27,7 @@ namespace OSE {
 
 	class OSE_API Event {
 	public:
+		static EventType getStaticEventType() { return EventType::None; }
 
 		virtual EventType getEventType() const = 0;
 		virtual int getEventCategories() const = 0;
@@ -37,6 +38,7 @@ namespace OSE {
 		inline bool isCancelable() { return this->m_isCancelable; }
 
 		bool setCanceled(bool state);
+		void setHandled();
 
 		Event();
 		~Event();
@@ -48,6 +50,46 @@ namespace OSE {
 
 #define EVENT_CLASS_TYPE(type) virtual EventType getEventType() const override { return type; } static EventType getStaticEventType() { return type; }
 #define EVENT_CLASS_CATEGORY(category) virtual int getEventCategories() const override { return category; }
+
+	template<typename T>
+	struct onEventWrapper {
+		std::function<void(T&)> m_fun;
+		onEventWrapper(std::function<void(T&)> fun) {
+			this->m_fun = fun;
+		}
+		operator std::function<void(T&)>() const { return m_fun; }
+	};
+
+	class OSE_API EventListenerBase {
+	public:
+		std::map<EventType, void*>& getEventType() {
+			return this->m_eventTypes;
+		}
+
+	protected:
+		std::map<EventType, void* > m_eventTypes;
+
+		EventListenerBase() {}
+		virtual ~EventListenerBase() {}
+	};
+
+	template<typename T>
+	class EventListener : virtual public EventListenerBase {
+	public:
+		EventListener() {
+			static_assert(std::is_base_of<Event, T>::value, "T must inherit from Event");
+			std::function<void(T&)> callback = std::bind(&EventListener<T>::onEvent, this, std::placeholders::_1);
+			onEventWrapper<T>* fun = new onEventWrapper<T>(callback);
+			this->m_eventTypes[T::getStaticEventType()] = (void*)fun;
+		}
+
+		virtual ~EventListener() {
+			delete (onEventWrapper<T>*)this->m_eventTypes[T::getStaticEventType()];
+			this->m_eventTypes.erase(T::getStaticEventType());
+		}
+
+		virtual void onEvent(T& event) = 0;
+	};
 }
 
 #endif
