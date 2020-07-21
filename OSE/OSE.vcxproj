@@ -65,7 +65,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)src\lib\P7\;$(ProjectDir)src\lib\GLFW\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\OSE\OSE.dll C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\Sandbox\OSE.dll</Command>
@@ -89,7 +89,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)src\lib\P7\;$(ProjectDir)src\lib\GLFW\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -101,6 +101,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\OSE\Systems\Renderer.h" />
     <ClInclude Include="src\OSE\Blueprints\Actor.h" />
     <ClInclude Include="src\OSE\Blueprints\Scene.h" />
     <ClInclude Include="src\OSE\Blueprints\Entity.h" />
@@ -119,6 +120,7 @@
     <ClInclude Include="src\OSE\Platforms\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\OSE\Systems\Renderer.cpp" />
     <ClCompile Include="src\OSE\Blueprints\Actor.cpp" />
     <ClCompile Include="src\OSE\Blueprints\Scene.cpp" />
     <ClCompile Include="src\OSE\Blueprints\Entity.cpp" />

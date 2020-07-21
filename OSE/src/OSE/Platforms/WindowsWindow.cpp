@@ -19,8 +19,14 @@ namespace OSE {
 
 	void WindowsWindow::onUpdate() {
 		glfwPollEvents();
-		//glClearColor(1, 1, 1, 1);
-		//glClear(GL_COLOR_BUFFER_BIT);
+	}
+
+	void WindowsWindow::onRenderPre() {
+		glClearColor(1, 1, 1, 1);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+
+	void WindowsWindow::onRenderPost() {
 		glfwSwapBuffers(this->m_glfwWindow);
 	}
 
@@ -39,6 +45,7 @@ namespace OSE {
 		if (!this->m_glfwWindow) {
 			OSE_LOG(LOG_OSE_ERROR, "GLFW window creation failed")
 		}
+		glfwMakeContextCurrent(this->m_glfwWindow);
 		glfwSetKeyCallback(this->m_glfwWindow, key_callback);
 		glfwSetWindowCloseCallback(this->m_glfwWindow, window_close_callback);
 		glfwSetWindowSizeCallback(this->m_glfwWindow, window_size_callback);

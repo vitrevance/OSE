@@ -20,6 +20,7 @@ namespace OSE {
 		void clear();
 		void free();
 
+		virtual void onRender(Renderer* renderer);
 		EventSystem& eventSystem();
 	protected:
 		std::set<Entity*> m_entities;

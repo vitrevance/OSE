@@ -7,6 +7,7 @@
 #include <OSE/Platforms/WindowsWindow.h>
 #include <OSE/Blueprints/Scene.h>
 #include <OSE/Blueprints/Actor.h>
+#include <OSE/Systems/Renderer.h>
 
 namespace OSE {
 
@@ -26,6 +27,7 @@ namespace OSE {
 	protected:
 		Window* m_window;
 		Scene* m_activeScene;
+		Renderer* m_renderer;
 
 		virtual Window* createWindow(WindowProps windowProps = Window::getDefaultWindowProps());
 		virtual void disposeWindow();

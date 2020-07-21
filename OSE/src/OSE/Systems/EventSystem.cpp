@@ -28,4 +28,8 @@ namespace OSE {
 			this->m_subscribedEventListeners[it->first].erase(it->second);
 		}
 	}
+
+	void EventSystem::setSceneCallback(std::function<EventSystem*(int)> callback) {
+		this->m_sceneLayerCallback = callback;
+	}
 }

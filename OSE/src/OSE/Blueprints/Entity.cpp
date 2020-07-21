@@ -6,4 +6,7 @@ namespace OSE {
 
 	Entity::~Entity() {
 	}
+
+	void Entity::onRender(Renderer* renderer) {
+	}
 }

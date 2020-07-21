@@ -16,7 +16,8 @@ namespace OSE {
 		void clear();
 		void free();
 
-		void onEvent(Event& event);
+		virtual void render(Renderer* renderer);
+		EventSystem* getLayerEventSystem(int index);
 
 	protected:
 		std::vector<Layer*> m_layers;

@@ -44,6 +44,12 @@ namespace OSE {
 		this->m_eventSystem = EventSystem();
 	}
 
+	void Layer::onRender(Renderer* renderer) {
+		for (Entity* entity : this->m_entities) {
+			entity->onRender(renderer);
+		}
+	}
+
 	EventSystem& Layer::eventSystem() {
 		return this->m_eventSystem;
 	}

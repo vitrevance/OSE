@@ -20,11 +20,12 @@ namespace OSE {
 		this->m_window = nullptr;
 		this->m_activeScene = nullptr;
 		EventSystem::instance = new EventSystem();
-		//EventSystem::instance->setStaticCallback(&Engine::onEvent);
+		this->m_renderer = new Renderer();
 	}
 
 	void Engine::stop() {
 		delete EventSystem::instance;
+		delete this->m_renderer;
 	}
 
 	Window* Engine::createWindow(WindowProps windowProps) {
@@ -43,6 +44,7 @@ namespace OSE {
 
 	void Engine::setActiveScene(Scene* scene) {
 		this->m_activeScene = scene;
+		EventSystem::instance->setSceneCallback(std::bind(&Scene::getLayerEventSystem, scene, std::placeholders::_1));
 	}
 
 	Scene* Engine::getActiveScene() {
@@ -53,8 +55,11 @@ namespace OSE {
 		while (this->isRunning) {
 			if (this->m_window != nullptr) {
 				this->m_window->onUpdate();
+				this->m_window->onRenderPre();
+				this->m_activeScene->render(this->m_renderer);
+				this->m_window->onRenderPost();
 			}
-			TickEvent tickEvent();
+			TickEvent tickEvent(0);
 			EventSystem::instance->postEvent(tickEvent);
 		}
 	}

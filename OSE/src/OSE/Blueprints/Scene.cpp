@@ -43,9 +43,17 @@ namespace OSE {
 		this->m_layers.clear();
 	}
 
-	void Scene::onEvent(Event& event) {
-		for (std::vector<Layer*>::iterator it = this->m_layers.end(); it != this->m_layers.begin(); it--) {
-			//(*it)->eventSystem().postEvent(event);
+	void Scene::render(Renderer* renderer) {
+		for (Layer* layer : this->m_layers) {
+			layer->onRender(renderer);
 		}
+	}
+
+	EventSystem* Scene::getLayerEventSystem(int index) {
+		int size = this->m_layers.size();
+		if (index < size) {
+			return &this->m_layers.at(size - index - 1)->eventSystem();
+		}
+		return nullptr;
 	}
 }

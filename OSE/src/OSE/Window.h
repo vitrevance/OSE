@@ -39,6 +39,8 @@ namespace OSE {
 
 		virtual void setVSync(bool state) = 0;
 		virtual void onUpdate() = 0;
+		virtual void onRenderPre() = 0;
+		virtual void onRenderPost() = 0;
 
 		WindowProps m_windowProps;
 	protected:

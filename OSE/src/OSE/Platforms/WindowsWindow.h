@@ -1,11 +1,13 @@
 #ifndef OSE_WINDOWSWINDOW_H
 #define OSE_WINDOWSWINDOW_H
 
+#include <windows.h>
+#include <gl/GL.h>
+#include <GLFW/glfw3.h>
 #include <OSE/Window.h>
 #include <OSE/Events/WindowEvent.h>
 #include <OSE/Events/KeyEvent.h>
 #include <OSE/Events/MouseEvent.h>
-#include <GLFW/glfw3.h>
 
 namespace OSE {
 
@@ -15,6 +17,8 @@ namespace OSE {
 		virtual ~WindowsWindow() override;
 
 		void onUpdate() override;
+		void onRenderPre() override;
+		void onRenderPost() override;
 		void setVSync(bool state) override;
 
 		static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
