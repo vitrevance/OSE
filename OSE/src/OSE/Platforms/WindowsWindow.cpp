@@ -45,6 +45,9 @@ namespace OSE {
 		if (!this->m_glfwWindow) {
 			OSE_LOG(LOG_OSE_ERROR, "GLFW window creation failed")
 		}
+		if (!glewInit()) {
+			OSE_LOG(LOG_OSE_ERROR, "GLEW initialization failed")
+		}
 		glfwMakeContextCurrent(this->m_glfwWindow);
 		glfwSetKeyCallback(this->m_glfwWindow, key_callback);
 		glfwSetWindowCloseCallback(this->m_glfwWindow, window_close_callback);

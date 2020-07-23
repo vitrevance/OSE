@@ -1,30 +1,64 @@
-﻿  WindowsWindow.cpp
-c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
+﻿  ShaderProgram.cpp
+  GlRenderer.cpp
+c:\users\n ashabokov\desktop\ose-master\ose\src\ose\platforms\assetsystem.h(21): warning C4251: OSE::AssetSystem::m_assetDir: class "std::basic_string<char,std::char_traits<char>,std::allocator<char>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\xstring(4373): note:  см. объявление "std::basic_string<char,std::char_traits<char>,std::allocator<char>>"
+  AssetSystem.cpp
+c:\users\n ashabokov\desktop\ose-master\ose\src\ose\platforms\assetsystem.h(21): warning C4251: OSE::AssetSystem::m_assetDir: class "std::basic_string<char,std::char_traits<char>,std::allocator<char>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\xstring(4373): note:  см. объявление "std::basic_string<char,std::char_traits<char>,std::allocator<char>>"
+  Engine.cpp
+c:\users\n ashabokov\desktop\ose-master\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
           with
           [
               _Kty=OSE::EventType,
               _Ty=void *
           ]
-  c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(65): note:  см. объявление "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+  c:\users\n ashabokov\desktop\ose-master\ose\src\ose\events\event.h(65): note:  см. объявление "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
           with
           [
               _Kty=OSE::EventType,
               _Ty=void *
           ]
-c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(51): warning C4251: OSE::EventSystem::m_subscribedEventListeners: class "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+c:\users\n ashabokov\desktop\ose-master\ose\src\ose\systems\eventsystem.h(51): warning C4251: OSE::EventSystem::m_subscribedEventListeners: class "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
           with
           [
               _Kty=void *,
               _Ty=std::set<void *,std::less<void *>,std::allocator<void *>>
           ]
-  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(51): note:  см. объявление "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>"
+  c:\users\n ashabokov\desktop\ose-master\ose\src\ose\systems\eventsystem.h(51): note:  см. объявление "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>"
           with
           [
               _Kty=void *,
               _Ty=std::set<void *,std::less<void *>,std::allocator<void *>>
           ]
-c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(52): warning C4251: OSE::EventSystem::m_sceneLayerCallback: class "std::function<OSE::EventSystem *(int)>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
-  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(19): note:  см. объявление "std::function<OSE::EventSystem *(int)>"
-  OSE.vcxproj -> C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\OSE\OSE.dll
+c:\users\n ashabokov\desktop\ose-master\ose\src\ose\systems\eventsystem.h(52): warning C4251: OSE::EventSystem::m_sceneLayerCallback: class "std::function<OSE::EventSystem *(int)>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+  c:\users\n ashabokov\desktop\ose-master\ose\src\ose\systems\eventsystem.h(19): note:  см. объявление "std::function<OSE::EventSystem *(int)>"
+c:\users\n ashabokov\desktop\ose-master\ose\src\ose\platforms\assetsystem.h(21): warning C4251: OSE::AssetSystem::m_assetDir: class "std::basic_string<char,std::char_traits<char>,std::allocator<char>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\xstring(4373): note:  см. объявление "std::basic_string<char,std::char_traits<char>,std::allocator<char>>"
+c:\users\n ashabokov\desktop\ose-master\ose\src\ose\blueprints\layer.h(26): warning C4251: OSE::Layer::m_entities: class "std::set<OSE::Entity *,std::less<_Kty>,std::allocator<_Kty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::Layer"
+          with
+          [
+              _Kty=OSE::Entity *
+          ]
+  c:\users\n ashabokov\desktop\ose-master\ose\src\ose\blueprints\layer.h(26): note:  см. объявление "std::set<OSE::Entity *,std::less<_Kty>,std::allocator<_Kty>>"
+          with
+          [
+              _Kty=OSE::Entity *
+          ]
+c:\users\n ashabokov\desktop\ose-master\ose\src\ose\blueprints\scene.h(23): warning C4251: OSE::Scene::m_layers: class "std::vector<OSE::Layer *,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::Scene"
+          with
+          [
+              _Ty=OSE::Layer *
+          ]
+  c:\users\n ashabokov\desktop\ose-master\ose\src\ose\blueprints\scene.h(23): note:  см. объявление "std::vector<OSE::Layer *,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=OSE::Layer *
+          ]
+  Создание кода...
+     ╤ючфрхЄё  сшсышюЄхър C:\Users\N Ashabokov\Desktop\OSE-master\bin\Debug-x64\OSE\OSE.lib ш юс·хъЄ C:\Users\N Ashabokov\Desktop\OSE-master\bin\Debug-x64\OSE\OSE.exp
+LINK : warning LNK4098: сшсышюЄхър яю єьюыўрэш■ "MSVCRT" яЁюЄштюЁхўшЄ шёяюы№чютрэш■ фЁєушї сшсышюЄхъ; шёяюы№чєщЄх ярЁрьхЄЁ /NODEFAULTLIB:library
+LINK : warning LNK4098: сшсышюЄхър яю єьюыўрэш■ "LIBCMT" яЁюЄштюЁхўшЄ шёяюы№чютрэш■ фЁєушї сшсышюЄхъ; шёяюы№чєщЄх ярЁрьхЄЁ /NODEFAULTLIB:library
+glew32s.lib(glew.obj) : warning LNK4099: "glew_static.pdb" PDB эх эрщфхэ ё "glew32s.lib(glew.obj)" шыш эр "C:\Users\N Ashabokov\Desktop\OSE-master\bin\Debug-x64\OSE\glew_static.pdb"; ъюьяюэютър юс·хъЄр т√яюыэ хЄё  ъръ яЁш юЄёєЄёЄтшш юЄырфюўэ√ї фрээ√ї
+  OSE.vcxproj -> C:\Users\N Ashabokov\Desktop\OSE-master\bin\Debug-x64\OSE\OSE.dll
   Copy output dll to sanbox directory
   Скопировано файлов:         1.

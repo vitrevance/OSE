@@ -20,11 +20,13 @@ namespace OSE {
 		this->m_window = nullptr;
 		this->m_activeScene = nullptr;
 		EventSystem::instance = new EventSystem();
-		this->m_renderer = new Renderer();
+		AssetSystem::instance = new AssetSystem();
+		this->m_renderer = new GlRenderer();
 	}
 
 	void Engine::stop() {
 		delete EventSystem::instance;
+		delete AssetSystem::instance;
 		delete this->m_renderer;
 	}
 

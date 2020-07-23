@@ -70,7 +70,7 @@ namespace OSE {
 		std::map<EventType, void* > m_eventTypes;
 
 		EventListenerBase() {}
-		virtual ~EventListenerBase() {}
+		~EventListenerBase() {}
 	};
 
 	template<typename T>

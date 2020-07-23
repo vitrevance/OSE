@@ -1,7 +1,7 @@
 #ifndef OSE_WINDOWSWINDOW_H
 #define OSE_WINDOWSWINDOW_H
 
-#include <windows.h>
+#include <GLFW/glew.h>
 #include <gl/GL.h>
 #include <GLFW/glfw3.h>
 #include <OSE/Window.h>

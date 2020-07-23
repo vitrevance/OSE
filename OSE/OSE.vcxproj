@@ -56,7 +56,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN64;OSE_BUILD;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;OSE_BUILD;GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)src\lib\</AdditionalIncludeDirectories>
       <CompileAs>Default</CompileAs>
@@ -65,10 +65,10 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)src\lib\P7\;$(ProjectDir)src\lib\GLFW\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\OSE\OSE.dll C:\Users\Ruslan\source\repos\OSE\bin\Debug-x64\Sandbox\OSE.dll</Command>
+      <Command>copy "$(SolutionDir)bin\Debug-x64\OSE\OSE.dll" "$(SolutionDir)bin\Debug-x64\Sandbox\OSE.dll"</Command>
       <Message>Copy output dll to sanbox directory</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -78,7 +78,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN64;OSE_BUILD;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;OSE_BUILD;GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)src\lib\</AdditionalIncludeDirectories>
       <CompileAs>Default</CompileAs>
@@ -89,7 +89,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)src\lib\P7\;$(ProjectDir)src\lib\GLFW\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -101,6 +101,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\OSE\Blueprints\ShaderProgram.h" />
+    <ClInclude Include="src\OSE\Platforms\AssetSystem.h" />
+    <ClInclude Include="src\OSE\Platforms\GlRenderer.h" />
     <ClInclude Include="src\OSE\Systems\Renderer.h" />
     <ClInclude Include="src\OSE\Blueprints\Actor.h" />
     <ClInclude Include="src\OSE\Blueprints\Scene.h" />
@@ -118,8 +121,12 @@
     <ClInclude Include="src\OSE\Events\WindowEvent.h" />
     <ClInclude Include="src\OSE\Window.h" />
     <ClInclude Include="src\OSE\Platforms\WindowsWindow.h" />
+    <ClInclude Include="src\OSE\Blueprints\StaticMesh.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\OSE\Blueprints\ShaderProgram.cpp" />
+    <ClCompile Include="src\OSE\Platforms\GlRenderer.cpp" />
+    <ClCompile Include="src\OSE\Platforms\AssetSystem.cpp" />
     <ClCompile Include="src\OSE\Systems\Renderer.cpp" />
     <ClCompile Include="src\OSE\Blueprints\Actor.cpp" />
     <ClCompile Include="src\OSE\Blueprints\Scene.cpp" />
@@ -134,6 +141,7 @@
     <ClCompile Include="src\OSE\Engine.cpp" />
     <ClCompile Include="src\OSE\Events\WindowEvent.cpp" />
     <ClCompile Include="src\OSE\Platforms\WindowsWindow.cpp" />
+    <ClCompile Include="src\OSE\Blueprints\StaticMesh.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

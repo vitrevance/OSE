@@ -2,18 +2,13 @@
 
 class TestActor : public OSE::Actor, OSE::EventListener<OSE::KeyPressedEvent> {
 public:
-	unsigned int r, g, b;
+	OSE::StaticMesh* mesh;
 	TestActor() {
-		r = 0;
-		g = 0;
-		b = 0;
+		this->mesh = new OSE::StaticMesh();
 	}
 
 	void onEvent(OSE::TickEvent& event) override {
 		//OSE_LOG(LOG_APP_TRACE, "TestActor tick")
-		this->r = (r + 1) % 256;
-		this->g = (g + 1) % 256;
-		this->b = (b + 1) % 256;
 	}
 
 	void onEvent(OSE::KeyPressedEvent& event) override {
@@ -21,8 +16,7 @@ public:
 	}
 
 	void onRender(OSE::Renderer* renderer) {
-		glClearColor(r / 255.0, g / 255.0, b / 255.0, 1);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
 	}
 };
 

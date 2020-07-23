@@ -3,11 +3,12 @@
 
 #include <OSE/Core.h>
 #include <OSE/Systems/EventSystem.h>
+#include <OSE/Platforms/AssetSystem.h>
 #include <OSE/Window.h>
 #include <OSE/Platforms/WindowsWindow.h>
 #include <OSE/Blueprints/Scene.h>
 #include <OSE/Blueprints/Actor.h>
-#include <OSE/Systems/Renderer.h>
+#include <OSE/Platforms/GlRenderer.h>
 
 namespace OSE {
 
