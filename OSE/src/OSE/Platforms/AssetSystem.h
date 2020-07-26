@@ -3,7 +3,7 @@
 
 #include <OSE/Core.h>
 #include <fstream>
-#include <OSE/Blueprints/ShaderProgram.h>
+#include <OSE/Systems/Renderer.h>
 
 namespace OSE {
 	class OSE_API AssetSystem {
@@ -15,7 +15,7 @@ namespace OSE {
 
 		void setAssetDir(string path);
 
-		ShaderProgram loadShader(string shader);
+		string loadRawString(string path);
 
 	protected:
 		string m_assetDir;

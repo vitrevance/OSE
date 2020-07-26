@@ -21,23 +21,24 @@ namespace OSE {
 		this->m_activeScene = nullptr;
 		EventSystem::instance = new EventSystem();
 		AssetSystem::instance = new AssetSystem();
-		this->m_renderer = new GlRenderer();
 	}
 
 	void Engine::stop() {
 		delete EventSystem::instance;
 		delete AssetSystem::instance;
-		delete this->m_renderer;
 	}
 
 	Window* Engine::createWindow(WindowProps windowProps) {
 		this->m_window = new WindowsWindow(windowProps);
+		this->m_renderer = new GlRenderer();
 		return this->m_window;
 	}
 
 	void Engine::disposeWindow() {
 		delete this->m_window;
 		this->m_window = nullptr;
+		delete this->m_renderer;
+		this->m_renderer = nullptr;
 	}
 
 	void Engine::stopEngine() {

@@ -14,9 +14,11 @@ namespace OSE {
 		virtual ~GlRenderer();
 
 		virtual void drawStaticMesh(StaticMesh* mesh) override;
-
+		virtual Renderer::Shader createShader(string shaderName) override;
+		virtual void enableShader(Renderer::Shader shader) override;
+		virtual void disableShader() override;
 	protected:
-		ShaderProgram m_mainShader;
+		Renderer::Shader m_mainShader;
 	};
 }
 

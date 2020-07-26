@@ -7,9 +7,13 @@
 namespace OSE {
 	class OSE_API Renderer {
 	public:
+		typedef unsigned int Shader;
 		virtual ~Renderer();
 
 		virtual void drawStaticMesh(StaticMesh* mesh) = 0;
+		virtual Shader createShader(string shaderName) = 0;
+		virtual void enableShader(Shader shader) = 0;
+		virtual void disableShader() = 0;
 	protected:
 		Renderer();
 	};

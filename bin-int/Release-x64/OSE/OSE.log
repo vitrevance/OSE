@@ -1,0 +1,306 @@
+﻿  GlRenderer.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\platforms\assetsystem.h(21): warning C4251: OSE::AssetSystem::m_assetDir: class "std::basic_string<char,std::char_traits<char>,std::allocator<char>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\xstring(4373): note:  см. объявление "std::basic_string<char,std::char_traits<char>,std::allocator<char>>"
+  AssetSystem.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\platforms\assetsystem.h(21): warning C4251: OSE::AssetSystem::m_assetDir: class "std::basic_string<char,std::char_traits<char>,std::allocator<char>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\xstring(4373): note:  см. объявление "std::basic_string<char,std::char_traits<char>,std::allocator<char>>"
+  Renderer.cpp
+  Actor.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(65): note:  см. объявление "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(51): warning C4251: OSE::EventSystem::m_subscribedEventListeners: class "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+          with
+          [
+              _Kty=void *,
+              _Ty=std::set<void *,std::less<void *>,std::allocator<void *>>
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(51): note:  см. объявление "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>"
+          with
+          [
+              _Kty=void *,
+              _Ty=std::set<void *,std::less<void *>,std::allocator<void *>>
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(52): warning C4251: OSE::EventSystem::m_sceneLayerCallback: class "std::function<OSE::EventSystem *(int)>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(19): note:  см. объявление "std::function<OSE::EventSystem *(int)>"
+  Scene.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(65): note:  см. объявление "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(51): warning C4251: OSE::EventSystem::m_subscribedEventListeners: class "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+          with
+          [
+              _Kty=void *,
+              _Ty=std::set<void *,std::less<void *>,std::allocator<void *>>
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(51): note:  см. объявление "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>"
+          with
+          [
+              _Kty=void *,
+              _Ty=std::set<void *,std::less<void *>,std::allocator<void *>>
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(52): warning C4251: OSE::EventSystem::m_sceneLayerCallback: class "std::function<OSE::EventSystem *(int)>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(19): note:  см. объявление "std::function<OSE::EventSystem *(int)>"
+c:\users\ruslan\source\repos\ose\ose\src\ose\blueprints\layer.h(26): warning C4251: OSE::Layer::m_entities: class "std::set<OSE::Entity *,std::less<_Kty>,std::allocator<_Kty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::Layer"
+          with
+          [
+              _Kty=OSE::Entity *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\blueprints\layer.h(26): note:  см. объявление "std::set<OSE::Entity *,std::less<_Kty>,std::allocator<_Kty>>"
+          with
+          [
+              _Kty=OSE::Entity *
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\blueprints\scene.h(23): warning C4251: OSE::Scene::m_layers: class "std::vector<OSE::Layer *,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::Scene"
+          with
+          [
+              _Ty=OSE::Layer *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\blueprints\scene.h(23): note:  см. объявление "std::vector<OSE::Layer *,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=OSE::Layer *
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\blueprints\scene.cpp(53): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  Entity.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(65): note:  см. объявление "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  Layer.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(65): note:  см. объявление "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(51): warning C4251: OSE::EventSystem::m_subscribedEventListeners: class "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+          with
+          [
+              _Kty=void *,
+              _Ty=std::set<void *,std::less<void *>,std::allocator<void *>>
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(51): note:  см. объявление "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>"
+          with
+          [
+              _Kty=void *,
+              _Ty=std::set<void *,std::less<void *>,std::allocator<void *>>
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(52): warning C4251: OSE::EventSystem::m_sceneLayerCallback: class "std::function<OSE::EventSystem *(int)>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(19): note:  см. объявление "std::function<OSE::EventSystem *(int)>"
+c:\users\ruslan\source\repos\ose\ose\src\ose\blueprints\layer.h(26): warning C4251: OSE::Layer::m_entities: class "std::set<OSE::Entity *,std::less<_Kty>,std::allocator<_Kty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::Layer"
+          with
+          [
+              _Kty=OSE::Entity *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\blueprints\layer.h(26): note:  см. объявление "std::set<OSE::Entity *,std::less<_Kty>,std::allocator<_Kty>>"
+          with
+          [
+              _Kty=OSE::Entity *
+          ]
+  EventSystem.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(65): note:  см. объявление "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(51): warning C4251: OSE::EventSystem::m_subscribedEventListeners: class "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+          with
+          [
+              _Kty=void *,
+              _Ty=std::set<void *,std::less<void *>,std::allocator<void *>>
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(51): note:  см. объявление "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>"
+          with
+          [
+              _Kty=void *,
+              _Ty=std::set<void *,std::less<void *>,std::allocator<void *>>
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(52): warning C4251: OSE::EventSystem::m_sceneLayerCallback: class "std::function<OSE::EventSystem *(int)>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(19): note:  см. объявление "std::function<OSE::EventSystem *(int)>"
+  EngineEvent.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(65): note:  см. объявление "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  MouseEvent.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(65): note:  см. объявление "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  KeyEvent.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(65): note:  см. объявление "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  Event.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(65): note:  см. объявление "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  Logger.cpp
+  Engine.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(65): note:  см. объявление "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(51): warning C4251: OSE::EventSystem::m_subscribedEventListeners: class "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+          with
+          [
+              _Kty=void *,
+              _Ty=std::set<void *,std::less<void *>,std::allocator<void *>>
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(51): note:  см. объявление "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>"
+          with
+          [
+              _Kty=void *,
+              _Ty=std::set<void *,std::less<void *>,std::allocator<void *>>
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(52): warning C4251: OSE::EventSystem::m_sceneLayerCallback: class "std::function<OSE::EventSystem *(int)>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(19): note:  см. объявление "std::function<OSE::EventSystem *(int)>"
+c:\users\ruslan\source\repos\ose\ose\src\ose\platforms\assetsystem.h(21): warning C4251: OSE::AssetSystem::m_assetDir: class "std::basic_string<char,std::char_traits<char>,std::allocator<char>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\xstring(4373): note:  см. объявление "std::basic_string<char,std::char_traits<char>,std::allocator<char>>"
+c:\users\ruslan\source\repos\ose\ose\src\ose\blueprints\layer.h(26): warning C4251: OSE::Layer::m_entities: class "std::set<OSE::Entity *,std::less<_Kty>,std::allocator<_Kty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::Layer"
+          with
+          [
+              _Kty=OSE::Entity *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\blueprints\layer.h(26): note:  см. объявление "std::set<OSE::Entity *,std::less<_Kty>,std::allocator<_Kty>>"
+          with
+          [
+              _Kty=OSE::Entity *
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\blueprints\scene.h(23): warning C4251: OSE::Scene::m_layers: class "std::vector<OSE::Layer *,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::Scene"
+          with
+          [
+              _Ty=OSE::Layer *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\blueprints\scene.h(23): note:  см. объявление "std::vector<OSE::Layer *,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=OSE::Layer *
+          ]
+  WindowEvent.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(65): note:  см. объявление "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  WindowsWindow.cpp
+c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\events\event.h(65): note:  см. объявление "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+          with
+          [
+              _Kty=OSE::EventType,
+              _Ty=void *
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(51): warning C4251: OSE::EventSystem::m_subscribedEventListeners: class "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+          with
+          [
+              _Kty=void *,
+              _Ty=std::set<void *,std::less<void *>,std::allocator<void *>>
+          ]
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(51): note:  см. объявление "std::map<OSE::EventType,std::set<void *,std::less<_Kty>,std::allocator<_Kty>>,std::less<OSE::EventType>,std::allocator<std::pair<const OSE::EventType,_Ty>>>"
+          with
+          [
+              _Kty=void *,
+              _Ty=std::set<void *,std::less<void *>,std::allocator<void *>>
+          ]
+c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(52): warning C4251: OSE::EventSystem::m_sceneLayerCallback: class "std::function<OSE::EventSystem *(int)>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
+  c:\users\ruslan\source\repos\ose\ose\src\ose\systems\eventsystem.h(19): note:  см. объявление "std::function<OSE::EventSystem *(int)>"
+  StaticMesh.cpp
+     Создается библиотека C:\Users\Ruslan\source\repos\OSE\bin\Release-x64\OSE\OSE.lib и объект C:\Users\Ruslan\source\repos\OSE\bin\Release-x64\OSE\OSE.exp
+LINK : warning LNK4098: библиотека по умолчанию "LIBCMT" противоречит использованию других библиотек; используйте параметр /NODEFAULTLIB:library
+MouseEvent.obj : error LNK2001: неразрешенный внешний символ ""protected: __cdecl OSE::MouseButtonEvent::~MouseButtonEvent(void)" (??1MouseButtonEvent@OSE@@IEAA@XZ)"
+C:\Users\Ruslan\source\repos\OSE\bin\Release-x64\OSE\OSE.dll : fatal error LNK1120: неразрешенных внешних элементов: 1
