@@ -10,6 +10,9 @@ namespace OSE {
 	public:
 		static AssetSystem* instance;
 
+		StaticMesh* primitiveTriangle;
+		StaticMesh* primitiveCube;
+
 		AssetSystem();
 		~AssetSystem();
 

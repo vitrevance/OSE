@@ -5,7 +5,13 @@ namespace OSE {
 	AssetSystem* AssetSystem::instance;
 
 	AssetSystem::AssetSystem() {
-
+		this->primitiveTriangle = new StaticMesh();
+		this->primitiveTriangle->vertices = new t_float[9]
+		{
+			-0.5, -0.5, 0,
+			0, -0.5, 0,
+			0.5, -0.5, 0
+		};
 	}
 
 	AssetSystem::~AssetSystem() {

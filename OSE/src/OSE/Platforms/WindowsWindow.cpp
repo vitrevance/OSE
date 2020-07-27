@@ -2,7 +2,7 @@
 
 namespace OSE {
 
-	int WindowsWindow::s_isWindowInit = false;
+	int WindowsWindow::s_isWindowInit = 0;
 
 	WindowsWindow::WindowsWindow(WindowProps windowProps) {
 		this->m_windowProps = windowProps;
@@ -45,13 +45,14 @@ namespace OSE {
 		if (!this->m_glfwWindow) {
 			OSE_LOG(LOG_OSE_ERROR, "GLFW window creation failed")
 		}
-		if (glewInit()) {
+		glfwMakeContextCurrent(this->m_glfwWindow);
+		glewExperimental = GL_TRUE;
+		if (glewInit() == GLEW_OK) {
 			OSE_LOG(LOG_OSE_INFO, "GLEW initialized")
 		}
 		else {
 			OSE_LOG(LOG_OSE_ERROR, "GLEW initialization failed")
 		}
-		glfwMakeContextCurrent(this->m_glfwWindow);
 		glfwSetKeyCallback(this->m_glfwWindow, key_callback);
 		glfwSetWindowCloseCallback(this->m_glfwWindow, window_close_callback);
 		glfwSetWindowSizeCallback(this->m_glfwWindow, window_size_callback);

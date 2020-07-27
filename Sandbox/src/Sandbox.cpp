@@ -5,6 +5,17 @@ public:
 	OSE::StaticMesh* mesh;
 	TestActor() {
 		this->mesh = new OSE::StaticMesh();
+		this->mesh->vertices = new t_float[9]
+		{
+			-0.5, -0.5, 0,
+			0, -0.5, 0,
+			0.5, -0.5, 0
+		};
+
+		this->mesh->indices = new unsigned int[3]
+		{
+			0, 1, 2
+		};
 	}
 
 	void onEvent(OSE::TickEvent& event) override {
@@ -16,7 +27,7 @@ public:
 	}
 
 	void onRender(OSE::Renderer* renderer) {
-		
+		renderer->drawStaticMesh(this->mesh);
 	}
 };
 

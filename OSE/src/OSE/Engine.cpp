@@ -21,6 +21,7 @@ namespace OSE {
 		this->m_activeScene = nullptr;
 		EventSystem::instance = new EventSystem();
 		AssetSystem::instance = new AssetSystem();
+		AssetSystem::instance->setAssetDir("./assets/");
 	}
 
 	void Engine::stop() {

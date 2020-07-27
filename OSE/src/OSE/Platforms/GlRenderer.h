@@ -19,6 +19,8 @@ namespace OSE {
 		virtual void disableShader() override;
 	protected:
 		Renderer::Shader m_mainShader;
+
+		void setupStaticMesh(StaticMesh* mesh);
 	};
 }
 
