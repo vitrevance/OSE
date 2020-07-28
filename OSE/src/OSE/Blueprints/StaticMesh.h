@@ -9,8 +9,7 @@ namespace OSE {
 		StaticMesh();
 		~StaticMesh();
 
-		unsigned int vertexBuffer;
-		unsigned int vertexArray;
+		unsigned int VAO, VBO, EBO;
 		t_float* vertices;
 		unsigned int* indices;
 	};

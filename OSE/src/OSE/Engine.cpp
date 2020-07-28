@@ -21,7 +21,7 @@ namespace OSE {
 		this->m_activeScene = nullptr;
 		EventSystem::instance = new EventSystem();
 		AssetSystem::instance = new AssetSystem();
-		AssetSystem::instance->setAssetDir("./assets/");
+		AssetSystem::instance->setAssetDir("C:/Users/N Ashabokov/Desktop/OSE/bin/Debug-x64/Sandbox/assets/");
 	}
 
 	void Engine::stop() {

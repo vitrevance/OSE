@@ -12,6 +12,10 @@ namespace OSE {
 			0, -0.5, 0,
 			0.5, -0.5, 0
 		};
+		this->primitiveTriangle->indices = new unsigned int[3]
+		{
+			0, 1, 2
+		};
 	}
 
 	AssetSystem::~AssetSystem() {

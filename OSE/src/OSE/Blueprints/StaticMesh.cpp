@@ -3,8 +3,9 @@
 namespace OSE {
 
 	StaticMesh::StaticMesh() {
-		this->vertexBuffer = 0;
-		this->vertexArray = 0;
+		this->VBO = 0;
+		this->VAO = 0;
+		this->EBO = 0;
 	}
 
 	StaticMesh::~StaticMesh() {
