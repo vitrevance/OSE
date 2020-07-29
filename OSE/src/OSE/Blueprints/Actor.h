@@ -4,6 +4,7 @@
 #include <OSE/Systems/EventSystem.h>
 #include <OSE/Events/EngineEvent.h>
 #include <OSE/Blueprints/Entity.h>
+#include <OSE/Math/Vector.h>
 
 namespace OSE {
 	class OSE_API Actor : public Entity, EventListener<TickEvent> {

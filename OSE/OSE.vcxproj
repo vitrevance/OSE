@@ -121,6 +121,7 @@
     <ClInclude Include="src\OSE\Window.h" />
     <ClInclude Include="src\OSE\Platforms\WindowsWindow.h" />
     <ClInclude Include="src\OSE\Blueprints\StaticMesh.h" />
+    <ClInclude Include="src\OSE\Math\Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\OSE\Platforms\GlRenderer.cpp" />

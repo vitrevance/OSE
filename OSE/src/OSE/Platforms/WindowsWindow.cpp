@@ -27,12 +27,6 @@ namespace OSE {
 	}
 
 	void WindowsWindow::onRenderPost() {
-		glUseProgram(3);
-		glBindVertexArray(1);
-		glDrawArrays(GL_TRIANGLES, 0, 12);
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
-
 		glfwSwapBuffers(this->m_glfwWindow);
 	}
 
@@ -67,8 +61,6 @@ namespace OSE {
 		glfwSetWindowCloseCallback(this->m_glfwWindow, window_close_callback);
 		glfwSetWindowSizeCallback(this->m_glfwWindow, window_size_callback);
 		glfwSetWindowPosCallback(this->m_glfwWindow, window_moved_callback);
-
-		OSE_LOG(LOG_OSE_INFO, (char*)glGetString(GL_VERSION))
 	}
 
 	void WindowsWindow::dispose() {

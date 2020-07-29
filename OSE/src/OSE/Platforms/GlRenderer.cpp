@@ -14,22 +14,19 @@ namespace OSE {
 		glClearColor(0.25, 0.5, 1, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		this->enableShader(this->m_mainShader);
+		//this->enableShader(this->m_mainShader);
+		glUseProgram(m_mainShader);
 		glBindVertexArray(mesh->VAO);
-		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
-		
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
-		glDisableVertexAttribArray(0);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glBindVertexArray(0);
 	}
 
 	Renderer::Shader GlRenderer::createShader(string shaderName) {
 		string fragmentText = AssetSystem::instance->loadRawString(shaderName + ".frag");
 		string vertexText = AssetSystem::instance->loadRawString(shaderName + ".vert");
-
-		OSE_LOG(LOG_OSE_TRACE, vertexText)
-		OSE_LOG(LOG_OSE_TRACE, fragmentText);
 
 		unsigned int vertexId = glCreateShader(GL_VERTEX_SHADER);
 		const char* vertexChar = vertexText.c_str();
@@ -74,8 +71,6 @@ namespace OSE {
 		glDeleteShader(vertexId);
 		glDeleteShader(fragmentId);
 
-		OSE_LOG(LOG_OSE_TRACE, "Shader compiled " + shaderName + " " + std::to_string(programId))
-
 		return programId;
 	}
 
@@ -88,18 +83,18 @@ namespace OSE {
 	}
 
 	void GlRenderer::setupStaticMesh(StaticMesh* mesh) {
-		glGenVertexArrays(1, &mesh->VAO);
+		glGenVertexArrays(1, &(mesh->VAO));
 		glBindVertexArray(mesh->VAO);
 
-		glGenBuffers(1, &mesh->VBO);
+		glGenBuffers(1, &(mesh->VBO));
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
-		glBufferData(GL_ARRAY_BUFFER, 9*sizeof(float), mesh->vertices, GL_STATIC_DRAW);
-		glGenBuffers(1, &mesh->EBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3*sizeof(unsigned int), mesh->indices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->size, mesh->vertices, GL_STATIC_DRAW);
+		//glGenBuffers(1, &mesh->EBO);
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);
+		//glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3*sizeof(unsigned int), mesh->indices, GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 	}
 }
