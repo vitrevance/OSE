@@ -16,6 +16,11 @@
 	#else
 		typedef float t_float;
 	#endif
+
+	#ifndef I_DIMENSIONS
+		#define I_DIMENSIONS 3
+	#endif
+
 	
 #define BIT(place) (1 << place)
 #define ISBIT(num, place) ((bool)((num >> place) & 1))

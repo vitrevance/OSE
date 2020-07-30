@@ -10,16 +10,60 @@ namespace OSE {
 	GlRenderer::~GlRenderer() {
 	}
 
-	void GlRenderer::drawStaticMesh(StaticMesh* mesh) {
-		glClearColor(0.25, 0.5, 1, 1);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		//this->enableShader(this->m_mainShader);
+	void GlRenderer::drawStaticMesh(StaticMesh* mesh, Transform transform) {
 		glUseProgram(m_mainShader);
 		glBindVertexArray(mesh->VAO);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		
+		int projectionLoc = glGetUniformLocation(this->m_mainShader, "uMatProjection");
+		int viewLoc = glGetUniformLocation(this->m_mainShader, "uMatView");
+		int modelLoc = glGetUniformLocation(this->m_mainShader, "uMatModel");
+
+		float zFar = 32;
+		float zNear = 0.0625;
+
+		mat4 matProj({
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, (zFar + zNear) / (zFar - zNear), -2 * zFar * zNear / (zFar - zNear),
+			0, 0, 1, 0
+			});
+
+		mat4 matModel({
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+			});
+
+		mat4 matView({
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+			});
+
+		mat4 matPos({
+			1, 0, 0, -transform.position[0],
+			0, 1, 0, -transform.position[1],
+			0, 0, 1, -transform.position[2],
+			0, 0, 0, 1
+			});
+
+		matView = matView * matPos;
+
+		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, &matProj[0][0]);
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &matView[0][0]);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &matModel[0][0]);
+
+		vec4 pos = {0, 0.5, 0, 1};
+
+		pos = matProj * matView * pos;
+		OSE_LOG(LOG_OSE_TRACE, std::to_string(matView[0][3]))
+		//OSE_LOG(LOG_OSE_TRACE, std::to_string(pos[0]) + " " + std::to_string(pos[1]) + " " + std::to_string(pos[2]) + " " + std::to_string(pos[3]))
+
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glBindVertexArray(0);
 	}

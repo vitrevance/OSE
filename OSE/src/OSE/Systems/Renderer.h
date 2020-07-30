@@ -3,6 +3,7 @@
 
 #include <OSE/Core.h>
 #include <OSE/Blueprints/StaticMesh.h>
+#include <OSE/Blueprints/Transform.h>
 
 namespace OSE {
 	class OSE_API Renderer {
@@ -10,7 +11,7 @@ namespace OSE {
 		typedef unsigned int Shader;
 		virtual ~Renderer();
 
-		virtual void drawStaticMesh(StaticMesh* mesh) = 0;
+		virtual void drawStaticMesh(StaticMesh* mesh, Transform transform = Transform()) = 0;
 		virtual Shader createShader(string shaderName) = 0;
 		virtual void enableShader(Shader shader) = 0;
 		virtual void disableShader() = 0;

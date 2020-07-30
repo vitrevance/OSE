@@ -10,6 +10,10 @@ namespace OSE {
 	KeyEvent::~KeyEvent() {
 	}
 
+	int KeyEvent::getKeyCode() {
+		return this->m_keyCode;
+	}
+
 	KeyPressedEvent::KeyPressedEvent(int keyCode, int repeatCount)
 		: KeyEvent(keyCode), m_repeatCount(repeatCount) {
 	}

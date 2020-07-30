@@ -101,6 +101,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\OSE\Blueprints\Transform.h" />
+    <ClInclude Include="src\OSE\Math\Matrix.h" />
+    <ClInclude Include="src\OSE\Math\Vecmath.h" />
     <ClInclude Include="src\OSE\Platforms\AssetSystem.h" />
     <ClInclude Include="src\OSE\Platforms\GlRenderer.h" />
     <ClInclude Include="src\OSE\Systems\Renderer.h" />

@@ -6,15 +6,25 @@ public:
 	}
 
 	void onEvent(OSE::TickEvent& event) override {
-		//OSE_LOG(LOG_APP_TRACE, "TestActor tick")
 	}
 
 	void onEvent(OSE::KeyPressedEvent& event) override {
-		OSE_LOG(LOG_APP_TRACE, "Key pressed")
+		if (event.getKeyCode() == 'D') {
+			this->m_transform.position[0] += 0.02;
+		}
+		else if (event.getKeyCode() == 'A') {
+			this->m_transform.position[0] -= 0.02;
+		}
+		else if (event.getKeyCode() == 'W') {
+			this->m_transform.position[2] += 0.02;
+		}
+		else if (event.getKeyCode() == 'S') {
+			this->m_transform.position[2] -= 0.02;
+		}
 	}
 
 	void onRender(OSE::Renderer* renderer) {
-		renderer->drawStaticMesh(OSE::AssetSystem::instance->primitiveTriangle);
+		renderer->drawStaticMesh(OSE::AssetSystem::instance->primitiveTriangle, this->m_transform);
 	}
 };
 

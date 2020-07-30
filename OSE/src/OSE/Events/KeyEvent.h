@@ -6,6 +6,8 @@
 namespace OSE {
 
 	class OSE_API KeyEvent : public Event {
+	public:
+		int getKeyCode();
 	protected:
 		int m_keyCode;
 
