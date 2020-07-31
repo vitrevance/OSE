@@ -5,12 +5,15 @@ namespace OSE {
 	GlRenderer::GlRenderer() {
 		this->m_mainShader = this->createShader("OSE/mainShader");
 		this->setupStaticMesh(AssetSystem::instance->primitiveTriangle);
+		this->setupStaticMesh(AssetSystem::instance->primitiveCube);
 	}
 
 	GlRenderer::~GlRenderer() {
 	}
 
-	void GlRenderer::drawStaticMesh(StaticMesh* mesh, Transform transform) {
+	void GlRenderer::drawStaticMesh(StaticMesh* mesh, Transform* transform) {
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 		glUseProgram(m_mainShader);
 		glBindVertexArray(mesh->VAO);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
@@ -21,50 +24,26 @@ namespace OSE {
 		int viewLoc = glGetUniformLocation(this->m_mainShader, "uMatView");
 		int modelLoc = glGetUniformLocation(this->m_mainShader, "uMatModel");
 
-		float zFar = 32;
-		float zNear = 0.0625;
-
-		mat4 matProj({
-			1, 0, 0, 0,
-			0, 1, 0, 0,
-			0, 0, (zFar + zNear) / (zFar - zNear), -2 * zFar * zNear / (zFar - zNear),
-			0, 0, 1, 0
-			});
+		vec3 transformSlice = transform->getSlicePosition(this->m_camera->getSlice());
 
 		mat4 matModel({
-			1, 0, 0, 0,
-			0, 1, 0, 0,
-			0, 0, 1, 0,
+			1, 0, 0, transformSlice[0],
+			0, 1, 0, transformSlice[1],
+			0, 0, 1, transformSlice[2],
 			0, 0, 0, 1
 			});
 
-		mat4 matView({
-			1, 0, 0, 0,
-			0, 1, 0, 0,
-			0, 0, 1, 0,
-			0, 0, 0, 1
-			});
+		matModel = matModel * transform->rotation;
 
-		mat4 matPos({
-			1, 0, 0, -transform.position[0],
-			0, 1, 0, -transform.position[1],
-			0, 0, 1, -transform.position[2],
-			0, 0, 0, 1
-			});
+		mat4 matView = this->m_camera->getSliceView();
+		mat4 matProj = this->m_camera->getProjection();
 
-		matView = matView * matPos;
+		glUniformMatrix4fv(projectionLoc, 1, GL_TRUE, &matProj[0][0]);
+		glUniformMatrix4fv(viewLoc, 1, GL_TRUE, &matView[0][0]);
+		glUniformMatrix4fv(modelLoc, 1, GL_TRUE, &matModel[0][0]);
 
-		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, &matProj[0][0]);
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &matView[0][0]);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &matModel[0][0]);
-
-		vec4 pos = {0, 0.5, 0, 1};
-
-		pos = matProj * matView * pos;
-		OSE_LOG(LOG_OSE_TRACE, std::to_string(matView[0][3]))
-		//OSE_LOG(LOG_OSE_TRACE, std::to_string(pos[0]) + " " + std::to_string(pos[1]) + " " + std::to_string(pos[2]) + " " + std::to_string(pos[3]))
-
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		//glDrawArrays(GL_TRIANGLES, 0, mesh->vsize / 3);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
 
@@ -126,19 +105,23 @@ namespace OSE {
 		glUseProgram(0);
 	}
 
+	void GlRenderer::setCurrentCamera(Camera* camera) {
+		this->m_camera = camera;
+	}
+
 	void GlRenderer::setupStaticMesh(StaticMesh* mesh) {
 		glGenVertexArrays(1, &(mesh->VAO));
 		glBindVertexArray(mesh->VAO);
 
 		glGenBuffers(1, &(mesh->VBO));
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->size, mesh->vertices, GL_STATIC_DRAW);
-		//glGenBuffers(1, &mesh->EBO);
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);
-		//glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3*sizeof(unsigned int), mesh->indices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->vsize, mesh->vertices, GL_STATIC_DRAW);
+		glGenBuffers(1, &mesh->EBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * mesh->isize, mesh->indices, GL_STATIC_DRAW);
 
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 }

@@ -1,30 +1,67 @@
 #include <OSE.h>
 
-class TestActor : public OSE::Actor, OSE::EventListener<OSE::KeyPressedEvent> {
+class TestActor : public OSE::Actor, OSE::EventListener<OSE::KeyPressedEvent>, OSE::EventListener<OSE::KeyReleasedEvent> {
 public:
+
+	OSE::vecd velocity;
+	float angle = 0;
+
 	TestActor() {
 	}
 
 	void onEvent(OSE::TickEvent& event) override {
+		this->m_transform.position += this->velocity * event.getDeltaTime();
+		this->angle += event.getDeltaTime();
+		this->m_transform.rotate(angle * 0.78 / 2000, angle / 2000, -angle * 1.5 / 2000);
 	}
 
 	void onEvent(OSE::KeyPressedEvent& event) override {
+		if (event.getRepeatCount() > 1) {
+			return;
+		}
 		if (event.getKeyCode() == 'D') {
-			this->m_transform.position[0] += 0.02;
+			this->velocity[0] = 0.001;
 		}
 		else if (event.getKeyCode() == 'A') {
-			this->m_transform.position[0] -= 0.02;
+			this->velocity[0] = -0.001;
 		}
 		else if (event.getKeyCode() == 'W') {
-			this->m_transform.position[2] += 0.02;
+			this->velocity[2] = 0.001;
 		}
 		else if (event.getKeyCode() == 'S') {
-			this->m_transform.position[2] -= 0.02;
+			this->velocity[2] = -0.001;
+		}
+		else if (event.getKeyCode() == ' ') {
+			this->velocity[1] = 0.001;
+		}
+		else if (event.getKeyCode() == 'C') {
+			this->velocity[1] = -0.001;
+		}
+	}
+
+	void onEvent(OSE::KeyReleasedEvent& event) override {
+		if (event.getKeyCode() == 'D') {
+			this->velocity[0] = 0;
+		}
+		else if (event.getKeyCode() == 'A') {
+			this->velocity[0] = 0;
+		}
+		else if (event.getKeyCode() == 'W') {
+			this->velocity[2] = 0;
+		}
+		else if (event.getKeyCode() == 'S') {
+			this->velocity[2] = 0;
+		}
+		else if (event.getKeyCode() == ' ') {
+			this->velocity[1] = 0;
+		}
+		else if (event.getKeyCode() == 'C') {
+			this->velocity[1] = 0;
 		}
 	}
 
 	void onRender(OSE::Renderer* renderer) {
-		renderer->drawStaticMesh(OSE::AssetSystem::instance->primitiveTriangle, this->m_transform);
+		renderer->drawStaticMesh(OSE::AssetSystem::instance->primitiveCube, &this->m_transform);
 	}
 };
 
@@ -40,6 +77,8 @@ public:
 		layer->addAndSubscribe(new TestActor());
 		scene->add(layer);
 		this->setActiveScene(scene);
+		OSE::Camera* camera = new OSE::Camera(this->m_window->getWidth(), this->m_window->getHeight());
+		this->m_renderer->setCurrentCamera(camera);
 	}
 
 	~Sandbox() {

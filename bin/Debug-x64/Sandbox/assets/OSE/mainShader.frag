@@ -2,6 +2,8 @@
 
 out vec4 frag_color;
 
+in vec4 resultPos;
+
 void main() {
-    frag_color = vec4(0.5, 1, 0.3, 1);
+    frag_color = resultPos;
 }

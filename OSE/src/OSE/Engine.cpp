@@ -56,6 +56,12 @@ namespace OSE {
 	}
 
 	void Engine::run() {
+		typedef std::chrono::high_resolution_clock clock;
+		typedef std::chrono::duration<float, std::milli> duration;
+
+		static clock::time_point start = clock::now();
+		duration elapsed = clock::now() - start;
+
 		while (this->isRunning) {
 			if (this->m_window != nullptr) {
 				this->m_window->onUpdate();
@@ -63,8 +69,10 @@ namespace OSE {
 				this->m_activeScene->render(this->m_renderer);
 				this->m_window->onRenderPost();
 			}
-			TickEvent tickEvent(0);
+			elapsed = clock::now() - start;
+			TickEvent tickEvent(elapsed.count());
 			EventSystem::instance->postEvent(tickEvent);
+			start = clock::now();
 		}
 	}
 }

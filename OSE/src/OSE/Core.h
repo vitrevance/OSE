@@ -19,6 +19,8 @@
 
 	#ifndef I_DIMENSIONS
 		#define I_DIMENSIONS 3
+	#elif I_DIMENSIONS < 3
+		#define I_DIMENSIONS 3
 	#endif
 
 	

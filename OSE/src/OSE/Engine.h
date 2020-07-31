@@ -2,6 +2,7 @@
 #define OSE_ENGINE_H
 
 #include <OSE/Core.h>
+#include <chrono>
 #include <OSE/Systems/EventSystem.h>
 #include <OSE/Platforms/AssetSystem.h>
 #include <OSE/Window.h>

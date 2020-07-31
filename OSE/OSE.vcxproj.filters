@@ -87,6 +87,9 @@
     <ClInclude Include="src\OSE\Blueprints\Transform.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="src\OSE\Blueprints\Camera.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\OSE\Engine.cpp">
@@ -138,6 +141,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="src\OSE\Platforms\AssetSystem.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OSE\Blueprints\Camera.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

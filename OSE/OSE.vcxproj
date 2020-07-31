@@ -101,6 +101,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\OSE\Blueprints\Camera.h" />
     <ClInclude Include="src\OSE\Blueprints\Transform.h" />
     <ClInclude Include="src\OSE\Math\Matrix.h" />
     <ClInclude Include="src\OSE\Math\Vecmath.h" />
@@ -127,6 +128,7 @@
     <ClInclude Include="src\OSE\Math\Vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\OSE\Blueprints\Camera.cpp" />
     <ClCompile Include="src\OSE\Platforms\GlRenderer.cpp" />
     <ClCompile Include="src\OSE\Platforms\AssetSystem.cpp" />
     <ClCompile Include="src\OSE\Systems\Renderer.cpp" />

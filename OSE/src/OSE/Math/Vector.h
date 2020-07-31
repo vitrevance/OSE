@@ -28,7 +28,7 @@ namespace OSE {
 		}
 
 		template<unsigned int OTHER_SIZE>
-		vec(vec<OTHER_SIZE>& v) {
+		vec(const vec<OTHER_SIZE>& v) {
 			for (unsigned int i = 0; i < SIZE; i++) {
 				if (i >= OTHER_SIZE) {
 					this->m_coords[i] = 0;
@@ -54,7 +54,7 @@ namespace OSE {
 			return result;
 		}
 
-		vec<SIZE>& operator+= (vec<SIZE>& a) {
+		vec<SIZE>& operator+= (const vec<SIZE>& a) {
 			for (unsigned int i = 0; i < SIZE; i++) {
 				this->m_coords[i] += a.m_coords[i];
 			}

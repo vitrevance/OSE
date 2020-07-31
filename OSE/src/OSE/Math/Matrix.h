@@ -54,6 +54,16 @@ namespace OSE {
 			return result;
 		}
 
+		mat<ROWS, COLS> operator+ (mat<ROWS, COLS>& m) {
+			mat<ROWS, COLS> result;
+			for (unsigned int row = 0; row < ROWS; row++) {
+				for (unsigned int col = 0; col < COLS; col++) {
+					result[row][col] = this->m_values[row][col] + m[row][col];
+				}
+			}
+			return result;
+		}
+
 		t_float* operator[] (unsigned int row) {
 			return this->m_values[row];
 		}
