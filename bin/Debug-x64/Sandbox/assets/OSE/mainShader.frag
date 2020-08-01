@@ -2,8 +2,10 @@
 
 out vec4 frag_color;
 
-in vec4 resultPos;
+in vec3 resultPos;
+in vec3 resultNorm;
 
 void main() {
-    frag_color = resultPos;
+    vec3 lightDir = vec3(0, -1, 0);
+    frag_color = vec4(resultPos, 1) * ( -dot(resultNorm, lightDir) + 1 ) / 2;
 }

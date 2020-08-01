@@ -64,8 +64,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)src\lib\P7\;$(ProjectDir)src\lib\GLFW\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)src\lib\P7\;$(ProjectDir)src\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;GLFW\glfw3.lib;GLFW\glew32s.lib;assimp\assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)bin\Debug-x64\OSE\OSE.dll" "$(SolutionDir)bin\Debug-x64\Sandbox\OSE.dll"</Command>
@@ -88,8 +88,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)src\lib\P7\;$(ProjectDir)src\lib\GLFW\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)src\lib\P7\;$(ProjectDir)src\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;GLFW\glfw3.lib;GLFW\glew32s.lib;assimp\assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>

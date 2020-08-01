@@ -61,7 +61,7 @@ public:
 	}
 
 	void onRender(OSE::Renderer* renderer) {
-		renderer->drawStaticMesh(OSE::AssetSystem::instance->primitiveCube, &this->m_transform);
+		renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("cube") , &this->m_transform);
 	}
 };
 
@@ -70,6 +70,8 @@ public:
 
 	Sandbox() {
 		OSE_LOG(LOG_APP_TRACE, "Sandbox startup...")
+
+		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube.obj");
 		this->createWindow();
 		OSE::EventSystem::instance->subscribeEventListener(this);
 		OSE::Scene* scene = new OSE::Scene();

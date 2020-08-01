@@ -2,7 +2,7 @@
 
 namespace OSE {
 
-	StaticMesh::StaticMesh(float* vertices, unsigned int vsize, unsigned int* indices, unsigned int isize)
+	StaticMesh::StaticMesh(Vertex* vertices, unsigned int vsize, unsigned int* indices, unsigned int isize)
 		: vertices(vertices), vsize(vsize), indices(indices), isize(isize) {
 		this->VBO = 0;
 		this->VAO = 0;
