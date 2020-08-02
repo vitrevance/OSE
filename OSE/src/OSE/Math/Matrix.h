@@ -41,8 +41,25 @@ namespace OSE {
 			}
 		}
 
+		template<unsigned int OTHER_ROWS, unsigned int OTHER_COLS>
+		mat(mat<OTHER_ROWS, OTHER_COLS> m) {
+			for (unsigned int row = 0; row < ROWS; row++) {
+				for (unsigned int col = 0; col < COLS; col++) {
+					if (row < OTHER_ROWS && col < OTHER_COLS) {
+						this->m_values[row][col] = m[row][col];
+					}
+					else if (row == col) {
+						this->m_values[row][col] = 1;
+					}
+					else {
+						this->m_values[row][col] = 0;
+					}
+				}
+			}
+		}
+
 		template<unsigned int OTHER_COLS>
-		mat<ROWS, OTHER_COLS> operator* (mat<COLS, OTHER_COLS>& m) {
+		mat<ROWS, OTHER_COLS> operator* (mat<COLS, OTHER_COLS> m) {
 			mat<ROWS, OTHER_COLS> result;
 			for (unsigned int row = 0; row < ROWS; row++) {
 				for (unsigned int col = 0; col < OTHER_COLS; col++) {
@@ -54,7 +71,17 @@ namespace OSE {
 			return result;
 		}
 
-		mat<ROWS, COLS> operator+ (mat<ROWS, COLS>& m) {
+		mat<COLS, ROWS> transposed() {
+			mat<COLS, ROWS> result;
+			for (unsigned int row = 0; row < ROWS; row++) {
+				for (unsigned int col = 0; col < COLS; col++) {
+					result[col][row] == this->m_values[row][col];
+				}
+			}
+			return result;
+		}
+
+		mat<ROWS, COLS> operator+ (mat<ROWS, COLS> m) {
 			mat<ROWS, COLS> result;
 			for (unsigned int row = 0; row < ROWS; row++) {
 				for (unsigned int col = 0; col < COLS; col++) {

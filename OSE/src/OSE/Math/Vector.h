@@ -22,8 +22,13 @@ namespace OSE {
 		vec(const std::initializer_list<t_float>& values) {
 			std::initializer_list<t_float>::iterator it = values.begin();
 			for (unsigned int i = 0; i < SIZE; i++) {
-				this->m_coords[i] = *it;
-				it++;
+				if (i < values.size()) {
+					this->m_coords[i] = *it;
+					it++;
+				}
+				else {
+					this->m_coords[i] = 0;
+				}
 			}
 		}
 
@@ -124,12 +129,18 @@ namespace OSE {
 		}
 
 		vec<SIZE>& normalize() {
+			if (length() <= 0) {
+				return *this;
+			}
 			(*this) /= this->length();
 			return *this;
 		}
 
 		vec<SIZE> normalized() {
 			vec<SIZE> result = *this;
+			if (length() <= 0) {
+				return result;
+			}
 			result /= result.length();
 			return result;
 		}

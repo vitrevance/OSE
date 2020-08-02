@@ -37,6 +37,9 @@ namespace OSE {
 			return this->m_windowProps.isFullscreen;
 		}
 
+		virtual void grabMouse() = 0;
+		virtual void releaseMouse() = 0;
+
 		virtual void setVSync(bool state) = 0;
 		virtual void onUpdate() = 0;
 		virtual void onRenderPre() = 0;

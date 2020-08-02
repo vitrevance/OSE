@@ -10,11 +10,9 @@ namespace OSE {
 	class OSE_API StaticMesh {
 	public:
 		StaticMesh(Vertex* vertices, unsigned int vsize, unsigned int* indices, unsigned int isize);
-		//StaticMesh(Vertex* vertices, unsigned int* indices, unsigned int isize);
 		~StaticMesh();
 
 		unsigned int VAO, VBO, EBO;
-		//const float* vertices;
 		const unsigned int* indices;
 		const unsigned int vsize;
 		const unsigned int isize;

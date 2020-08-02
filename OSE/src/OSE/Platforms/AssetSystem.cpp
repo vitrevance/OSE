@@ -5,43 +5,12 @@ namespace OSE {
 	AssetSystem* AssetSystem::instance;
 
 	AssetSystem::AssetSystem() {
-		/*
-		float* vertices = new float[9]
-		{
-			-0.5, -0.5, 0,
-			0, 0.5, 0,
-			0.5, -0.5, 0
-		};
-		unsigned int* indices = new unsigned int[3]{ 0, 1, 2 };
-		this->primitiveTriangle = new StaticMesh(vertices, 9, indices, 3);
-		vertices = new float[24]
-		{
-			-1, -1, -1,
-			1, -1, -1,
-			1, 1, -1,
-			-1, 1, -1,
-			-1, -1, 1,
-			1, -1, 1,
-			1, 1, 1,
-			-1, 1, 1
-		};
-
-		indices = new unsigned int[36]
-		{
-			0, 1, 3, 3, 1, 2,
-			1, 5, 2, 2, 5, 6,
-			5, 4, 6, 6, 4, 7,
-			4, 0, 7, 7, 0, 3,
-			3, 2, 7, 7, 2, 6,
-			4, 5, 0, 0, 5, 1
-		};
-		this->primitiveCube = new StaticMesh(vertices, 24, indices, 36);
-		*/
 	}
 
 	AssetSystem::~AssetSystem() {
-		delete this->primitiveTriangle;
-		delete this->primitiveCube;
+		for (std::pair<const string, StaticMesh*>& it : this->m_staticMeshes) {
+			delete it.second;
+		}
 	}
 
 	void AssetSystem::setAssetDir(string path) {

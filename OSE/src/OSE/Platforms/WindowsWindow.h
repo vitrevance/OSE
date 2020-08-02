@@ -20,11 +20,15 @@ namespace OSE {
 		void onRenderPre() override;
 		void onRenderPost() override;
 		void setVSync(bool state) override;
+		void grabMouse() override;
+		void releaseMouse() override;
 
 		static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 		static void window_close_callback(GLFWwindow* window);
 		static void window_size_callback(GLFWwindow* window, int width, int height);
 		static void window_moved_callback(GLFWwindow* window, int x, int y);
+		static void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+		static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
 	protected:
 		static int s_isWindowInit;

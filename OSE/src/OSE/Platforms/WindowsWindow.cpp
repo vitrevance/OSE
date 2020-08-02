@@ -57,10 +57,13 @@ namespace OSE {
 		else {
 			OSE_LOG(LOG_OSE_ERROR, "GLEW initialization failed")
 		}
+		glfwSetInputMode(this->m_glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		glfwSetKeyCallback(this->m_glfwWindow, key_callback);
 		glfwSetWindowCloseCallback(this->m_glfwWindow, window_close_callback);
 		glfwSetWindowSizeCallback(this->m_glfwWindow, window_size_callback);
 		glfwSetWindowPosCallback(this->m_glfwWindow, window_moved_callback);
+		glfwSetCursorPosCallback(this->m_glfwWindow, mouse_callback);
+		glfwSetMouseButtonCallback(this->m_glfwWindow, mouse_button_callback);
 	}
 
 	void WindowsWindow::dispose() {
@@ -69,6 +72,14 @@ namespace OSE {
 		if (WindowsWindow::s_isWindowInit <= 0) {
 			glfwTerminate();
 		}
+	}
+
+	void WindowsWindow::grabMouse() {
+		glfwSetInputMode(this->m_glfwWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	}
+
+	void WindowsWindow::releaseMouse() {
+		glfwSetInputMode(this->m_glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
 	void WindowsWindow::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -99,5 +110,26 @@ namespace OSE {
 	void WindowsWindow::window_moved_callback(GLFWwindow* window, int x, int y) {
 		WindowMovedEvent event(x, y);
 		EventSystem::instance->postEvent(event);
+	}
+
+	void WindowsWindow::mouse_callback(GLFWwindow* window, double xpos, double ypos) {
+		if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_HIDDEN) {
+			int width, height;
+			glfwGetWindowSize(window, &width, &height);
+			glfwSetCursorPos(window, width / 2, height / 2);
+			MouseMovedEvent event(xpos - width / 2, ypos - height / 2);
+			EventSystem::instance->postEvent(event);
+		}
+	}
+
+	void WindowsWindow::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+		if (action == GLFW_PRESS) {
+			MouseButtonPressedEvent event(button);
+			EventSystem::instance->postEvent(event);
+		}
+		else if (action == GLFW_RELEASE) {
+			MouseButtonReleasedEvent event(button);
+			EventSystem::instance->postEvent(event);
+		}
 	}
 }

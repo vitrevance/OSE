@@ -3,7 +3,7 @@
 namespace OSE {
 
 	Camera::Camera(int width, int height) {
-		float zFar = 32;
+		float zFar = 1024;
 		float zNear = 0.625;
 		float FOV = 75;
 		this->m_projection = mat4({
@@ -26,22 +26,37 @@ namespace OSE {
 	}
 
 	vec3 Camera::getSlicePosition() {
-		return vec3({ this->m_position[this->m_slice[0]], this->m_position[this->m_slice[1]],
-			this->m_position[this->m_slice[2]] });
+		return this->m_transform.getSlicePosition(this->m_slice);
 	}
 
 	mat4 Camera::getSliceView() {
 		vec3 slicePos = this->getSlicePosition();
 		mat4 matPos({
-			1, 0, 0, -slicePos[0],
-			0, 1, 0, -slicePos[1],
-			0, 0, 1, -slicePos[2],
+			1, 0, 0, slicePos[0],
+			0, 1, 0, slicePos[1],
+			0, 0, 1, slicePos[2],
 			0, 0, 0, 1
 			});
-		return matPos;
+		return matPos * this->m_transform.rotation;
 	}
 
 	unsigned int* Camera::getSlice() {
 		return this->m_slice;
+	}
+
+	Transform& Camera::getTransform() {
+		return this->m_transform;
+	}
+
+	vecd Camera::getForward() {
+		return ((matd)this->m_transform.rotation * vecd({ 0, 0, 1 })).normalized();
+	}
+
+	vecd Camera::getUp() {
+		return ((matd)this->m_transform.rotation * vecd({ 0, 1 })).normalized();
+	}
+
+	vecd Camera::getRight() {
+		return ((matd)this->m_transform.rotation * vecd({ 1 })).normalized();
 	}
 }

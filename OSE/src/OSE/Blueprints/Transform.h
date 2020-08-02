@@ -8,12 +8,13 @@ namespace OSE {
 	public:
 		vecd position;
 		mat4 rotation = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
+		float yaw = 0, pitch = 0, roll = 0;
 
 		vec3 getSlicePosition(unsigned int* slice) {
 			return vec3({ this->position[slice[0]], this->position[slice[1]], this->position[slice[2]] });
 		}
 
-		void rotate(float yaw, float pitch, float roll) {
+		void setRotation(float yaw, float pitch, float roll) {
 			mat4 myaw({
 				cos(yaw), -sin(yaw), 0, 0,
 				sin(yaw), cos(yaw), 0, 0,
@@ -33,6 +34,13 @@ namespace OSE {
 				0, 0, 0, 1
 				});
 			this->rotation = myaw * mpitch * mroll;
+		}
+
+		void rotate(float yaw, float pitch, float roll) {
+			this->yaw += yaw;
+			this->pitch += pitch;
+			this->roll += roll;
+			this->setRotation(this->yaw, this->pitch, this->roll);
 		}
 	};
 }

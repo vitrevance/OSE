@@ -10,6 +10,7 @@
 #include <OSE/Blueprints/Scene.h>
 #include <OSE/Blueprints/Actor.h>
 #include <OSE/Platforms/GlRenderer.h>
+#include <OSE/Math/Random.h>
 
 namespace OSE {
 

@@ -8,7 +8,7 @@
 
 namespace OSE {
 	template<unsigned int ROWS, unsigned int COLS>
-	vec<COLS> operator* (vec<ROWS> v, mat<ROWS, COLS>& m) {
+	vec<COLS> operator* (vec<ROWS> v, mat<ROWS, COLS> m) {
 		vec<COLS> result;
 		for (unsigned int col = 0; col < COLS; col++) {
 			for (unsigned int row = 0; row < ROWS; row++) {
@@ -19,7 +19,7 @@ namespace OSE {
 	}
 
 	template<unsigned int ROWS, unsigned int COLS>
-	vec<ROWS> operator* (mat<ROWS, COLS> m, vec<COLS>& v) {
+	vec<ROWS> operator* (mat<ROWS, COLS> m, vec<COLS> v) {
 		vec<ROWS> result;
 		for (unsigned int row = 0; row < ROWS; row++) {
 			for (unsigned int col = 0; col < COLS; col++) {

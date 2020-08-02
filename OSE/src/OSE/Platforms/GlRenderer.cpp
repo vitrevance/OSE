@@ -4,20 +4,21 @@ namespace OSE {
 
 	GlRenderer::GlRenderer() {
 		this->m_mainShader = this->createShader("OSE/mainShader");
-		//this->setupStaticMesh(AssetSystem::instance->primitiveTriangle);
-		//this->setupStaticMesh(AssetSystem::instance->primitiveCube);
 
 		for (std::pair<const string, StaticMesh*>& mesh : AssetSystem::instance->getStaticMeshes()) {
 			this->setupStaticMesh(mesh.second);
 		}
+
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
 	}
 
 	GlRenderer::~GlRenderer() {
 	}
 
 	void GlRenderer::drawStaticMesh(StaticMesh* mesh, Transform* transform) {
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LESS);
 		glUseProgram(m_mainShader);
 		glBindVertexArray(mesh->VAO);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);

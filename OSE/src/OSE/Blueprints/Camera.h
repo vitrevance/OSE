@@ -3,6 +3,7 @@
 
 #include <OSE/Core.h>
 #include <OSE/Math/Vecmath.h>
+#include <OSE/Blueprints/Transform.h>
 
 namespace OSE {
 	class OSE_API Camera {
@@ -14,10 +15,14 @@ namespace OSE {
 		vec3 getSlicePosition();
 		mat4 getSliceView();
 		unsigned int* getSlice();
+		Transform& getTransform();
+		vecd getForward();
+		vecd getUp();
+		vecd getRight();
 
 	protected:
 		unsigned int m_slice[3];
-		vecd m_position;
+		Transform m_transform;
 		mat4 m_projection;
 	};
 }

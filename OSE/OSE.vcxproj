@@ -104,6 +104,7 @@
     <ClInclude Include="src\OSE\Blueprints\Camera.h" />
     <ClInclude Include="src\OSE\Blueprints\Transform.h" />
     <ClInclude Include="src\OSE\Math\Matrix.h" />
+    <ClInclude Include="src\OSE\Math\Random.h" />
     <ClInclude Include="src\OSE\Math\Vecmath.h" />
     <ClInclude Include="src\OSE\Platforms\AssetSystem.h" />
     <ClInclude Include="src\OSE\Platforms\GlRenderer.h" />

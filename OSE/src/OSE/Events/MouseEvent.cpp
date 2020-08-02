@@ -7,10 +7,21 @@ namespace OSE {
 	MouseMovedEvent::~MouseMovedEvent() {
 	}
 
+	float MouseMovedEvent::getX() {
+		return this->m_mouseX;
+	}
+
+	float MouseMovedEvent::getY() {
+		return this->m_mouseY;
+	}
+
 	MouseScrolledEvent::MouseScrolledEvent(float xOffset, float yOffset) : m_xOffset(xOffset), m_yOffset(yOffset) {
 	}
 
 	MouseButtonEvent::MouseButtonEvent(int button) : m_button(button) {
+	}
+
+	MouseButtonEvent::~MouseButtonEvent() {
 	}
 
 	int MouseButtonEvent::getButton() {
@@ -20,6 +31,12 @@ namespace OSE {
 	MouseButtonPressedEvent::MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {
 	}
 
+	MouseButtonPressedEvent::~MouseButtonPressedEvent() {
+	}
+
 	MouseButtonReleasedEvent::MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {
+	}
+
+	MouseButtonReleasedEvent::~MouseButtonReleasedEvent() {
 	}
 }
