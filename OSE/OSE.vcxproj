@@ -102,6 +102,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\OSE\Blueprints\Camera.h" />
+    <ClInclude Include="src\OSE\Blueprints\LightSource.h" />
     <ClInclude Include="src\OSE\Blueprints\Transform.h" />
     <ClInclude Include="src\OSE\Math\Matrix.h" />
     <ClInclude Include="src\OSE\Math\Random.h" />

@@ -66,7 +66,9 @@ namespace OSE {
 			if (this->m_window != nullptr) {
 				this->m_window->onUpdate();
 				this->m_window->onRenderPre();
+				this->m_renderer->onRenderPre();
 				this->m_activeScene->render(this->m_renderer);
+				this->m_renderer->onRenderPost();
 				this->m_window->onRenderPost();
 			}
 			elapsed = clock::now() - start;

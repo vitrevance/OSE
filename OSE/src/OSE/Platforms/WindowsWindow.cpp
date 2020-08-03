@@ -75,7 +75,7 @@ namespace OSE {
 	}
 
 	void WindowsWindow::grabMouse() {
-		glfwSetInputMode(this->m_glfwWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		glfwSetInputMode(this->m_glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 
 	void WindowsWindow::releaseMouse() {
@@ -113,7 +113,7 @@ namespace OSE {
 	}
 
 	void WindowsWindow::mouse_callback(GLFWwindow* window, double xpos, double ypos) {
-		if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_HIDDEN) {
+		if (glfwGetInputMode(window, GLFW_CURSOR) != GLFW_CURSOR_NORMAL) {
 			int width, height;
 			glfwGetWindowSize(window, &width, &height);
 			glfwSetCursorPos(window, width / 2, height / 2);

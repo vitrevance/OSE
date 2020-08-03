@@ -12,7 +12,7 @@ public:
 
 	void onEvent(OSE::TickEvent& event) override {
 		this->m_transform.position += this->velocity * event.getDeltaTime();
-		this->angle += event.getDeltaTime() / 800.0;
+		this->angle += event.getDeltaTime() / OSE::Random::integer(800, 850);
 		this->m_transform.rotate(angle * 0.78, angle, -angle * 1.5);
 		this->angle = 0;
 	}
@@ -105,7 +105,7 @@ public:
 	Sandbox() {
 		OSE_LOG(LOG_APP_TRACE, "Sandbox startup...")
 
-		OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
+		//OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
 
 		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube.obj");
 		this->createWindow();

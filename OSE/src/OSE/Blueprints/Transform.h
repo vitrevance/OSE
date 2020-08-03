@@ -10,6 +10,11 @@ namespace OSE {
 		mat4 rotation = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
 		float yaw = 0, pitch = 0, roll = 0;
 
+		Transform() : position(vecd()), rotation(mat4()) {}
+		Transform(vecd position) : position(position) {}
+		Transform(vecd position, mat4 rotation) : position(position), rotation(rotation) {}
+		Transform(mat4 rotation) : rotation(rotation) {}
+
 		vec3 getSlicePosition(unsigned int* slice) {
 			return vec3({ this->position[slice[0]], this->position[slice[1]], this->position[slice[2]] });
 		}

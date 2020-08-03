@@ -31,20 +31,37 @@ namespace OSE {
 		this->subscribeEventListener(entity);
 	}
 
+	void Layer::addLightSource(LightSource* lightSource) {
+		this->m_lights.insert(lightSource);
+	}
+
+	void Layer::removeLightSource(LightSource* lightSource) {
+		this->m_lights.erase(lightSource);
+	}
+
 	void Layer::clear() {
 		for (Entity* entity : this->m_entities) {
 			delete entity;
 		}
 		this->m_entities.clear();
 		this->m_eventSystem = EventSystem();
+
+		for (LightSource* lightSource : this->m_lights) {
+			delete lightSource;
+		}
+		this->m_lights.clear();
 	}
 
 	void Layer::free() {
 		this->m_entities.clear();
 		this->m_eventSystem = EventSystem();
+		this->m_lights.clear();
 	}
 
 	void Layer::onRender(Renderer* renderer) {
+		if (this->m_lights.size() > 0) {
+			renderer->setLightData(this->m_lights);
+		}
 		for (Entity* entity : this->m_entities) {
 			entity->onRender(renderer);
 		}

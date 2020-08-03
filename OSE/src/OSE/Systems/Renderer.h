@@ -5,6 +5,7 @@
 #include <OSE/Blueprints/Camera.h>
 #include <OSE/Blueprints/StaticMesh.h>
 #include <OSE/Blueprints/Transform.h>
+#include <OSE/Blueprints/LightSource.h>
 
 namespace OSE {
 	class OSE_API Renderer {
@@ -12,12 +13,15 @@ namespace OSE {
 		typedef unsigned int Shader;
 		virtual ~Renderer();
 
+		virtual void onRenderPre() = 0;
+		virtual void onRenderPost() = 0;
 		virtual void drawStaticMesh(StaticMesh* mesh, Transform* transform) = 0;
 		virtual Shader createShader(string shaderName) = 0;
 		virtual void enableShader(Shader shader) = 0;
 		virtual void disableShader() = 0;
 
 		virtual void setCurrentCamera(Camera* camera) = 0;
+		virtual void setLightData(std::set<LightSource*>& lightData) = 0;
 	protected:
 		Renderer();
 	};

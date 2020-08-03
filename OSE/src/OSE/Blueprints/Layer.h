@@ -17,6 +17,10 @@ namespace OSE {
 		void subscribeEventListener(EventListenerBase* eventListener);
 		void unsubscribeEventListener(EventListenerBase* eventListener);
 		void addAndSubscribe(Entity* entity);
+
+		void addLightSource(LightSource* lightSource);
+		void removeLightSource(LightSource* lightSource);
+
 		void clear();
 		void free();
 
@@ -24,6 +28,7 @@ namespace OSE {
 		EventSystem& eventSystem();
 	protected:
 		std::set<Entity*> m_entities;
+		std::set<LightSource*> m_lights;
 		EventSystem m_eventSystem;
 	};
 }

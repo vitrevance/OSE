@@ -18,8 +18,14 @@ namespace OSE {
 	GlRenderer::~GlRenderer() {
 	}
 
+	void GlRenderer::onRenderPre() {
+	}
+
+	void GlRenderer::onRenderPost() {
+	}
+
 	void GlRenderer::drawStaticMesh(StaticMesh* mesh, Transform* transform) {
-		glUseProgram(m_mainShader);
+		this->enableShader(this->m_mainShader);
 		glBindVertexArray(mesh->VAO);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
 		glEnableVertexAttribArray(0);
@@ -105,15 +111,39 @@ namespace OSE {
 	}
 
 	void GlRenderer::enableShader(Renderer::Shader shader) {
-		glUseProgram(shader);
+		if (this->m_activeShader != shader) {
+			glUseProgram(shader);
+			this->m_activeShader = shader;
+		}
 	}
 
 	void GlRenderer::disableShader() {
-		glUseProgram(0);
+		if (this->m_activeShader != 0) {
+			glUseProgram(0);
+			this->m_activeShader = 0;
+		}
 	}
 
 	void GlRenderer::setCurrentCamera(Camera* camera) {
 		this->m_camera = camera;
+	}
+
+	void GlRenderer::setLightData(std::set<LightSource*>& lightData) {
+		this->enableShader(this->m_mainShader);
+		std::vector<LightSource> lights;
+		int i = 0;
+		for (LightSource* it : lightData) {
+			if (i >= 20) {
+				break;
+			}
+			lights.push_back(*it);
+			i++;
+		}
+
+		int lightNumLoc = glGetUniformLocation(this->m_mainShader, "uNumLights");
+		int lightsLoc = glGetUniformLocation(this->m_mainShader, "uLights");
+		glUniform1i(lightNumLoc, i);
+		glUniform1fv(lightsLoc, sizeof(LightSource) * i / sizeof(float), (float*)(&lights[0]));
 	}
 
 	void GlRenderer::setupStaticMesh(StaticMesh* mesh) {

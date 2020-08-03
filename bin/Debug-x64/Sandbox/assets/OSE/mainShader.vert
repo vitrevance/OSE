@@ -10,15 +10,9 @@ uniform mat4 uMatProjection;
 
 out vec3 resultPos;
 out vec3 resultNorm;
-out vec3 camPos;
 
 void main() {
-    resultPos = (uMatProjection * inverse(uMatView) * uMatModel * uMatRotation * vec4(inPos, 1)).xyz;
-    resultPos.z = uMatView[3][2];
+    resultPos = (uMatModel * uMatRotation * vec4(inPos, 1)).xyz;
     resultNorm = (uMatRotation * vec4(inNorm, 1)).xyz;
-    camPos.x = uMatView[3][0];
-    camPos.y = uMatView[3][1];
-    camPos.z = uMatView[3][2];
-    //mat4 MatModel = uMatModel * uMatRotation;
     gl_Position = uMatProjection * inverse(uMatView) * uMatModel * uMatRotation * vec4(inPos, 1);
 }
