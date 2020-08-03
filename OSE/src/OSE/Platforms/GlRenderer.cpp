@@ -139,11 +139,12 @@ namespace OSE {
 			lights.push_back(*it);
 			i++;
 		}
-
-		int lightNumLoc = glGetUniformLocation(this->m_mainShader, "uNumLights");
-		int lightsLoc = glGetUniformLocation(this->m_mainShader, "uLights");
-		glUniform1i(lightNumLoc, i);
-		glUniform1fv(lightsLoc, sizeof(LightSource) * i / sizeof(float), (float*)(&lights[0]));
+		if (i > 0) {
+			int lightNumLoc = glGetUniformLocation(this->m_mainShader, "uNumLights");
+			int lightsLoc = glGetUniformLocation(this->m_mainShader, "uLights");
+			glUniform1i(lightNumLoc, i);
+			glUniform1fv(lightsLoc, sizeof(LightSource) * i / sizeof(float), (float*)(&lights[0]));
+		}
 	}
 
 	void GlRenderer::setupStaticMesh(StaticMesh* mesh) {
