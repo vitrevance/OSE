@@ -22,7 +22,39 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(33): warnin
               _Kty=std::string,
               _Ty=OSE::StaticMesh *
           ]
-c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.cpp(141): warning C4244: =: преобразование "const OSE::LightSource::Type" в "t_float", возможна потеря данных
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(31): warning C4251: OSE::GlRenderer::verts: class "std::vector<OSE::Vertex,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::GlRenderer"
+          with
+          [
+              _Ty=OSE::Vertex
+          ]
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(31): note:  см. объявление "std::vector<OSE::Vertex,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=OSE::Vertex
+          ]
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(32): warning C4251: OSE::GlRenderer::inds: class "std::vector<unsigned int,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::GlRenderer"
+          with
+          [
+              _Ty=unsigned int
+          ]
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(32): note:  см. объявление "std::vector<unsigned int,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=unsigned int
+          ]
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(34): warning C4251: OSE::GlRenderer::transforms: class "std::vector<OSE::mat4,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::GlRenderer"
+          with
+          [
+              _Ty=OSE::mat4
+          ]
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(34): note:  см. объявление "std::vector<OSE::mat4,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=OSE::mat4
+          ]
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.cpp(71): warning C4267: аргумент: преобразование из "size_t" в "GLsizei"; возможна потеря данных
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.cpp(82): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.cpp(179): warning C4244: =: преобразование "const OSE::LightSource::Type" в "t_float", возможна потеря данных
   OSE.vcxproj -> C:\Users\N Ashabokov\Desktop\OSE\bin\Debug-x64\OSE\OSE.dll
   Copy output dll to sanbox directory
   Скопировано файлов:         1.

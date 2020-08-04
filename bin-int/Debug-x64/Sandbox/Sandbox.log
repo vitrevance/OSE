@@ -78,6 +78,36 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\scene.h(23): warning C42
           [
               _Ty=OSE::Layer *
           ]
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(31): warning C4251: OSE::GlRenderer::verts: class "std::vector<OSE::Vertex,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::GlRenderer"
+          with
+          [
+              _Ty=OSE::Vertex
+          ]
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(31): note:  см. объявление "std::vector<OSE::Vertex,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=OSE::Vertex
+          ]
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(32): warning C4251: OSE::GlRenderer::inds: class "std::vector<unsigned int,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::GlRenderer"
+          with
+          [
+              _Ty=unsigned int
+          ]
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(32): note:  см. объявление "std::vector<unsigned int,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=unsigned int
+          ]
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(34): warning C4251: OSE::GlRenderer::transforms: class "std::vector<OSE::mat4,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::GlRenderer"
+          with
+          [
+              _Ty=OSE::mat4
+          ]
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(34): note:  см. объявление "std::vector<OSE::mat4,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=OSE::mat4
+          ]
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\random.h(23): warning C4244: инициализация: преобразование "double" в "t_float", возможна потеря данных
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\random.h(24): warning C4244: аргумент: преобразование "t_float" в "int", возможна потеря данных
 c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(41): warning C4305: аргумент: усечение из "double" в "t_float"

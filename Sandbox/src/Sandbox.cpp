@@ -18,7 +18,7 @@ public:
 	}
 
 	void onRender(OSE::Renderer* renderer) {
-		renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("building"), &this->m_transform);
+		//renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("building"), &this->m_transform);
 		renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("cube") , &this->m_transform);
 	}
 };
