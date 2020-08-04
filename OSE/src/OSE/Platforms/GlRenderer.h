@@ -23,15 +23,13 @@ namespace OSE {
 		virtual void setCurrentCamera(Camera* camera);
 		virtual void setLightData(std::set<LightSource*>& lightData) override;
 	protected:
-		unsigned int VAO, VBO, EBO;
 		Renderer::Shader m_activeShader;
 		Renderer::Shader m_mainShader;
 		Camera* m_camera;
 
-		std::vector<Vertex> verts;
-		std::vector<unsigned int> inds;
-		unsigned int indexOffset;
-		std::vector<mat4> transforms;
+		std::set<StaticMesh*> m_drawQuery;
+		std::map<StaticMesh*, unsigned int> m_instanceBuffers;
+		std::map<StaticMesh*, std::vector<mat4> > m_batch;
 
 		void setupStaticMesh(StaticMesh* mesh);
 	};

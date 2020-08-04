@@ -3,7 +3,7 @@
 namespace OSE {
 
 	Camera::Camera(int width, int height) {
-		float zFar = 1024;
+		float zFar = 32768;
 		float zNear = 0.625;
 		float FOV = 75;
 		this->m_projection = mat4({

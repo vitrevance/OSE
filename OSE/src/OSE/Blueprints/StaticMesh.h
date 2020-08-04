@@ -13,7 +13,7 @@ namespace OSE {
 		StaticMesh(Vertex* vertices, unsigned int vsize, unsigned int* indices, unsigned int isize);
 		~StaticMesh();
 
-		//unsigned int VAO, VBO, EBO;
+		unsigned int VAO, VBO, EBO;
 		const unsigned int vsize;
 		const unsigned int isize;
 		const Vertex* vertices;

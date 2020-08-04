@@ -58,6 +58,16 @@ namespace OSE {
 			}
 		}
 
+		mat<COLS, ROWS> transposed() {
+			mat<COLS, ROWS> result;
+			for (unsigned int row = 0; row < ROWS; row++) {
+				for (unsigned int col = 0; col < COLS; col++) {
+					result[col][row] = this->m_values[row][col];
+				}
+			}
+			return result;
+		}
+
 		template<unsigned int OTHER_COLS>
 		mat<ROWS, OTHER_COLS> operator* (mat<COLS, OTHER_COLS> m) {
 			mat<ROWS, OTHER_COLS> result;
@@ -66,16 +76,6 @@ namespace OSE {
 					for (unsigned int this_col = 0; this_col < COLS; this_col++) {
 						result[row][col] += this->m_values[row][this_col] * m[this_col][col];
 					}
-				}
-			}
-			return result;
-		}
-
-		mat<COLS, ROWS> transposed() {
-			mat<COLS, ROWS> result;
-			for (unsigned int row = 0; row < ROWS; row++) {
-				for (unsigned int col = 0; col < COLS; col++) {
-					result[col][row] == this->m_values[row][col];
 				}
 			}
 			return result;

@@ -5,23 +5,9 @@ namespace OSE {
 	GlRenderer::GlRenderer() {
 		this->m_mainShader = this->createShader("OSE/Shaders/mainShader");
 
-		glGenVertexArrays(1, &(VAO));
-		glBindVertexArray(VAO);
-
-		glGenBuffers(1, &(VBO));
-		//glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		//glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * mesh->vsize, mesh->vertices, GL_STATIC_DRAW);
-		//glEnableVertexAttribArray(0);
-		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-		//glEnableVertexAttribArray(1);
-		//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)12);
-		glGenBuffers(1, &EBO);
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);
-		//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * mesh->isize, mesh->indices, GL_STATIC_DRAW);
-
-		glBindVertexArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		for (std::pair<const string, StaticMesh*> it : AssetSystem::instance->getStaticMeshes()) {
+			this->setupStaticMesh(it.second);
+		}
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
@@ -30,56 +16,54 @@ namespace OSE {
 	}
 
 	GlRenderer::~GlRenderer() {
+		for (std::pair<const string, StaticMesh*> it : AssetSystem::instance->getStaticMeshes()) {
+			glDeleteBuffers(1, &it.second->VBO);
+			glDeleteBuffers(1, &it.second->VBO);
+			glDeleteBuffers(1, &this->m_instanceBuffers[it.second]);
+			glDeleteVertexArrays(1, &it.second->VAO);
+		}
 	}
 
 	void GlRenderer::onRenderPre() {
-		this->verts.clear();
-		this->inds.clear();
-		this->indexOffset = 0;
+		this->m_batch.clear();
+		this->m_drawQuery.clear();
 	}
 
 	void GlRenderer::onRenderPost() {
 		this->enableShader(this->m_mainShader);
-		glBindVertexArray(VAO);
 
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		//glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * this->verts.size(), &(this->verts[0]), GL_DYNAMIC_DRAW);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * this->verts.size(), &(this->verts[0]), GL_STATIC_DRAW);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)12);
+		for (StaticMesh* mesh : this->m_drawQuery) {
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->inds.size(), &(this->inds[0]), GL_DYNAMIC_DRAW);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->inds.size(), &(this->inds[0]), GL_STATIC_DRAW);
+			glBindVertexArray(mesh->VAO);
 
-		int projectionLoc = glGetUniformLocation(this->m_mainShader, "uMatProjection");
-		int viewLoc = glGetUniformLocation(this->m_mainShader, "uMatView");
-		int modelLoc = glGetUniformLocation(this->m_mainShader, "uMatModel");
-		//int rotationLoc = glGetUniformLocation(this->m_mainShader, "uMatRotation");
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
+			unsigned int MBO = this->m_instanceBuffers[mesh];
+			glBindBuffer(GL_ARRAY_BUFFER, MBO);
+			std::vector<mat4>& batch = this->m_batch[mesh];
+			glBufferData(GL_ARRAY_BUFFER, sizeof(mat4) * batch.size(), &(batch[0]), GL_DYNAMIC_DRAW);
+			for (unsigned int i = 0; i < 4; i++) {
+				glEnableVertexAttribArray(2 + i);
+				glVertexAttribPointer(2 + i, 4, GL_FLOAT, GL_FALSE, sizeof(mat4), (const GLvoid*)(sizeof(GLfloat) * i * 4));
+				glVertexAttribDivisor(2 + i, 1);
+			}
 
-		mat4 matView = this->m_camera->getSliceView();
-		mat4 matProj = this->m_camera->getProjection();
-		mat4 matModel = this->transforms[0];
+			int projectionLoc = glGetUniformLocation(this->m_mainShader, "uMatProjection");
+			int viewLoc = glGetUniformLocation(this->m_mainShader, "uMatView");
+			//int modelLoc = glGetUniformLocation(this->m_mainShader, "uMatModel");
 
-		glUniformMatrix4fv(projectionLoc, 1, GL_TRUE, &matProj[0][0]);
-		glUniformMatrix4fv(viewLoc, 1, GL_TRUE, &matView[0][0]);
-		glUniformMatrix4fv(modelLoc, 1, GL_TRUE, &matModel[0][0]);
-		//glUniformMatrix4fv(rotationLoc, 1, GL_TRUE, &matRotation[0][0]);
+			mat4 matView = this->m_camera->getSliceView();
+			mat4 matProj = this->m_camera->getProjection();
 
-		glDrawElements(GL_TRIANGLES, this->inds.size(), GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+			glUniformMatrix4fv(projectionLoc, 1, GL_TRUE, &matProj[0][0]);
+			glUniformMatrix4fv(viewLoc, 1, GL_TRUE, &matView[0][0]);
+
+			//glDrawElements(GL_TRIANGLES, mesh->isize, GL_UNSIGNED_INT, 0);
+			glDrawElementsInstanced(GL_TRIANGLES, mesh->isize, GL_UNSIGNED_INT, 0, this->m_batch[mesh].size());
+			glBindVertexArray(0);
+		}
 	}
 
 	void GlRenderer::drawStaticMesh(StaticMesh* mesh, Transform* transform) {
-		//this->verts.reserve(mesh->vsize);
-		this->verts.insert(this->verts.end(), mesh->vertices, mesh->vertices + mesh->vsize);
-		this->inds.reserve(mesh->isize);
-		for (unsigned int i = 0; i < mesh->isize; i++) {
-			this->inds.push_back(mesh->indices[i] + this->indexOffset);
-		}
-		this->indexOffset = this->verts.size();
 
 		vec3 transformSlice = transform->getSlicePosition(this->m_camera->getSlice());
 		mat4 matModel({
@@ -89,8 +73,8 @@ namespace OSE {
 			0, 0, 0, 1
 			});
 		mat4 matRotation = transform->rotation;
-
-		this->transforms.push_back(matRotation * matModel);
+		this->m_drawQuery.insert(mesh);
+		this->m_batch[mesh].push_back((matModel * matRotation).transposed());
 	}
 
 	Renderer::Shader GlRenderer::createShader(string shaderName) {
@@ -189,7 +173,6 @@ namespace OSE {
 	}
 
 	void GlRenderer::setupStaticMesh(StaticMesh* mesh) {
-		/*
 		glGenVertexArrays(1, &(mesh->VAO));
 		glBindVertexArray(mesh->VAO);
 
@@ -200,6 +183,9 @@ namespace OSE {
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)12);
+		unsigned int MBO;
+		glGenBuffers(1, &MBO);
+		this->m_instanceBuffers[mesh] = MBO;
 		glGenBuffers(1, &mesh->EBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * mesh->isize, mesh->indices, GL_STATIC_DRAW);
@@ -207,6 +193,5 @@ namespace OSE {
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		*/
 	}
 }
