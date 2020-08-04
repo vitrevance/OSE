@@ -10,16 +10,18 @@ namespace OSE {
 
 		static enum Type {
 			POINT_LIGHT,
-			DIRECTIONAL_LIGHT
+			DIRECTIONAL_LIGHT,
+			AMBIENT_LIGHT
 		};
 
 		Transform transform;
 		vec3 color;
 		const Type type;
 
-		LightSource(Type type) : type(type) {}
-		LightSource(Type type, Transform transform) : type(type), transform(transform) {}
-		LightSource(Type type, vecd position) : type(type), transform(Transform(position)) {}
+		LightSource(Type type) : type(type), color(vec3(1)) {}
+		LightSource(Type type, vec3 color) : type(type), color(color) {}
+		LightSource(Type type, vec3 color, Transform transform) : type(type), color(color), transform(transform) {}
+		LightSource(Type type, vec3 color, vecd position) : type(type), color(color), transform(Transform(position)) {}
 		~LightSource() = default;
 	};
 }

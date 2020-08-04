@@ -13,11 +13,12 @@ public:
 	void onEvent(OSE::TickEvent& event) override {
 		this->m_transform.position += this->velocity * event.getDeltaTime();
 		this->angle += event.getDeltaTime() / OSE::Random::integer(800, 850);
-		this->m_transform.rotate(angle * 0.78, angle, -angle * 1.5);
+		//this->m_transform.rotate(angle * 0.78, angle, -angle * 1.5);
 		this->angle = 0;
 	}
 
 	void onRender(OSE::Renderer* renderer) {
+		renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("building"), &this->m_transform);
 		renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("cube") , &this->m_transform);
 	}
 };
@@ -37,9 +38,9 @@ public:
 
 	void onEvent(OSE::TickEvent& event) override {
 
-		this->acceleration += this->camera->getForward() * 0.0001 * f;
-		this->acceleration += this->camera->getRight() * 0.0001 * r;
-		this->acceleration += OSE::vecd({0, 1}) * 0.0001 * u;
+		this->acceleration += this->camera->getForward() * 0.0005 * f;
+		this->acceleration += this->camera->getRight() * 0.0005 * r;
+		this->acceleration += OSE::vecd({0, 1}) * 0.0005 * u;
 
 		this->velocity += this->acceleration * event.getDeltaTime();
 		this->m_transform.position += this->velocity * event.getDeltaTime();
@@ -105,8 +106,9 @@ public:
 	Sandbox() {
 		OSE_LOG(LOG_APP_TRACE, "Sandbox startup...")
 
-		OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
+			//OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
 
+		OSE::AssetSystem::instance->loadStaticMesh("building", "OSE/low poly buildings.obj");
 		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube.obj");
 		this->createWindow();
 		OSE::EventSystem::instance->subscribeEventListener(this);
@@ -118,6 +120,8 @@ public:
 			layer->addAndSubscribe(actor);
 		}
 		layer->addAndSubscribe(new TestActor());
+		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::DIRECTIONAL_LIGHT, OSE::vec3(1), OSE::lookAt(OSE::vec3(), OSE::vec3({1, -1, 1}))));
+		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::AMBIENT_LIGHT, OSE::vec3(0.2)));
 		OSE::Camera* camera = new OSE::Camera(this->m_window->getWidth(), this->m_window->getHeight());
 		Player* player = new Player();
 		player->camera = camera;

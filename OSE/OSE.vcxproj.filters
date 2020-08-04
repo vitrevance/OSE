@@ -152,5 +152,8 @@
     <ClCompile Include="src\OSE\Blueprints\Camera.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="src\OSE\Math\Vecmath.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

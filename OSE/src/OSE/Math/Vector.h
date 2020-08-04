@@ -13,6 +13,12 @@ namespace OSE {
 			}
 		}
 
+		vec(t_float value) {
+			for (unsigned int i = 0; i < SIZE; i++) {
+				this->m_coords[i] = value;
+			}
+		}
+
 		vec(t_float values[SIZE]) {
 			for (unsigned int i = 0; i < SIZE; i++) {
 				this->m_coords[i] = values[i];

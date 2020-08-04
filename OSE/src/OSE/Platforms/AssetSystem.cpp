@@ -24,9 +24,7 @@ namespace OSE {
 	}
 
 	StaticMesh* AssetSystem::loadStaticMesh(string name, string path) {
-		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile((this->m_assetDir + path).c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
-
+		const aiScene* scene = aiImportFile((this->m_assetDir + path).c_str(), aiProcess_Triangulate | aiProcess_PreTransformVertices | aiProcess_GenNormals);
 		if (scene) {
 			unsigned int totalSizeVerts = 0;
 			unsigned int totalSizeInds = 0;
@@ -64,10 +62,13 @@ namespace OSE {
 
 			StaticMesh* mesh = new StaticMesh(verts, totalSizeVerts, inds, totalSizeInds);
 			this->m_staticMeshes[name] = mesh;
+
+			aiReleaseImport(scene);
+
 			return mesh;
 		}
 		else {
-			OSE_LOG(LOG_OSE_ERROR, ("Failed to load asset: " + string(importer.GetErrorString())))
+			OSE_LOG(LOG_OSE_ERROR, ("Failed to load asset: " + string(aiGetErrorString())))
 		}
 		return nullptr;
 	}

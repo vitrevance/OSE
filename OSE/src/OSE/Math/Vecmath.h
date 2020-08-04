@@ -29,6 +29,10 @@ namespace OSE {
 		return result;
 	}
 
+	vec<3> OSE_API cross(vec<3> a, vec<3> b);
+
+	mat<4, 4> OSE_API lookAt(vec<3> from, vec<3> at);
+
 	typedef vec<2> vec2;
 	typedef vec<3> vec3;
 	typedef vec<4> vec4;

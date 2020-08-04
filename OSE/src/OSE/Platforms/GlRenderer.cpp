@@ -3,7 +3,7 @@
 namespace OSE {
 
 	GlRenderer::GlRenderer() {
-		this->m_mainShader = this->createShader("OSE/mainShader");
+		this->m_mainShader = this->createShader("OSE/Shaders/mainShader");
 
 		for (std::pair<const string, StaticMesh*>& mesh : AssetSystem::instance->getStaticMeshes()) {
 			this->setupStaticMesh(mesh.second);
@@ -27,11 +27,6 @@ namespace OSE {
 	void GlRenderer::drawStaticMesh(StaticMesh* mesh, Transform* transform) {
 		this->enableShader(this->m_mainShader);
 		glBindVertexArray(mesh->VAO);
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)12);
 		
 		int projectionLoc = glGetUniformLocation(this->m_mainShader, "uMatProjection");
 		int viewLoc = glGetUniformLocation(this->m_mainShader, "uMatView");
@@ -56,7 +51,7 @@ namespace OSE {
 		glUniformMatrix4fv(modelLoc, 1, GL_TRUE, &matModel[0][0]);
 		glUniformMatrix4fv(rotationLoc, 1, GL_TRUE, &matRotation[0][0]);
 
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, mesh->isize, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
 
@@ -130,20 +125,28 @@ namespace OSE {
 
 	void GlRenderer::setLightData(std::set<LightSource*>& lightData) {
 		this->enableShader(this->m_mainShader);
-		std::vector<LightSource> lights;
+		std::vector<mat4> lights;
 		int i = 0;
 		for (LightSource* it : lightData) {
 			if (i >= 20) {
 				break;
 			}
-			lights.push_back(*it);
+			mat4 light(it->transform.rotation);
+			light[3][0] = it->color[0];
+			light[3][1] = it->color[1];
+			light[3][2] = it->color[2];
+			light[0][3] = it->transform.position[0];
+			light[1][3] = it->transform.position[1];
+			light[2][3] = it->transform.position[2];
+			light[3][3] = it->type;
+			lights.push_back(light);
 			i++;
 		}
+		int lightNumLoc = glGetUniformLocation(this->m_mainShader, "uNumLights");
+		glUniform1i(lightNumLoc, i);
 		if (i > 0) {
-			int lightNumLoc = glGetUniformLocation(this->m_mainShader, "uNumLights");
 			int lightsLoc = glGetUniformLocation(this->m_mainShader, "uLights");
-			glUniform1i(lightNumLoc, i);
-			glUniform1fv(lightsLoc, sizeof(LightSource) * i / sizeof(float), (float*)(&lights[0]));
+			glUniformMatrix4fv(lightsLoc, i, GL_TRUE, &lights[0][0][0]);
 		}
 	}
 
@@ -154,6 +157,10 @@ namespace OSE {
 		glGenBuffers(1, &(mesh->VBO));
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * mesh->vsize, mesh->vertices, GL_STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)12);
 		glGenBuffers(1, &mesh->EBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * mesh->isize, mesh->indices, GL_STATIC_DRAW);
