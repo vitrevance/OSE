@@ -2,10 +2,12 @@
 #define OSE_STATICMESH_H
 
 #include <OSE/Core.h>
+#include <OSE/Math/Vecmath.h>
 
 namespace OSE {
 	struct OSE_API Vertex {
-		float x, y, z, normx, normy, normz;
+		vec4 pos;
+		vec4 norm;
 	};
 
 	class OSE_API StaticMesh {

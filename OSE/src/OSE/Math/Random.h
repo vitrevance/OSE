@@ -28,23 +28,52 @@ namespace OSE {
 			return decimal() * 2 - 1;
 		}
 
-		template<unsigned int SIZE>
-		vec<SIZE> vector() {
-			vec<SIZE> result;
-			for (unsigned int i = 0; i < SIZE; i++) {
+		vec2 vector2() {
+			vec2 result;
+			for (unsigned int i = 0; i < 2; i++) {
 				result[i] = signedDecimal() * integer();
 			}
 			return result;
 		}
 
-		template<unsigned int SIZE>
-		vec<SIZE> normal() {
-			return (vector<SIZE>()).normalized();
+		vec3 vector3() {
+			vec3 result;
+			for (unsigned int i = 0; i < 3; i++) {
+				result[i] = signedDecimal() * integer();
+			}
+			return result;
 		}
 
-		template<unsigned int SIZE>
-		vec<SIZE> vector(t_float maxLength) {
-			return normal<SIZE>() * decimal() * maxLength;
+		vec4 vector4() {
+			vec4 result;
+			for (unsigned int i = 0; i < 4; i++) {
+				result[i] = signedDecimal() * integer();
+			}
+			return result;
+		}
+
+		vec2 normal2() {
+			return (vector2()).normalized();
+		}
+
+		vec3 normal3() {
+			return (vector3()).normalized();
+		}
+
+		vec4 normal4() {
+			return (vector4()).normalized();
+		}
+
+		vec2 vector2(t_float maxLength) {
+			return normal2() * decimal() * maxLength;
+		}
+
+		vec3 vector3(t_float maxLength) {
+			return normal3() * decimal() * maxLength;
+		}
+
+		vec4 vector4(t_float maxLength) {
+			return normal4() * decimal() * maxLength;
 		}
 	}
 }

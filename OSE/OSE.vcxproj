@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClCompile Include="src\OSE\Blueprints\Camera.cpp" />
     <ClCompile Include="src\OSE\Math\Vecmath.cpp" />
+    <ClCompile Include="src\OSE\Math\Vector.cpp" />
     <ClCompile Include="src\OSE\Platforms\GlRenderer.cpp" />
     <ClCompile Include="src\OSE\Platforms\AssetSystem.cpp" />
     <ClCompile Include="src\OSE\Systems\Renderer.cpp" />

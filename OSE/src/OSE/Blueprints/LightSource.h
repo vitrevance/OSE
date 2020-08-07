@@ -21,7 +21,7 @@ namespace OSE {
 		LightSource(Type type) : type(type), color(vec3(1)) {}
 		LightSource(Type type, vec3 color) : type(type), color(color) {}
 		LightSource(Type type, vec3 color, Transform transform) : type(type), color(color), transform(transform) {}
-		LightSource(Type type, vec3 color, vecd position) : type(type), color(color), transform(Transform(position)) {}
+		LightSource(Type type, vec3 color, vec4 position) : type(type), color(color), transform(Transform(position)) {}
 		~LightSource() = default;
 	};
 }

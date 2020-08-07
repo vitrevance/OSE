@@ -12,16 +12,13 @@ namespace OSE {
 		~Camera();
 
 		mat4 getProjection();
-		vec3 getSlicePosition();
-		mat4 getSliceView();
-		unsigned int* getSlice();
+		mat4 getView();
 		Transform& getTransform();
-		vecd getForward();
-		vecd getUp();
-		vecd getRight();
+		vec4 getForward();
+		vec4 getUp();
+		vec4 getRight();
 
 	protected:
-		unsigned int m_slice[3];
 		Transform m_transform;
 		mat4 m_projection;
 	};

@@ -3,22 +3,25 @@
 class TestActor : public OSE::Actor {
 public:
 
-	OSE::vecd velocity;
+	OSE::vec4 velocity;
 	float angle = 0;
 
 	TestActor() {
-		this->m_transform.position = OSE::vecd({0, 0, 10});
+		this->m_transform.position = OSE::vec4(0, 0, 10, 5);
 	}
 
 	void onEvent(OSE::TickEvent& event) override {
 		this->m_transform.position += this->velocity * event.getDeltaTime();
 		this->angle += event.getDeltaTime() / OSE::Random::integer(800, 850);
-		this->m_transform.rotate(angle * 0.78, angle, -angle * 1.5);
+		//this->m_transform.rotate(angle, 0, 0, angle);
 		this->angle = 0;
+		//OSE::vec4 accl = OSE::Random::vector4(0.0001);
+		//this->velocity += accl * event.getDeltaTime();
+		//this->m_transform.position += this->velocity;
 	}
 
 	void onRender(OSE::Renderer* renderer) {
-		renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("building"), &this->m_transform);
+		//renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("building"), &this->m_transform);
 		renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("cube") , &this->m_transform);
 	}
 };
@@ -27,11 +30,11 @@ class Player : public OSE::Actor, OSE::EventListener<OSE::KeyPressedEvent>, OSE:
 	OSE::EventListener<OSE::MouseMovedEvent> {
 public:
 
-	OSE::vecd velocity;
-	OSE::vecd acceleration;
+	OSE::vec4 velocity;
+	OSE::vec4 acceleration;
 	OSE::Camera* camera;
 
-	int f = 0, r = 0, u = 0;
+	int f = 0, r = 0, u = 0, w = 0;
 
 	Player() {
 	}
@@ -40,7 +43,8 @@ public:
 
 		this->acceleration += this->camera->getForward() * 0.0005 * f;
 		this->acceleration += this->camera->getRight() * 0.0005 * r;
-		this->acceleration += OSE::vecd({0, 1}) * 0.0005 * u;
+		this->acceleration += OSE::vec4(0, 1, 0, 0) * 0.0005 * u;
+		this->acceleration += OSE::vec4(0, 0, 0, 1) * 0.0005 * w;
 
 		this->velocity += this->acceleration * event.getDeltaTime();
 		this->m_transform.position += this->velocity * event.getDeltaTime();
@@ -71,6 +75,12 @@ public:
 		else if (event.getKeyCode() == 'C') {
 			u = -1;
 		}
+		else if (event.getKeyCode() == 'E') {
+			w = 1;
+		}
+		else if (event.getKeyCode() == 'Q') {
+			w = -1;
+		}
 	}
 
 	void onEvent(OSE::KeyReleasedEvent& event) override {
@@ -92,10 +102,16 @@ public:
 		else if (event.getKeyCode() == 'C') {
 			if (u == -1) u = 0;
 		}
+		else if (event.getKeyCode() == 'E') {
+			if (w == 1) w = 0;
+		}
+		else if (event.getKeyCode() == 'Q') {
+			if (w == -1) w = 0;
+		}
 	}
 
 	void onEvent(OSE::MouseMovedEvent& event) override {
-		this->camera->getTransform().rotate(0, event.getX() / 500, event.getY() / 500);
+		this->camera->getTransform().rotate(0, event.getX() / 500, event.getY() / 500, 0);
 	}
 };
 
@@ -106,7 +122,7 @@ public:
 	Sandbox() {
 		OSE_LOG(LOG_APP_TRACE, "Sandbox startup...")
 
-		OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
+		//OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
 
 		OSE::AssetSystem::instance->loadStaticMesh("building", "OSE/low poly buildings.obj");
 		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube.obj");
@@ -114,12 +130,12 @@ public:
 		OSE::EventSystem::instance->subscribeEventListener(this);
 		OSE::Scene* scene = new OSE::Scene();
 		OSE::Layer* layer = new OSE::Layer();
-		for (int i = 0; i < 5000; i++) {
+		for (int i = 0; i < 0; i++) {
 			TestActor* actor = new TestActor();
 			//actor->velocity = OSE::Random::vector<I_DIMENSIONS>(1.0/250.0);
 			layer->addAndSubscribe(actor);
 		}
-		//layer->addAndSubscribe(new TestActor());
+		layer->addAndSubscribe(new TestActor());
 		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::DIRECTIONAL_LIGHT, OSE::vec3(1), OSE::lookAt(OSE::vec3(), OSE::vec3({1, -1, 1}))));
 		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::AMBIENT_LIGHT, OSE::vec3(0.2)));
 		OSE::Camera* camera = new OSE::Camera(this->m_window->getWidth(), this->m_window->getHeight());

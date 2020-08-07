@@ -6,20 +6,16 @@
 namespace OSE {
 	class OSE_API Transform {
 	public:
-		vecd position;
+		vec4 position;
 		mat4 rotation = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
-		float yaw = 0, pitch = 0, roll = 0;
+		float yaw = 0, pitch = 0, roll = 0, zw = 0;
 
 		Transform() {}
-		Transform(vecd position) : position(position) {}
-		Transform(vecd position, mat4 rotation) : position(position), rotation(rotation) {}
+		Transform(vec4 position) : position(position) {}
+		Transform(vec4 position, mat4 rotation) : position(position), rotation(rotation) {}
 		Transform(mat4 rotation) : rotation(rotation) {}
 
-		vec3 getSlicePosition(unsigned int* slice) {
-			return vec3({ this->position[slice[0]], this->position[slice[1]], this->position[slice[2]] });
-		}
-
-		void setRotation(float yaw, float pitch, float roll) {
+		void setRotation(float yaw, float pitch, float roll, float zw) {
 			mat4 myaw({
 				cos(yaw), -sin(yaw), 0, 0,
 				sin(yaw), cos(yaw), 0, 0,
@@ -38,14 +34,21 @@ namespace OSE {
 				0, sin(roll), cos(roll), 0,
 				0, 0, 0, 1
 				});
-			this->rotation = myaw * mpitch * mroll;
+			mat4 mzw({
+				1, 0, 0, 0,
+				0, 1, 0, 0,
+				0, 0, cos(zw), -sin(zw),
+				0, 0, sin(zw), cos(zw)
+				});
+			this->rotation = myaw * mpitch * mroll * mzw;
 		}
 
-		void rotate(float yaw, float pitch, float roll) {
+		void rotate(float yaw, float pitch, float roll, float zw) {
 			this->yaw += yaw;
 			this->pitch += pitch;
 			this->roll += roll;
-			this->setRotation(this->yaw, this->pitch, this->roll);
+			this->zw += zw;
+			this->setRotation(this->yaw, this->pitch, this->roll, this->zw);
 		}
 	};
 }

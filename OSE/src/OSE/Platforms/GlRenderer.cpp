@@ -13,6 +13,7 @@ namespace OSE {
 		glDepthFunc(GL_LESS);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_FRONT);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 
 	GlRenderer::~GlRenderer() {
@@ -36,7 +37,6 @@ namespace OSE {
 
 			glBindVertexArray(mesh->VAO);
 
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
 			unsigned int MBO = this->m_instanceBuffers[mesh];
 			glBindBuffer(GL_ARRAY_BUFFER, MBO);
 			std::vector<mat4>& batch = this->m_batch[mesh];
@@ -49,13 +49,14 @@ namespace OSE {
 
 			int projectionLoc = glGetUniformLocation(this->m_mainShader, "uMatProjection");
 			int viewLoc = glGetUniformLocation(this->m_mainShader, "uMatView");
-			//int modelLoc = glGetUniformLocation(this->m_mainShader, "uMatModel");
+			int wProjLoc = glGetUniformLocation(this->m_mainShader, "uFWProjection");
 
-			mat4 matView = this->m_camera->getSliceView();
+			mat4 matView = this->m_camera->getView();
 			mat4 matProj = this->m_camera->getProjection();
 
 			glUniformMatrix4fv(projectionLoc, 1, GL_TRUE, &matProj[0][0]);
 			glUniformMatrix4fv(viewLoc, 1, GL_TRUE, &matView[0][0]);
+			glUniform1f(wProjLoc, this->m_camera->getTransform().position.w);
 
 			//glDrawElements(GL_TRIANGLES, mesh->isize, GL_UNSIGNED_INT, 0);
 			glDrawElementsInstanced(GL_TRIANGLES, mesh->isize, GL_UNSIGNED_INT, 0, this->m_batch[mesh].size());
@@ -64,17 +65,31 @@ namespace OSE {
 	}
 
 	void GlRenderer::drawStaticMesh(StaticMesh* mesh, Transform* transform) {
-
-		vec3 transformSlice = transform->getSlicePosition(this->m_camera->getSlice());
-		mat4 matModel({
-			1, 0, 0, transformSlice[0],
-			0, 1, 0, transformSlice[1],
-			0, 0, 1, transformSlice[2],
-			0, 0, 0, 1
+		/*
+		vec4 tPos = transform->position * transform->rotation;
+		vec4 cPos = this->m_camera->getTransform().position;
+		mat<3, 4> proj4D({
+			1 / (cPos.w - tPos.w), 0, 0, 0,
+			0, 1 / (cPos.w - tPos.w), 0, 0,
+			0, 0, 1 / (cPos.w - tPos.w), 0
 			});
-		mat4 matRotation = transform->rotation;
+		vec3 pPos = proj4D * tPos;
+		*/
+		/*mat4 matModel({
+			1 / (cPos.w - tPos.w), 0, 0, tPos.x,
+			0, 1 / (cPos.w - tPos.w), 0, tPos.y,
+			0, 0, 1 / (cPos.w - tPos.w), tPos.z,
+			0, 0, 0, 1
+			});*/
+		vec4 tPos = transform->position * transform->rotation;
+		mat4 matModel({
+			1, 0, 0, tPos.x,
+			0, 1, 0, tPos.y,
+			0, 0, 1, tPos.z,
+			0, 0, 0, tPos.w
+			});
 		this->m_drawQuery.insert(mesh);
-		this->m_batch[mesh].push_back((matModel * matRotation).transposed());
+		this->m_batch[mesh].push_back((transform->rotation * matModel).transposed());
 	}
 
 	Renderer::Shader GlRenderer::createShader(string shaderName) {
@@ -180,9 +195,9 @@ namespace OSE {
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * mesh->vsize, mesh->vertices, GL_STATIC_DRAW);
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)12);
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, norm));
 		unsigned int MBO;
 		glGenBuffers(1, &MBO);
 		this->m_instanceBuffers[mesh] = MBO;
