@@ -53,7 +53,7 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(32): warning
               _Kty=OSE::StaticMesh *
           ]
 c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.cpp(62): warning C4267: аргумент: преобразование из "size_t" в "GLsizei"; возможна потеря данных
-c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.cpp(178): warning C4244: =: преобразование "const OSE::LightSource::Type" в "t_float", возможна потеря данных
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.cpp(162): warning C4244: =: преобразование "const OSE::LightSource::Type" в "t_float", возможна потеря данных
   OSE.vcxproj -> C:\Users\N Ashabokov\Desktop\OSE\bin\Debug-x64\OSE\OSE.dll
   Copy output dll to sanbox directory
   Скопировано файлов:         1.

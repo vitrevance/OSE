@@ -52,6 +52,7 @@ namespace OSE {
 					vert1.pos[0] = vertex.x;
 					vert1.pos[1] = vertex.y;
 					vert1.pos[2] = vertex.z;
+					vert2.pos[3] = -1;
 					vert1.norm[0] = normal.x;
 					vert1.norm[1] = normal.y;
 					vert1.norm[2] = normal.z;
@@ -68,9 +69,16 @@ namespace OSE {
 					verts[nv + totalSizeVerts] = vert2;
 					verts[nv] = vert1;
 
-					inds[totalSizeInds * 2 + nv * 3] = nv % totalVerts4D;
-					inds[totalSizeInds * 2 + nv * 3 + 1] = (nv + totalSizeVerts) % totalVerts4D;
-					inds[totalSizeInds * 2 + nv * 3 + 2] = (nv + totalSizeVerts + 1) % totalVerts4D;
+					if (nv % 2 == 0) {
+						inds[totalSizeInds * 2 + nv * 3] = nv % totalVerts4D;
+						inds[totalSizeInds * 2 + nv * 3 + 2] = (nv + totalSizeVerts + 1) % totalVerts4D;
+						inds[totalSizeInds * 2 + nv * 3 + 1] = (nv + totalSizeVerts) % totalVerts4D;
+					}
+					else {
+						inds[totalSizeInds * 2 + nv * 3] = nv % totalVerts4D;
+						inds[totalSizeInds * 2 + nv * 3 + 1] = (nv - 1) % totalVerts4D;
+						inds[totalSizeInds * 2 + nv * 3 + 2] = (nv + totalSizeVerts + 1) % totalVerts4D;
+					}
 
 					nv++;
 				}

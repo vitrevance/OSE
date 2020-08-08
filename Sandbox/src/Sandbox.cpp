@@ -13,7 +13,7 @@ public:
 	void onEvent(OSE::TickEvent& event) override {
 		this->m_transform.position += this->velocity * event.getDeltaTime();
 		this->angle += event.getDeltaTime() / OSE::Random::integer(800, 850);
-		//this->m_transform.rotate(angle, 0, 0, angle);
+		this->m_transform.rotate(0, 0, 0, angle);
 		this->angle = 0;
 		//OSE::vec4 accl = OSE::Random::vector4(0.0001);
 		//this->velocity += accl * event.getDeltaTime();
@@ -124,7 +124,7 @@ public:
 
 		//OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
 
-		OSE::AssetSystem::instance->loadStaticMesh("building", "OSE/low poly buildings.obj");
+		//OSE::AssetSystem::instance->loadStaticMesh("building", "OSE/low poly buildings.obj");
 		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube.obj");
 		this->createWindow();
 		OSE::EventSystem::instance->subscribeEventListener(this);

@@ -9,11 +9,11 @@ namespace OSE {
 			this->setupStaticMesh(it.second);
 		}
 
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LESS);
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_FRONT);
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		//glEnable(GL_DEPTH_TEST);
+		//glDepthFunc(GL_LESS);
+		//glEnable(GL_CULL_FACE);
+		//glCullFace(GL_FRONT);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 
 	GlRenderer::~GlRenderer() {
@@ -65,22 +65,6 @@ namespace OSE {
 	}
 
 	void GlRenderer::drawStaticMesh(StaticMesh* mesh, Transform* transform) {
-		/*
-		vec4 tPos = transform->position * transform->rotation;
-		vec4 cPos = this->m_camera->getTransform().position;
-		mat<3, 4> proj4D({
-			1 / (cPos.w - tPos.w), 0, 0, 0,
-			0, 1 / (cPos.w - tPos.w), 0, 0,
-			0, 0, 1 / (cPos.w - tPos.w), 0
-			});
-		vec3 pPos = proj4D * tPos;
-		*/
-		/*mat4 matModel({
-			1 / (cPos.w - tPos.w), 0, 0, tPos.x,
-			0, 1 / (cPos.w - tPos.w), 0, tPos.y,
-			0, 0, 1 / (cPos.w - tPos.w), tPos.z,
-			0, 0, 0, 1
-			});*/
 		vec4 tPos = transform->position * transform->rotation;
 		mat4 matModel({
 			1, 0, 0, tPos.x,
