@@ -85,4 +85,8 @@ namespace OSE {
 					xaxis.z, yaxis.z, zaxis.z, 0,
 					0, 0, 0, 1 });
 	}
+
+	t_float toRadians(t_float degrees) {
+		return degrees / 180.0 * CONST_PI;
+	}
 }

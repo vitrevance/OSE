@@ -31,6 +31,8 @@ namespace OSE {
 	protected:
 		string m_assetDir;
 		std::map<string, StaticMesh*> m_staticMeshes;
+
+		std::vector<Tetrahedron> cutPrism(vec4 a1, vec4 a2, vec4 a3, vec4 b1, vec4 b2, vec4 b3);
 	};
 }
 #endif

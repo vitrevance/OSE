@@ -31,13 +31,15 @@ namespace OSE {
 	public:
 		union {
 			struct { t_float x, y, z; };
-			vec2 xy;
+			struct { vec2 xy; t_float _z; };
 			struct { t_float _x; vec2 yz; };
 		};
 
 		vec3();
 		vec3(t_float x, t_float y, t_float z);
 		vec3(t_float v);
+		vec3(vec2 xy, t_float z);
+		vec3(t_float x, vec2 yz);
 
 		t_float length();
 		void normalize();
@@ -60,7 +62,7 @@ namespace OSE {
 			struct { t_float x, y, z, w; };
 			struct { vec2 xy; t_float _z; t_float _w; };
 			struct { t_float _x; vec2 yz; t_float _w; };
-			struct { t_float _x, y; vec2 zw; };
+			struct { t_float _x, _y; vec2 zw; };
 			struct { vec3 xyz; t_float _w; };
 			struct { t_float _x; vec3 yzw; };
 		};
@@ -68,6 +70,11 @@ namespace OSE {
 		vec4();
 		vec4(t_float x, t_float y, t_float z, t_float w);
 		vec4(t_float v);
+		vec4(vec2 xy, t_float z, t_float w);
+		vec4(t_float x, vec2 yz, t_float w);
+		vec4(t_float x, t_float y, vec2 zw);
+		vec4(vec3 xyz, t_float w);
+		vec4(t_float x, vec3 yzw);
 
 		t_float length();
 		void normalize();

@@ -43,5 +43,5 @@ void main() {
     }
     lightColor /= numLights;
     lightColor += ambientLight;
-    frag_color = vec4(1);//vec4(matColor * lightColor, 1);
+    frag_color = vec4(resultPos, 1);//vec4(matColor * lightColor, 1);
 }

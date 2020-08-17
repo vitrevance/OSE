@@ -26,6 +26,8 @@ namespace OSE {
 
 	mat<4, 4> OSE_API lookAt(vec3 from, vec3 at);
 
+	t_float OSE_API toRadians(t_float degrees);
+
 	typedef mat<2, 2> mat2;
 	typedef mat<3, 3> mat3;
 	typedef mat<4, 4> mat4;

@@ -9,11 +9,10 @@ namespace OSE {
 			this->setupStaticMesh(it.second);
 		}
 
-		//glEnable(GL_DEPTH_TEST);
-		//glDepthFunc(GL_LESS);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 		//glEnable(GL_CULL_FACE);
 		//glCullFace(GL_FRONT);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 
 	GlRenderer::~GlRenderer() {
@@ -41,12 +40,17 @@ namespace OSE {
 			glBindBuffer(GL_ARRAY_BUFFER, MBO);
 			std::vector<mat4>& batch = this->m_batch[mesh];
 			glBufferData(GL_ARRAY_BUFFER, sizeof(mat4) * batch.size(), &(batch[0]), GL_DYNAMIC_DRAW);
+			int VAA = 4;
 			for (unsigned int i = 0; i < 4; i++) {
-				glEnableVertexAttribArray(2 + i);
-				glVertexAttribPointer(2 + i, 4, GL_FLOAT, GL_FALSE, sizeof(mat4), (const GLvoid*)(sizeof(GLfloat) * i * 4));
-				glVertexAttribDivisor(2 + i, 1);
+				glEnableVertexAttribArray(VAA + i);
+				glVertexAttribPointer(VAA + i, 4, GL_FLOAT, GL_FALSE, sizeof(mat4), (const GLvoid*)(sizeof(GLfloat) * i * 4));
+				glVertexAttribDivisor(VAA + i, 1);
 			}
-
+			/*
+#define printv(v) std::cout << v.x << " " << v.y << " " << v.z << " " << v.w << std::endl
+#define printt(t) printv(t.vertex); printv(t.base_1); printv(t.base_2); printv(t.base_3)
+#define printm(m) for (int MII = 0; MII < 16; MII++) {std::cout << m[MII / 4][MII % 4] << " "; if (MII % 4 == 0) {std::cout << std::endl;}}
+*/
 			int projectionLoc = glGetUniformLocation(this->m_mainShader, "uMatProjection");
 			int viewLoc = glGetUniformLocation(this->m_mainShader, "uMatView");
 			int wProjLoc = glGetUniformLocation(this->m_mainShader, "uFWProjection");
@@ -59,18 +63,19 @@ namespace OSE {
 			glUniform1f(wProjLoc, this->m_camera->getTransform().position.w);
 
 			//glDrawElements(GL_TRIANGLES, mesh->isize, GL_UNSIGNED_INT, 0);
-			glDrawElementsInstanced(GL_TRIANGLES, mesh->isize, GL_UNSIGNED_INT, 0, this->m_batch[mesh].size());
-			glBindVertexArray(0);
+			//glDrawElementsInstanced(GL_TRIANGLES, mesh->isize, GL_UNSIGNED_INT, 0, this->m_batch[mesh].size());
+			glDrawArraysInstanced(GL_POINTS, 0, mesh->cells.size(), this->m_batch[mesh].size());
 		}
+		glBindVertexArray(0);
 	}
 
 	void GlRenderer::drawStaticMesh(StaticMesh* mesh, Transform* transform) {
-		vec4 tPos = transform->position * transform->rotation;
+		vec4 tPos = transform->position;
 		mat4 matModel({
 			1, 0, 0, tPos.x,
 			0, 1, 0, tPos.y,
 			0, 0, 1, tPos.z,
-			0, 0, 0, tPos.w
+			0, 0, 0, 1
 			});
 		this->m_drawQuery.insert(mesh);
 		this->m_batch[mesh].push_back((transform->rotation * matModel).transposed());
@@ -79,6 +84,7 @@ namespace OSE {
 	Renderer::Shader GlRenderer::createShader(string shaderName) {
 		string fragmentText = AssetSystem::instance->loadRawString(shaderName + ".frag");
 		string vertexText = AssetSystem::instance->loadRawString(shaderName + ".vert");
+		string geometryText = AssetSystem::instance->loadRawString(shaderName + ".geom");
 
 		unsigned int vertexId = glCreateShader(GL_VERTEX_SHADER);
 		const char* vertexChar = vertexText.c_str();
@@ -115,13 +121,39 @@ namespace OSE {
 			return 0;
 		}
 
+		unsigned int geometryId = 0;
+		if (geometryText.size() > 0) {
+			geometryId = glCreateShader(GL_GEOMETRY_SHADER);
+			const char* geometryChar = geometryText.c_str();
+			glShaderSource(geometryId, 1, &geometryChar, NULL);
+			glCompileShader(geometryId);
+
+			glGetShaderiv(geometryId, GL_COMPILE_STATUS, &result);
+			if (result == GL_FALSE) {
+				GLint length;
+				glGetShaderiv(geometryId, GL_INFO_LOG_LENGTH, &length);
+				std::vector<char> error(length);
+				glGetShaderInfoLog(geometryId, length, &length, &error[0]);
+				OSE_LOG(LOG_OSE_ERROR, string(&error[0]))
+					glDeleteShader(geometryId);
+
+				return 0;
+			}
+		}
+
 		Renderer::Shader programId = glCreateProgram();
 		glAttachShader(programId, vertexId);
 		glAttachShader(programId, fragmentId);
+		if (geometryId > 0) {
+			glAttachShader(programId, geometryId);
+		}
 		glLinkProgram(programId);
 		glValidateProgram(programId);
 		glDeleteShader(vertexId);
 		glDeleteShader(fragmentId);
+		if (geometryId > 0) {
+			glDeleteShader(geometryId);
+		}
 
 		return programId;
 	}
@@ -174,10 +206,10 @@ namespace OSE {
 	void GlRenderer::setupStaticMesh(StaticMesh* mesh) {
 		glGenVertexArrays(1, &(mesh->VAO));
 		glBindVertexArray(mesh->VAO);
-
+		/*
 		glGenBuffers(1, &(mesh->VBO));
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * mesh->vsize, mesh->vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(Tetrahedron) * mesh->cells.size(), &mesh->cells[0], GL_STATIC_DRAW);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 		glEnableVertexAttribArray(1);
@@ -188,6 +220,22 @@ namespace OSE {
 		glGenBuffers(1, &mesh->EBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * mesh->isize, mesh->indices, GL_STATIC_DRAW);
+		*/
+
+		glGenBuffers(1, &(mesh->VBO));
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(Tetrahedron) * mesh->cells.size(), &mesh->cells[0], GL_STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Tetrahedron), 0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Tetrahedron), (void*)offsetof(Tetrahedron, base_1));
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Tetrahedron), (void*)offsetof(Tetrahedron, base_2));
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Tetrahedron), (void*)offsetof(Tetrahedron, base_3));
+		unsigned int MBO;
+		glGenBuffers(1, &MBO);
+		this->m_instanceBuffers[mesh] = MBO;
 
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);

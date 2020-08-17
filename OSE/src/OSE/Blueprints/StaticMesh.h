@@ -10,16 +10,20 @@ namespace OSE {
 		vec4 norm;
 	};
 
+	struct OSE_API Tetrahedron {
+		vec4 vertex;
+		vec4 base_1;
+		vec4 base_2;
+		vec4 base_3;
+	};
+
 	class OSE_API StaticMesh {
 	public:
-		StaticMesh(Vertex* vertices, unsigned int vsize, unsigned int* indices, unsigned int isize);
+		StaticMesh();
 		~StaticMesh();
 
-		unsigned int VAO, VBO, EBO;
-		const unsigned int vsize;
-		const unsigned int isize;
-		const Vertex* vertices;
-		const unsigned int* indices;
+		unsigned int VAO, VBO;
+		std::vector<Tetrahedron> cells;
 	};
 }
 
