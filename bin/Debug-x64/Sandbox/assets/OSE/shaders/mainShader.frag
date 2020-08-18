@@ -4,9 +4,11 @@ out vec4 frag_color;
 
 in vec3 resultPos;
 in vec3 resultNorm;
+in vec2 uv_coord;
 
 uniform mat4 uLights[20];
 uniform int uNumLights;
+uniform int uMaterialID;
 
 vec3 calcDirectionalLight(int i) {
     vec3 lightDir = normalize(mat3(uLights[i]) * vec3(0, 0, 1));
@@ -22,8 +24,10 @@ vec3 calcAmbientLight(int i) {
     return vec3(uLights[i][0][3], uLights[i][1][3], uLights[i][2][3]);
 }
 
+vec4 applyMaterial(int id);
+
 void main() {
-    vec3 matColor = vec3(1);
+    vec4 matColor = applyMaterial(uMaterialID);
     vec3 lightColor = vec3(0);
     vec3 ambientLight = vec3(0);
     int numLights = uNumLights;
@@ -43,5 +47,5 @@ void main() {
     }
     lightColor /= numLights;
     lightColor += ambientLight;
-    frag_color = vec4(resultPos, 1);//vec4(matColor * lightColor, 1);
+    frag_color = matColor * vec4(lightColor, 1);
 }

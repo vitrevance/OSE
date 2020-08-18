@@ -7,17 +7,17 @@ public:
 	float angle = 0;
 
 	TestActor() {
-		this->m_transform.position = OSE::vec4(0, 0, 0, 0);
+		this->m_transform.position = OSE::vec4(0, 0, 10, 0);
 		//this->m_transform.setRotation(0, 0, 0, OSE::toRadians(320), OSE::toRadians(320), OSE::toRadians(320));
 		//this->m_transform.setRotation(0, 0, 0, OSE::toRadians(45), OSE::toRadians(35), OSE::toRadians(30));
 	}
 
 	void onEvent(OSE::TickEvent& event) override {
 		this->m_transform.position += this->velocity * event.getDeltaTime();
-		this->m_transform.setRotation(0, 0, 0, angle, angle / 2, angle / 3);
-		//this->angle += event.getDeltaTime() / OSE::Random::integer(800, 850);
+		//this->m_transform.setRotation(0, 0, 0, angle, angle / 2, angle / 3);
+		this->angle += event.getDeltaTime() / OSE::Random::integer(800, 850);
 		//this->m_transform.rotate(0, 0, 0, angle, angle / 2, angle / 3);
-		//this->angle = 0;
+		this->angle = 0;
 		//OSE::vec4 accl = OSE::Random::vector4(0.0001);
 		//this->velocity += accl * event.getDeltaTime();
 		//this->m_transform.position += this->velocity;
@@ -40,14 +40,13 @@ public:
 	int f = 0, r = 0, u = 0, w = 0;
 
 	Player() {
-		this->m_transform.position.w = -1;
 	}
 
 	void onEvent(OSE::TickEvent& event) override {
 
-		this->acceleration += this->camera->getForward() * 0.00005 * f;
-		this->acceleration += this->camera->getRight() * 0.00005 * r;
-		this->acceleration += OSE::vec4(0, 1, 0, 0) * 0.00005 * u;
+		this->acceleration += this->camera->getForward() * 0.0001 * f;
+		this->acceleration += this->camera->getRight() * 0.0001 * r;
+		this->acceleration += OSE::vec4(0, 1, 0, 0) * 0.0001 * u;
 		this->acceleration += OSE::vec4(0, 0, 0, 1) * 0.00001 * w;
 
 		this->velocity += this->acceleration * event.getDeltaTime();
@@ -135,18 +134,21 @@ public:
 	Sandbox() {
 		OSE_LOG(LOG_APP_TRACE, "Sandbox startup...")
 
-		OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
+		//OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
 
 		//OSE::AssetSystem::instance->loadStaticMesh("building", "OSE/low poly buildings.obj");
-		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube.obj");
+		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/globe.obj");
+		OSE::AssetSystem::instance->createMaterial("flat", "vec4 material() { return vec4(1); }");
+		OSE::AssetSystem::instance->attachMaterial("cube", "flat");
+
 		this->createWindow();
 		OSE::EventSystem::instance->subscribeEventListener(this);
 		OSE::Scene* scene = new OSE::Scene();
 		OSE::Layer* layer = new OSE::Layer();
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 1; i++) {
 			TestActor* actor = new TestActor();
-			//actor->velocity.xyz = OSE::Random::vector3(1.0/250.0);
-			actor->angle = OSE::Random::integer();
+			actor->velocity = OSE::Random::vector4(1.0/250.0);
+			//actor->angle = OSE::Random::integer();
 			layer->addAndSubscribe(actor);
 		}
 		//layer->addAndSubscribe(new TestActor());

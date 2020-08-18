@@ -3,11 +3,13 @@
 namespace OSE {
 
 	GlRenderer::GlRenderer() {
-		this->m_mainShader = this->createShader("OSE/Shaders/mainShader");
+		//this->m_mainShader = this->createShader("OSE/Shaders/mainShader");
 
 		for (std::pair<const string, StaticMesh*> it : AssetSystem::instance->getStaticMeshes()) {
 			this->setupStaticMesh(it.second);
 		}
+
+		setupShader();
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
@@ -38,12 +40,12 @@ namespace OSE {
 
 			unsigned int MBO = this->m_instanceBuffers[mesh];
 			glBindBuffer(GL_ARRAY_BUFFER, MBO);
-			std::vector<mat4>& batch = this->m_batch[mesh];
-			glBufferData(GL_ARRAY_BUFFER, sizeof(mat4) * batch.size(), &(batch[0]), GL_DYNAMIC_DRAW);
-			int VAA = 4;
-			for (unsigned int i = 0; i < 4; i++) {
+			std::vector<GLTransform>& batch = this->m_batch[mesh];
+			glBufferData(GL_ARRAY_BUFFER, sizeof(GLTransform) * batch.size(), &(batch[0]), GL_DYNAMIC_DRAW);
+			int VAA = 6;
+			for (unsigned int i = 0; i < 5; i++) {
 				glEnableVertexAttribArray(VAA + i);
-				glVertexAttribPointer(VAA + i, 4, GL_FLOAT, GL_FALSE, sizeof(mat4), (const GLvoid*)(sizeof(GLfloat) * i * 4));
+				glVertexAttribPointer(VAA + i, 4, GL_FLOAT, GL_FALSE, sizeof(GLTransform), (const GLvoid*)(sizeof(GLfloat) * i * 4));
 				glVertexAttribDivisor(VAA + i, 1);
 			}
 			/*
@@ -54,13 +56,16 @@ namespace OSE {
 			int projectionLoc = glGetUniformLocation(this->m_mainShader, "uMatProjection");
 			int viewLoc = glGetUniformLocation(this->m_mainShader, "uMatView");
 			int wProjLoc = glGetUniformLocation(this->m_mainShader, "uFWProjection");
+			int materialIdLoc = glGetUniformLocation(this->m_mainShader, "uMaterialID");
 
 			mat4 matView = this->m_camera->getView();
 			mat4 matProj = this->m_camera->getProjection();
+			Material* material = AssetSystem::instance->getMeshMaterial(mesh);
 
 			glUniformMatrix4fv(projectionLoc, 1, GL_TRUE, &matProj[0][0]);
 			glUniformMatrix4fv(viewLoc, 1, GL_TRUE, &matView[0][0]);
 			glUniform1f(wProjLoc, this->m_camera->getTransform().position.w);
+			glUniform1i(materialIdLoc, material == nullptr ? 0 : material->id);
 
 			//glDrawElements(GL_TRIANGLES, mesh->isize, GL_UNSIGNED_INT, 0);
 			//glDrawElementsInstanced(GL_TRIANGLES, mesh->isize, GL_UNSIGNED_INT, 0, this->m_batch[mesh].size());
@@ -70,15 +75,11 @@ namespace OSE {
 	}
 
 	void GlRenderer::drawStaticMesh(StaticMesh* mesh, Transform* transform) {
-		vec4 tPos = transform->position;
-		mat4 matModel({
-			1, 0, 0, tPos.x,
-			0, 1, 0, tPos.y,
-			0, 0, 1, tPos.z,
-			0, 0, 0, 1
-			});
+		GLTransform batch;
+		batch.translation = transform->position;
+		batch.transform = transform->rotation.transposed();
 		this->m_drawQuery.insert(mesh);
-		this->m_batch[mesh].push_back((transform->rotation * matModel).transposed());
+		this->m_batch[mesh].push_back(batch);
 	}
 
 	Renderer::Shader GlRenderer::createShader(string shaderName) {
@@ -233,6 +234,10 @@ namespace OSE {
 		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Tetrahedron), (void*)offsetof(Tetrahedron, base_2));
 		glEnableVertexAttribArray(3);
 		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Tetrahedron), (void*)offsetof(Tetrahedron, base_3));
+		glEnableVertexAttribArray(4);
+		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(Tetrahedron), (void*)offsetof(Tetrahedron, uvvertex));
+		glEnableVertexAttribArray(5);
+		glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(Tetrahedron), (void*)offsetof(Tetrahedron, uvbase_2));
 		unsigned int MBO;
 		glGenBuffers(1, &MBO);
 		this->m_instanceBuffers[mesh] = MBO;
@@ -240,5 +245,100 @@ namespace OSE {
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
+
+	Renderer::Shader GlRenderer::createShader(string vertexText, string geometryText, string fragmentText) {
+		unsigned int vertexId = glCreateShader(GL_VERTEX_SHADER);
+		const char* vertexChar = vertexText.c_str();
+		glShaderSource(vertexId, 1, &vertexChar, NULL);
+		glCompileShader(vertexId);
+
+		GLint result;
+		glGetShaderiv(vertexId, GL_COMPILE_STATUS, &result);
+		if (result == GL_FALSE) {
+			GLint length;
+			glGetShaderiv(vertexId, GL_INFO_LOG_LENGTH, &length);
+			std::vector<char> error(length);
+			glGetShaderInfoLog(vertexId, length, &length, &error[0]);
+			OSE_LOG(LOG_OSE_ERROR, string(&error[0]))
+				glDeleteShader(vertexId);
+
+			return 0;
+		}
+
+		unsigned int fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
+		const char* fragmentChar = fragmentText.c_str();
+		glShaderSource(fragmentId, 1, &fragmentChar, NULL);
+		glCompileShader(fragmentId);
+
+		glGetShaderiv(fragmentId, GL_COMPILE_STATUS, &result);
+		if (result == GL_FALSE) {
+			GLint length;
+			glGetShaderiv(fragmentId, GL_INFO_LOG_LENGTH, &length);
+			std::vector<char> error(length);
+			glGetShaderInfoLog(fragmentId, length, &length, &error[0]);
+			OSE_LOG(LOG_OSE_ERROR, string(&error[0]))
+				glDeleteShader(fragmentId);
+
+			return 0;
+		}
+
+		unsigned int geometryId = 0;
+		if (geometryText.size() > 0) {
+			geometryId = glCreateShader(GL_GEOMETRY_SHADER);
+			const char* geometryChar = geometryText.c_str();
+			glShaderSource(geometryId, 1, &geometryChar, NULL);
+			glCompileShader(geometryId);
+
+			glGetShaderiv(geometryId, GL_COMPILE_STATUS, &result);
+			if (result == GL_FALSE) {
+				GLint length;
+				glGetShaderiv(geometryId, GL_INFO_LOG_LENGTH, &length);
+				std::vector<char> error(length);
+				glGetShaderInfoLog(geometryId, length, &length, &error[0]);
+				OSE_LOG(LOG_OSE_ERROR, string(&error[0]))
+					glDeleteShader(geometryId);
+
+				return 0;
+			}
+		}
+
+		Renderer::Shader programId = glCreateProgram();
+		glAttachShader(programId, vertexId);
+		glAttachShader(programId, fragmentId);
+		if (geometryId > 0) {
+			glAttachShader(programId, geometryId);
+		}
+		glLinkProgram(programId);
+		glValidateProgram(programId);
+		glDeleteShader(vertexId);
+		glDeleteShader(fragmentId);
+		if (geometryId > 0) {
+			glDeleteShader(geometryId);
+		}
+
+		return programId;
+	}
+
+	void GlRenderer::setupShader() {
+		string vertexText = AssetSystem::instance->loadRawString("OSE/Shaders/mainShader.vert");
+		string geometryText = AssetSystem::instance->loadRawString("OSE/Shaders/mainShader.geom");
+		string fragmentText = AssetSystem::instance->loadRawString("OSE/Shaders/mainShader.frag");
+
+		string materialSwitch = "vec4 applyMaterial(int id) {switch(id) {";
+		string materialText;
+		
+		std::map<string, Material*>& materials = AssetSystem::instance->getMaterials();
+		for (std::pair<const string, Material*>& it : materials) {
+			Material* m = it.second;
+			materialSwitch += "case " + std::to_string(m->id) + ": return material" + std::to_string(m->id) + "();";
+			materialText += m->text;
+		}
+
+		materialSwitch += "}return vec4(1);}";
+
+		fragmentText += materialText + materialSwitch;
+
+		this->m_mainShader = createShader(vertexText, geometryText, fragmentText);
 	}
 }

@@ -11,6 +11,9 @@ namespace OSE {
 		for (std::pair<const string, StaticMesh*>& it : this->m_staticMeshes) {
 			delete it.second;
 		}
+		for (std::pair<const string, Material*>& it : this->m_materials) {
+			delete it.second;
+		}
 	}
 
 	void AssetSystem::setAssetDir(string path) {
@@ -23,9 +26,13 @@ namespace OSE {
 		return text;
 	}
 
-	StaticMesh* AssetSystem::loadStaticMesh(string name, string path) {
+	StaticMesh* AssetSystem::loadStaticMesh(string name, string path, vec4 bottomExtrusion, vec4 topExtrusion) {
+		if (this->m_staticMeshes.count(name) > 0) {
+			OSE_LOG(LOG_OSE_ERROR, "AssetSystem: static mesh with name <" + name + "> already exists!")
+			return nullptr;
+		}
 		const aiScene* scene = aiImportFile((this->m_assetDir + path).c_str(),
-			aiProcess_Triangulate | aiProcess_PreTransformVertices | aiProcess_GenNormals | aiProcess_OptimizeGraph | aiProcess_OptimizeMeshes);
+			aiProcess_Triangulate | aiProcess_PreTransformVertices | aiProcess_GenNormals | aiProcess_OptimizeGraph | aiProcess_OptimizeMeshes | aiProcess_GenUVCoords);
 		if (scene) {
 
 			const aiMesh* amesh = scene->mMeshes[0];
@@ -38,36 +45,48 @@ namespace OSE {
 				cellBase.vertex = vec4(0, 0, 0, -1);
 
 				aiVector3D avert = amesh->mVertices[aface.mIndices[0]];
-				cellBase.base_1 = vec4(avert.x, avert.y, avert.z, -1);
+				cellBase.base_1 = vec4(avert.x, avert.y, avert.z, 0) + bottomExtrusion;
 				avert = amesh->mVertices[aface.mIndices[1]];
-				cellBase.base_2 = vec4(avert.x, avert.y, avert.z, -1);
+				cellBase.base_2 = vec4(avert.x, avert.y, avert.z, 0) + bottomExtrusion;
 				avert = amesh->mVertices[aface.mIndices[2]];
-				cellBase.base_3 = vec4(avert.x, avert.y, avert.z, -1);
+				cellBase.base_3 = vec4(avert.x, avert.y, avert.z, 0) + bottomExtrusion;
 
-				Tetrahedron cellTop;
-				cellTop.vertex = vec4(0, 0, 0, 1);
-				cellTop.base_1 = vec4(cellBase.base_1.xyz, 1);
-				cellTop.base_2 = vec4(cellBase.base_2.xyz, 1);
-				cellTop.base_3 = vec4(cellBase.base_3.xyz, 1);
+				if (amesh->mNumUVComponents[0] > aface.mIndices[0]) {
+					aiVector3D auv = amesh->mTextureCoords[0][aface.mIndices[0]];
+					cellBase.uvbase_1 = vec2(auv.x, auv.y);
+					auv = amesh->mTextureCoords[0][aface.mIndices[1]];
+					cellBase.uvbase_2 = vec2(auv.x, auv.y);
+					auv = amesh->mTextureCoords[0][aface.mIndices[2]];
+					cellBase.uvbase_3 = vec2(auv.x, auv.y);
+					cellBase.uvvertex = (cellBase.uvbase_1 + cellBase.uvbase_2 + cellBase.uvbase_3) / 3;
+				}
+				Tetrahedron cellTop = cellBase;
+				cellTop.vertex += topExtrusion - bottomExtrusion;
+				cellTop.base_1 += topExtrusion - bottomExtrusion;
+				cellTop.base_2 += topExtrusion - bottomExtrusion;
+				cellTop.base_3 += topExtrusion - bottomExtrusion;
 
 				std::vector<Tetrahedron> sideCells;
 				vec4* base = (vec4*)(&cellBase);
 				vec4* top = (vec4*)(&cellTop);
 				std::vector<Tetrahedron> sideCell;
-				sideCell = cutPrism(base[0], base[1], base[2], top[0], top[1], top[2]);
+				sideCell = cutPrism(base[0], base[4].xy, base[1], base[4].zw, base[2], base[5].xy,
+					top[0], top[4].xy, top[1], top[4].zw, top[2], top[5].xy);
 				sideCells.insert(sideCells.end(), sideCell.begin(), sideCell.end());
-				sideCell = cutPrism(base[0], base[3], base[1], top[0], top[3], top[1]);
+				sideCell = cutPrism(base[0], base[4].xy, base[3], base[5].zw, base[1], base[4].zw,
+					top[0], top[4].xy, top[3], top[5].zw, top[1], top[4].zw);
 				sideCells.insert(sideCells.end(), sideCell.begin(), sideCell.end());
-				sideCell = cutPrism(base[0], base[2], base[3], top[0], top[2], top[3]);
+				sideCell = cutPrism(base[0], base[4].xy, base[2], base[5].xy, base[3], base[5].zw,
+					top[0], top[4].xy, top[2], top[5].xy, top[3], top[5].zw);
 				sideCells.insert(sideCells.end(), sideCell.begin(), sideCell.end());
-				sideCell = cutPrism(base[1], base[2], base[3], top[1], top[2], top[3]);
+				sideCell = cutPrism(base[1], base[4].zw, base[2], base[5].xy, base[3], base[5].zw,
+					top[1], top[4].zw, top[2], top[5].xy, top[3], top[5].zw);
 				sideCells.insert(sideCells.end(), sideCell.begin(), sideCell.end());
 
 				mesh->cells.push_back(cellBase);
 				mesh->cells.push_back(cellTop);
 				mesh->cells.insert(mesh->cells.end(), sideCells.begin(), sideCells.end());
 			}
-
 			this->m_staticMeshes[name] = mesh;
 
 			aiReleaseImport(scene);
@@ -88,23 +107,80 @@ namespace OSE {
 		return this->m_staticMeshes;
 	}
 
-	std::vector<Tetrahedron> AssetSystem::cutPrism(vec4 a1, vec4 a2, vec4 a3, vec4 b1, vec4 b2, vec4 b3) {
+	std::map<string, Material*>& AssetSystem::getMaterials() {
+		return this->m_materials;
+	}
+
+	Material* AssetSystem::createMaterial(string name, string materialText) {
+		if (this->m_materials.count(name) > 0) {
+			OSE_LOG(LOG_OSE_ERROR, "AssetSystem: material with name <" + name + "> already exists!")
+			return nullptr;
+		}
+		Material* material = new Material(this->m_materials.size() + 1);
+		unsigned int defloc = materialText.find("material");
+		materialText.insert(defloc + 8, std::to_string(material->id));
+		unsigned int texture = materialText.find("#texture ");
+		while (texture != string::npos) {
+			if (texture > defloc) {
+				break;
+			}
+			unsigned int texEnd = materialText.find(texture + 10, '\n');
+			string texName = materialText.substr(texture + 10, texEnd);
+			material->textures.push_back(texName);
+			if (materialText.size() < texEnd + 1) {
+				OSE_LOG(LOG_OSE_ERROR, "AssetSystem: material <" + name + "> : bad format!")
+				delete material;
+				return nullptr;
+			}
+			materialText = materialText.substr(texEnd + 1);
+			texture = materialText.find("#texture ");
+		}
+		material->text = materialText;
+		this->m_materials[name] = material;
+		return material;
+	}
+
+	void AssetSystem::attachMaterial(string meshName, string materialName) {
+		this->m_meshMaterials[this->m_staticMeshes[meshName]] = this->m_materials[materialName];
+	}
+
+	void AssetSystem::attachMaterial(StaticMesh* mesh, Material* material) {
+		this->m_meshMaterials[mesh] = material;
+	}
+
+	Material* AssetSystem::getMeshMaterial(StaticMesh* mesh) {
+		return this->m_meshMaterials[mesh];
+	}
+
+	std::vector<Tetrahedron> AssetSystem::cutPrism(vec4 a1, vec2 u1, vec4 a2, vec2 u2, vec4 a3, vec2 u3, vec4 b1, vec2 v1, vec4 b2, vec2 v2, vec4 b3, vec2 v3) {
 		std::vector<Tetrahedron> result;
 		Tetrahedron t1;
 		t1.vertex = a1;
 		t1.base_1 = b1;
 		t1.base_2 = b2;
 		t1.base_3 = b3;
+		t1.uvvertex = u1;
+		t1.uvbase_1 = v1;
+		t1.uvbase_2 = v2;
+		t1.uvbase_3 = v3;
 		Tetrahedron t2;
 		t2.vertex = a1;
 		t2.base_1 = b2;
 		t2.base_2 = b3;
 		t2.base_3 = a3;
+		t2.uvvertex = u1;
+		t2.uvbase_1 = v2;
+		t2.uvbase_2 = v3;
+		t2.uvbase_3 = u3;
 		Tetrahedron t3;
 		t3.vertex = a1;
 		t3.base_1 = a3;
 		t3.base_2 = a2;
 		t3.base_3 = b2;
+		t3.uvvertex = u1;
+		t3.uvbase_1 = u3;
+		t3.uvbase_2 = u2;
+		t3.uvbase_3 = v2;
 		result.push_back(t1);
 		result.push_back(t2);
 		result.push_back(t3);

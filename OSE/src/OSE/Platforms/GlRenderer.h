@@ -23,15 +23,21 @@ namespace OSE {
 		virtual void setCurrentCamera(Camera* camera);
 		virtual void setLightData(std::set<LightSource*>& lightData) override;
 	protected:
+		struct GLTransform {
+			mat4 transform;
+			vec4 translation;
+		};
 		Renderer::Shader m_activeShader;
 		Renderer::Shader m_mainShader;
 		Camera* m_camera;
 
 		std::set<StaticMesh*> m_drawQuery;
 		std::map<StaticMesh*, unsigned int> m_instanceBuffers;
-		std::map<StaticMesh*, std::vector<mat4> > m_batch;
+		std::map<StaticMesh*, std::vector<GLTransform> > m_batch;
 
 		void setupStaticMesh(StaticMesh* mesh);
+		Renderer::Shader createShader(string vertexText, string geometryText, string fragmentText);
+		void setupShader();
 	};
 }
 

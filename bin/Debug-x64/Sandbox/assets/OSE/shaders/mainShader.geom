@@ -7,20 +7,36 @@ in vec4 outVertex[];
 in vec4 outBase1[];
 in vec4 outBase2[];
 in vec4 outBase3[];
+in vec2 outUVVe[];
+in vec2 outUVB1[];
+in vec2 outUVB2[];
+in vec2 outUVB3[];
+in vec4 translate[];
 
 out vec3 resultPos;
 out vec3 resultNorm;
+out vec2 uv_coord;
 
 uniform mat4 uMatView;
 uniform mat4 uMatProjection;
 uniform float uFWProjection;
 
-struct Edge {
-    vec4 a, b;
+struct Vert4 {
+    vec4 pos;
+    vec2 uv;
 };
 
-struct Edge3D {
-    vec3 a, b;
+struct Edge {
+    Vert4 a, b;
+};
+
+struct Vert3 {
+    vec3 pos;
+    vec2 uv;
+};
+
+struct Edge3 {
+    Vert3 a, b;
 };
 
 void main() {
@@ -30,21 +46,22 @@ void main() {
     int intersections = 0;
 	bool allin = true;
     Edge edges[6];
-    edges[0] = Edge(outVertex[0], outBase1[0]);
-    edges[1] = Edge(outVertex[0], outBase2[0]);
-    edges[2] = Edge(outVertex[0], outBase3[0]);
-    edges[3] = Edge(outBase1[0], outBase2[0]);
-    edges[4] = Edge(outBase2[0], outBase3[0]);
-    edges[5] = Edge(outBase3[0], outBase1[0]);
+    edges[0] = Edge(Vert4(outVertex[0], outUVVe[0]), Vert4(outBase1[0], outUVB1[0]));
+    edges[1] = Edge(Vert4(outVertex[0], outUVVe[0]), Vert4(outBase2[0], outUVB2[0]));
+    edges[2] = Edge(Vert4(outVertex[0], outUVVe[0]), Vert4(outBase3[0], outUVB3[0]));
+    edges[3] = Edge(Vert4(outBase1[0], outUVB1[0]), Vert4(outBase2[0], outUVB2[0]));
+    edges[4] = Edge(Vert4(outBase2[0], outUVB2[0]), Vert4(outBase3[0], outUVB3[0]));
+    edges[5] = Edge(Vert4(outBase3[0], outUVB3[0]), Vert4(outBase1[0], outUVB1[0]));
 
-    vec3 points[4];
+    Vert3 points[4];
 
     for (int i = 0; i < 6; i++) {
         Edge e = edges[i];
-        if (sign(uFWProjection - e.a.w) + sign(uFWProjection - e.b.w) == 0.0) {
-            if (sign(uFWProjection - e.b.w) != 0.0) {
-				points[intersections] = e.a.xyz + ((e.b.xyz - e.a.xyz) * (uFWProjection - e.a.w) / (e.b.w - e.a.w));
-				intersections++;
+        if (sign(uFWProjection - e.a.pos.w) + sign(uFWProjection - e.b.pos.w) == 0.0) {
+            if (sign(uFWProjection - e.b.pos.w) != 0.0) {
+				points[intersections].pos = e.a.pos.xyz + ((e.b.pos.xyz - e.a.pos.xyz) * (uFWProjection - e.a.pos.w) / (e.b.pos.w - e.a.pos.w));
+                points[intersections].uv = e.a.uv + ((e.b.uv - e.a.uv) * (uFWProjection - e.a.pos.w) / (e.b.pos.w - e.a.pos.w));
+                intersections++;
 				allin = false;
 			}
         }
@@ -75,70 +92,103 @@ void main() {
 		EndPrimitive();
 	}
     else if (intersections == 3) {
-		resultNorm = -normalize(cross(points[0] - points[1], points[0] - points[2]));
-        gl_Position = matPVM * vec4(points[0], 1);
-		resultPos = points[0];
+		resultNorm = normalize(cross(points[0].pos - points[1].pos, points[0].pos - points[2].pos));
+        resultNorm *= sign(dot(resultNorm, normalize(points[0].pos - translate[0].xyz)));
+        gl_Position = matPVM * vec4(points[0].pos, 1);
+		resultPos = points[0].pos;
+        uv_coord = points[0].uv;
         EmitVertex();
-        gl_Position = matPVM * vec4(points[1], 1);
-		resultPos = points[1];
+        gl_Position = matPVM * vec4(points[1].pos, 1);
+		resultPos = points[1].pos;
+        uv_coord = points[1].uv;
         EmitVertex();
-        gl_Position = matPVM * vec4(points[2], 1);
-		resultPos = points[2];
+        gl_Position = matPVM * vec4(points[2].pos, 1);
+		resultPos = points[2].pos;
+        uv_coord = points[2].uv;
         EmitVertex();
         EndPrimitive();
     }
     else if (intersections == 4) {
-        Edge3D d1, d2;
-        d1.a = points[0];
-        d1.b = points[1];
-        d2.a = points[2];
-        d2.b = points[3];
-        if (length(points[0] - points[1]) > length(points[0] - points[2])) {
-            if (length(points[0] - points[1]) > length(points[0] - points[3])) {
-                d1.a = points[0];
-                d1.b = points[1];
-                d2.a = points[2];
-                d2.b = points[3];
+        Edge3 d1, d2;
+        d1.a.pos = points[0].pos;
+        d1.b.pos = points[1].pos;
+        d2.a.pos = points[2].pos;
+        d2.b.pos = points[3].pos;
+        d1.a.uv = points[0].uv;
+        d1.b.uv = points[1].uv;
+        d2.a.uv = points[2].uv;
+        d2.b.uv = points[3].uv;
+        /*
+        if (length(points[0].pos - points[1].pos) > length(points[0].pos - points[2].pos)) {
+            if (length(points[0].pos - points[1].pos) > length(points[0].pos - points[3].pos)) {
+                d1.a.pos = points[0].pos;
+                d1.b.pos = points[1].pos;
+                d2.a.pos = points[2].pos;
+                d2.b.pos = points[3].pos;
+                d1.a.uv = points[0].uv;
+                d1.b.uv = points[1].uv;
+                d2.a.uv = points[2].uv;
+                d2.b.uv = points[3].uv;
             }
             else {
-                d1.a = points[0];
-                d1.b = points[3];
-                d2.a = points[1];
-                d2.b = points[2];
+                d1.a.pos = points[0].pos;
+                d1.b.pos = points[3].pos;
+                d2.a.pos = points[1].pos;
+                d2.b.pos = points[2].pos;
+                d1.a.uv = points[0].uv;
+                d1.b.uv = points[3].uv;
+                d2.a.uv = points[1].uv;
+                d2.b.uv = points[2].uv;
             }
         }
         else {
-            if (length(points[0] - points[2]) > length(points[0] - points[3])) {
-                d1.a = points[0];
-                d1.b = points[2];
-                d2.a = points[1];
-                d2.b = points[3];
+            if (length(points[0].pos - points[2].pos) > length(points[0].pos - points[3].pos)) {
+                d1.a.pos = points[0].pos;
+                d1.b.pos = points[2].pos;
+                d2.a.pos = points[1].pos;
+                d2.b.pos = points[3].pos;
+                d1.a.uv = points[0].uv;
+                d1.b.uv = points[2].uv;
+                d2.a.uv = points[1].uv;
+                d2.b.uv = points[3].uv;
             }
             else {
-                d1.a = points[0];
-                d1.b = points[3];
-                d2.a = points[1];
-                d2.b = points[2];
+                d1.a.pos = points[0].pos;
+                d1.b.pos = points[3].pos;
+                d2.a.pos = points[1].pos;
+                d2.b.pos = points[2].pos;
+                d1.a.uv = points[0].uv;
+                d1.b.uv = points[3].uv;
+                d2.a.uv = points[1].uv;
+                d2.b.uv = points[2].uv;
             }
         }
-		resultNorm = -normalize(cross(d1.a - d1.b, d2.a - d2.b));
-        gl_Position = matPVM * vec4(d2.a, 1);
-		resultPos = d2.a;
+        */
+		resultNorm = normalize(cross(d1.a.pos - d1.b.pos, d2.a.pos - d2.b.pos));
+        resultNorm *= sign(dot(resultNorm, normalize(points[0].pos - translate[0].xyz)));
+        gl_Position = matPVM * vec4(d2.a.pos, 1);
+		resultPos = d2.a.pos;
+        uv_coord = d2.a.uv;
         EmitVertex();
-        gl_Position = matPVM * vec4(d1.a, 1);
-		resultPos = d1.a;
+        gl_Position = matPVM * vec4(d1.a.pos, 1);
+		resultPos = d1.a.pos;
+        uv_coord = d1.a.uv;
         EmitVertex();
-        gl_Position = matPVM * vec4(d1.b, 1);
-		resultPos = d1.b;
+        gl_Position = matPVM * vec4(d1.b.pos, 1);
+		resultPos = d1.b.pos;
+        uv_coord = d1.b.uv;
         EmitVertex();
-        gl_Position = matPVM * vec4(d2.b, 1);
-		resultPos = d2.b;
+        gl_Position = matPVM * vec4(d2.b.pos, 1);
+		resultPos = d2.b.pos;
+        uv_coord = d2.b.uv;
         EmitVertex();
-		gl_Position = matPVM * vec4(d2.a, 1);
-		resultPos = d2.a;
+		gl_Position = matPVM * vec4(d2.a.pos, 1);
+		resultPos = d2.a.pos;
+        uv_coord = d2.a.uv;
         EmitVertex();
-		gl_Position = matPVM * vec4(d1.a, 1);
-		resultPos = d1.a;
+		gl_Position = matPVM * vec4(d1.a.pos, 1);
+		resultPos = d1.a.pos;
+        uv_coord = d1.a.uv;
         EmitVertex();
         EndPrimitive();
         

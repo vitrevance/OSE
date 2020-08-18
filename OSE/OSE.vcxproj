@@ -103,6 +103,7 @@
   <ItemGroup>
     <ClInclude Include="src\OSE\Blueprints\Camera.h" />
     <ClInclude Include="src\OSE\Blueprints\LightSource.h" />
+    <ClInclude Include="src\OSE\Blueprints\Material.h" />
     <ClInclude Include="src\OSE\Blueprints\Transform.h" />
     <ClInclude Include="src\OSE\Math\Matrix.h" />
     <ClInclude Include="src\OSE\Math\Random.h" />
@@ -131,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\OSE\Blueprints\Camera.cpp" />
+    <ClCompile Include="src\OSE\Blueprints\Material.cpp" />
     <ClCompile Include="src\OSE\Math\Vecmath.cpp" />
     <ClCompile Include="src\OSE\Math\Vector.cpp" />
     <ClCompile Include="src\OSE\Platforms\GlRenderer.cpp" />
