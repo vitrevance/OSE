@@ -8,6 +8,29 @@ namespace OSE {
 		for (std::pair<const string, StaticMesh*> it : AssetSystem::instance->getStaticMeshes()) {
 			this->setupStaticMesh(it.second);
 		}
+		for (std::pair<const string, Material*> it : AssetSystem::instance->getMaterials()) {
+			for (string textureName : it.second->textures) {
+				Texture* texture = AssetSystem::instance->getTexture(textureName);
+				if (texture == nullptr) {
+					OSE_LOG(LOG_OSE_ERROR, "GlRenderer: unresolved texture <" + textureName + ">!")
+					break;
+				}
+				if (texture->id == 0) {
+					glGenTextures(1, &texture->id);
+					glBindTexture(GL_TEXTURE_2D, texture->id);
+
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->pixels);
+					glGenerateMipmap(GL_TEXTURE_2D);
+					glBindTexture(GL_TEXTURE_2D, 0);
+				}
+				this->m_textures[it.second].push_back(texture->id);
+			}
+		}
 
 		setupShader();
 
@@ -23,6 +46,9 @@ namespace OSE {
 			glDeleteBuffers(1, &it.second->VBO);
 			glDeleteBuffers(1, &this->m_instanceBuffers[it.second]);
 			glDeleteVertexArrays(1, &it.second->VAO);
+		}
+		for (std::pair<Material*, std::vector<unsigned int> > it : this->m_textures) {
+			
 		}
 	}
 
@@ -66,6 +92,13 @@ namespace OSE {
 			glUniformMatrix4fv(viewLoc, 1, GL_TRUE, &matView[0][0]);
 			glUniform1f(wProjLoc, this->m_camera->getTransform().position.w);
 			glUniform1i(materialIdLoc, material == nullptr ? 0 : material->id);
+
+			std::vector<unsigned int>& textureId = this->m_textures[material];
+			for (int i = 0; i < textureId.size(); i++) {
+				glUniform1i(glGetUniformLocation(this->m_mainShader, ("texture" + std::to_string(i)).c_str()), i);
+				glActiveTexture(GL_TEXTURE0 + i);
+				glBindTexture(GL_TEXTURE_2D, textureId[i]);
+			}
 
 			//glDrawElements(GL_TRIANGLES, mesh->isize, GL_UNSIGNED_INT, 0);
 			//glDrawElementsInstanced(GL_TRIANGLES, mesh->isize, GL_UNSIGNED_INT, 0, this->m_batch[mesh].size());
@@ -329,15 +362,23 @@ namespace OSE {
 		string materialText;
 		
 		std::map<string, Material*>& materials = AssetSystem::instance->getMaterials();
+		int maxTextureCount = 0;
 		for (std::pair<const string, Material*>& it : materials) {
 			Material* m = it.second;
 			materialSwitch += "case " + std::to_string(m->id) + ": return material" + std::to_string(m->id) + "();";
 			materialText += m->text;
+			if (m->textures.size() > maxTextureCount) {
+				maxTextureCount = m->textures.size();
+			}
 		}
-
 		materialSwitch += "}return vec4(1);}";
 
-		fragmentText += materialText + materialSwitch;
+		string uniformTextures;
+		for (int i = 0; i < maxTextureCount; i++) {
+			uniformTextures += "uniform sampler2D texture" + std::to_string(i) + ";\n";
+		}
+
+		fragmentText += "\n" + uniformTextures + materialText + materialSwitch;
 
 		this->m_mainShader = createShader(vertexText, geometryText, fragmentText);
 	}

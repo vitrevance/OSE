@@ -25,7 +25,7 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\systems\eventsystem.h(51): warning 
           ]
 c:\users\n ashabokov\desktop\ose\ose\src\ose\systems\eventsystem.h(52): warning C4251: OSE::EventSystem::m_sceneLayerCallback: class "std::function<OSE::EventSystem *(int)>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
   c:\users\n ashabokov\desktop\ose\ose\src\ose\systems\eventsystem.h(19): note:  см. объявление "std::function<OSE::EventSystem *(int)>"
-c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
+c:\users\n ashabokov\desktop\ose\ose\src\ose\math\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
   c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\camera.h(23): warning C4251: OSE::Camera::m_projection: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Camera"
   c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
@@ -52,43 +52,55 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\material.h(11): warning 
           [
               _Ty=std::string
           ]
-c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(40): warning C4251: OSE::AssetSystem::m_assetDir: class "std::basic_string<char,std::char_traits<char>,std::allocator<char>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(45): warning C4251: OSE::AssetSystem::m_assetDir: class "std::basic_string<char,std::char_traits<char>,std::allocator<char>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
   c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\xstring(4373): note:  см. объявление "std::basic_string<char,std::char_traits<char>,std::allocator<char>>"
-c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(41): warning C4251: OSE::AssetSystem::m_staticMeshes: class "std::map<std::string,OSE::StaticMesh *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(46): warning C4251: OSE::AssetSystem::m_staticMeshes: class "std::map<std::string,OSE::StaticMesh *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
           with
           [
               _Kty=std::string,
               _Ty=OSE::StaticMesh *
           ]
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(36): note:  см. объявление "std::map<std::string,OSE::StaticMesh *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(40): note:  см. объявление "std::map<std::string,OSE::StaticMesh *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
           with
           [
               _Kty=std::string,
               _Ty=OSE::StaticMesh *
           ]
-c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(42): warning C4251: OSE::AssetSystem::m_materials: class "std::map<std::string,OSE::Material *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(47): warning C4251: OSE::AssetSystem::m_materials: class "std::map<std::string,OSE::Material *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
           with
           [
               _Kty=std::string,
               _Ty=OSE::Material *
           ]
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(37): note:  см. объявление "std::map<std::string,OSE::Material *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(41): note:  см. объявление "std::map<std::string,OSE::Material *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
           with
           [
               _Kty=std::string,
               _Ty=OSE::Material *
           ]
-c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(43): warning C4251: OSE::AssetSystem::m_meshMaterials: class "std::map<OSE::StaticMesh *,OSE::Material *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(48): warning C4251: OSE::AssetSystem::m_meshMaterials: class "std::map<OSE::StaticMesh *,OSE::Material *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
           with
           [
               _Kty=OSE::StaticMesh *,
               _Ty=OSE::Material *
           ]
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(43): note:  см. объявление "std::map<OSE::StaticMesh *,OSE::Material *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(48): note:  см. объявление "std::map<OSE::StaticMesh *,OSE::Material *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
           with
           [
               _Kty=OSE::StaticMesh *,
               _Ty=OSE::Material *
+          ]
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(49): warning C4251: OSE::AssetSystem::m_textures: class "std::map<std::string,OSE::Texture *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::AssetSystem"
+          with
+          [
+              _Kty=std::string,
+              _Ty=OSE::Texture *
+          ]
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.h(42): note:  см. объявление "std::map<std::string,OSE::Texture *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>"
+          with
+          [
+              _Kty=std::string,
+              _Ty=OSE::Texture *
           ]
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\layer.h(30): warning C4251: OSE::Layer::m_entities: class "std::set<OSE::Entity *,std::less<_Kty>,std::allocator<_Kty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::Layer"
           with
@@ -154,17 +166,27 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(36): warning
               _Ty=OSE::GlRenderer::GLTransform,
               _Kty=OSE::StaticMesh *
           ]
+c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(37): warning C4251: OSE::GlRenderer::m_textures: class "std::map<OSE::Material *,std::vector<unsigned int,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::GlRenderer"
+          with
+          [
+              _Ty=unsigned int,
+              _Kty=OSE::Material *
+          ]
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(37): note:  см. объявление "std::map<OSE::Material *,std::vector<unsigned int,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>"
+          with
+          [
+              _Ty=unsigned int,
+              _Kty=OSE::Material *
+          ]
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\random.h(23): warning C4244: инициализация: преобразование "double" в "t_float", возможна потеря данных
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\random.h(24): warning C4244: аргумент: преобразование "t_float" в "int", возможна потеря данных
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(47): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(47): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(48): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(48): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(49): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(49): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(50): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(50): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(54): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(150): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(156): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(27): warning C4305: инициализация: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(36): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(37): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(38): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(39): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(43): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(139): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(146): warning C4244: =: преобразование "double" в "t_float", возможна потеря данных
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(157): warning C4305: аргумент: усечение из "double" в "t_float"
   Sandbox.vcxproj -> C:\Users\N Ashabokov\Desktop\OSE\bin\Debug-x64\Sandbox\Sandbox.exe

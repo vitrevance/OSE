@@ -73,21 +73,27 @@ void main() {
 		resultNorm = normalize(cross(outBase1[0].xyz - outBase2[0].xyz, outBase1[0].xyz - outBase3[0].xyz));
 		gl_Position = matPVM * vec4(outBase1[0].xyz, 1);
 		resultPos = outBase1[0].xyz;
+        uv_coord = outUVB1[0];
 		EmitVertex();
 		gl_Position = matPVM * vec4(outBase2[0].xyz, 1);
 		resultPos = outBase2[0].xyz;
+        uv_coord = outUVB2[0];
 		EmitVertex();
 		gl_Position = matPVM * vec4(outBase3[0].xyz, 1);
 		resultPos = outBase3[0].xyz;
+        uv_coord = outUVB3[0];
 		EmitVertex();
 		gl_Position = matPVM * vec4(outVertex[0].xyz, 1);
 		resultPos = outVertex[0].xyz;
+        uv_coord = outUVVe[0];
 		EmitVertex();
 		gl_Position = matPVM * vec4(outBase1[0].xyz, 1);
 		resultPos = outBase1[0].xyz;
+        uv_coord = outUVB1[0];
 		EmitVertex();
 		gl_Position = matPVM * vec4(outBase2[0].xyz, 1);
 		resultPos = outBase2[0].xyz;
+        uv_coord = outUVB2[0];
 		EmitVertex();
 		EndPrimitive();
 	}

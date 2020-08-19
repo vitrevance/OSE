@@ -2,7 +2,7 @@
 #define OSE_LIGHTSOURCE_H
 
 #include <OSE/Core.h>
-#include <OSE/Blueprints/Transform.h>
+#include <OSE/Math/Transform.h>
 
 namespace OSE {
 	class OSE_API LightSource {

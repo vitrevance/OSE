@@ -1,30 +1,18 @@
 #include <OSE.h>
 
+using OSE::vec2;
+using OSE::vec3;
+using OSE::vec4;
+
 class TestActor : public OSE::Actor {
 public:
-
-	OSE::vec4 velocity;
-	float angle = 0;
-
 	TestActor() {
-		this->m_transform.position = OSE::vec4(0, 0, 10, 0);
-		//this->m_transform.setRotation(0, 0, 0, OSE::toRadians(320), OSE::toRadians(320), OSE::toRadians(320));
-		//this->m_transform.setRotation(0, 0, 0, OSE::toRadians(45), OSE::toRadians(35), OSE::toRadians(30));
 	}
 
 	void onEvent(OSE::TickEvent& event) override {
-		this->m_transform.position += this->velocity * event.getDeltaTime();
-		//this->m_transform.setRotation(0, 0, 0, angle, angle / 2, angle / 3);
-		this->angle += event.getDeltaTime() / OSE::Random::integer(800, 850);
-		//this->m_transform.rotate(0, 0, 0, angle, angle / 2, angle / 3);
-		this->angle = 0;
-		//OSE::vec4 accl = OSE::Random::vector4(0.0001);
-		//this->velocity += accl * event.getDeltaTime();
-		//this->m_transform.position += this->velocity;
 	}
 
 	void onRender(OSE::Renderer* renderer) {
-		//renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("building"), &this->m_transform);
 		renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("cube") , &this->m_transform);
 	}
 };
@@ -36,6 +24,7 @@ public:
 	OSE::vec4 velocity;
 	OSE::vec4 acceleration;
 	OSE::Camera* camera;
+	t_float speed = 0.0005;
 
 	int f = 0, r = 0, u = 0, w = 0;
 
@@ -44,10 +33,10 @@ public:
 
 	void onEvent(OSE::TickEvent& event) override {
 
-		this->acceleration += this->camera->getForward() * 0.0001 * f;
-		this->acceleration += this->camera->getRight() * 0.0001 * r;
-		this->acceleration += OSE::vec4(0, 1, 0, 0) * 0.0001 * u;
-		this->acceleration += OSE::vec4(0, 0, 0, 1) * 0.00001 * w;
+		this->acceleration += vec4(this->camera->getForward().x, 0, this->camera->getForward().z, 0).normalized() * this->speed * f;
+		this->acceleration += vec4(this->camera->getRight().x, 0, this->camera->getRight().z, 0).normalized() * this->speed * r;
+		this->acceleration += OSE::vec4(0, 1, 0, 0) * this->speed * u;
+		this->acceleration += OSE::vec4(0, 0, 0, 1) * this->speed * w;
 
 		this->velocity += this->acceleration * event.getDeltaTime();
 		this->m_transform.position += this->velocity * event.getDeltaTime();
@@ -136,22 +125,34 @@ public:
 
 		//OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
 
-		//OSE::AssetSystem::instance->loadStaticMesh("building", "OSE/low poly buildings.obj");
-		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/globe.obj");
-		OSE::AssetSystem::instance->createMaterial("flat", "vec4 material() { return vec4(1); }");
+		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube1.obj");
+		OSE::AssetSystem::instance->loadTexture("crate", "OSE/cube1.bmp");
+		OSE::AssetSystem::instance->createMaterial("flat", "#texture crate\nvec4 material() { vec4 matcol = texture(texture0, uv_coord); return matcol + vec4(0.2); }");
 		OSE::AssetSystem::instance->attachMaterial("cube", "flat");
 
 		this->createWindow();
 		OSE::EventSystem::instance->subscribeEventListener(this);
 		OSE::Scene* scene = new OSE::Scene();
 		OSE::Layer* layer = new OSE::Layer();
-		for (int i = 0; i < 1; i++) {
-			TestActor* actor = new TestActor();
-			actor->velocity = OSE::Random::vector4(1.0/250.0);
-			//actor->angle = OSE::Random::integer();
-			layer->addAndSubscribe(actor);
+		
+		TestActor* floor = new TestActor();
+		floor->getTransform().position = vec4(0, -2.7, 0, 0);
+		floor->getTransform().scale(20, 1, 20, 20);
+
+		for (int i = 0; i < 10; i++) {
+			TestActor* cube = new TestActor();
+			cube->getTransform().scale(0.5, 0.5, 0.5, 0.5);
+			cube->getTransform().position.x = OSE::Random::signedDecimal() * 18;
+			cube->getTransform().position.x = OSE::Random::signedDecimal() * 0.3 - 0.15;
+			cube->getTransform().position.z = OSE::Random::signedDecimal() * 18;
+			cube->getTransform().position.w = OSE::Random::signedDecimal() * 15;
+			vec3 xyzrot = OSE::Random::vector3();
+			vec3 wrot = OSE::Random::vector3();
+			cube->getTransform().rotate(xyzrot.x, xyzrot.y, xyzrot.z, wrot.x, wrot.y, wrot.z);
+			layer->add(cube);
 		}
-		//layer->addAndSubscribe(new TestActor());
+
+		layer->addAndSubscribe(floor);
 		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::DIRECTIONAL_LIGHT, OSE::vec3(1), OSE::lookAt(OSE::vec3(), OSE::vec3({1, -1, 1}))));
 		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::AMBIENT_LIGHT, OSE::vec3(0.2)));
 		OSE::Camera* camera = new OSE::Camera(this->m_window->getWidth(), this->m_window->getHeight());

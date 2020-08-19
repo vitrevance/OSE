@@ -1,4 +1,6 @@
 #include "AssetSystem.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image/stb_image.h>
 
 namespace OSE {
 
@@ -12,6 +14,9 @@ namespace OSE {
 			delete it.second;
 		}
 		for (std::pair<const string, Material*>& it : this->m_materials) {
+			delete it.second;
+		}
+		for (std::pair<const string, Texture*>& it : this->m_textures) {
 			delete it.second;
 		}
 	}
@@ -38,11 +43,11 @@ namespace OSE {
 			const aiMesh* amesh = scene->mMeshes[0];
 			StaticMesh* mesh = new StaticMesh();
 
-			for (int j = 0; j < amesh->mNumFaces || j <= 1; j++) {
+			for (int j = 0; j < amesh->mNumFaces || j <= 0; j++) {
 				aiFace aface = amesh->mFaces[j];
 				Tetrahedron cellBase;
 
-				cellBase.vertex = vec4(0, 0, 0, -1);
+				cellBase.vertex = bottomExtrusion;
 
 				aiVector3D avert = amesh->mVertices[aface.mIndices[0]];
 				cellBase.base_1 = vec4(avert.x, avert.y, avert.z, 0) + bottomExtrusion;
@@ -51,15 +56,14 @@ namespace OSE {
 				avert = amesh->mVertices[aface.mIndices[2]];
 				cellBase.base_3 = vec4(avert.x, avert.y, avert.z, 0) + bottomExtrusion;
 
-				if (amesh->mNumUVComponents[0] > aface.mIndices[0]) {
-					aiVector3D auv = amesh->mTextureCoords[0][aface.mIndices[0]];
-					cellBase.uvbase_1 = vec2(auv.x, auv.y);
-					auv = amesh->mTextureCoords[0][aface.mIndices[1]];
-					cellBase.uvbase_2 = vec2(auv.x, auv.y);
-					auv = amesh->mTextureCoords[0][aface.mIndices[2]];
-					cellBase.uvbase_3 = vec2(auv.x, auv.y);
-					cellBase.uvvertex = (cellBase.uvbase_1 + cellBase.uvbase_2 + cellBase.uvbase_3) / 3;
-				}
+				aiVector3D auv = amesh->mTextureCoords[0][aface.mIndices[0]];
+				cellBase.uvbase_1 = vec2(auv.x, auv.y);
+				auv = amesh->mTextureCoords[0][aface.mIndices[1]];
+				cellBase.uvbase_2 = vec2(auv.x, auv.y);
+				auv = amesh->mTextureCoords[0][aface.mIndices[2]];
+				cellBase.uvbase_3 = vec2(auv.x, auv.y);
+				cellBase.uvvertex = (cellBase.uvbase_1 + cellBase.uvbase_2 + cellBase.uvbase_3) / 3;
+
 				Tetrahedron cellTop = cellBase;
 				cellTop.vertex += topExtrusion - bottomExtrusion;
 				cellTop.base_1 += topExtrusion - bottomExtrusion;
@@ -111,6 +115,10 @@ namespace OSE {
 		return this->m_materials;
 	}
 
+	std::map<string, Texture*>& AssetSystem::getTextures() {
+		return this->m_textures;
+	}
+
 	Material* AssetSystem::createMaterial(string name, string materialText) {
 		if (this->m_materials.count(name) > 0) {
 			OSE_LOG(LOG_OSE_ERROR, "AssetSystem: material with name <" + name + "> already exists!")
@@ -124,13 +132,16 @@ namespace OSE {
 			if (texture > defloc) {
 				break;
 			}
-			unsigned int texEnd = materialText.find(texture + 10, '\n');
-			string texName = materialText.substr(texture + 10, texEnd);
+			unsigned int texEnd = materialText.find('\n', texture + 10);
+			string texName = materialText.substr(texture + 9, texEnd - texture - 9);
 			material->textures.push_back(texName);
 			if (materialText.size() < texEnd + 1) {
 				OSE_LOG(LOG_OSE_ERROR, "AssetSystem: material <" + name + "> : bad format!")
 				delete material;
 				return nullptr;
+			}
+			if (this->m_textures[texName] == nullptr) {
+				OSE_LOG(LOG_OSE_WARNING, "AssetSystem: material <" + name + "> : unresolved reference to texture <" + texName + "> !")
 			}
 			materialText = materialText.substr(texEnd + 1);
 			texture = materialText.find("#texture ");
@@ -150,6 +161,29 @@ namespace OSE {
 
 	Material* AssetSystem::getMeshMaterial(StaticMesh* mesh) {
 		return this->m_meshMaterials[mesh];
+	}
+
+	Texture* AssetSystem::loadTexture(string name, string path) {
+		if (this->m_textures.count(name) > 0) {
+			OSE_LOG(LOG_OSE_ERROR, "AssetSystem: texture with name <" + name + "> already exists!")
+			return nullptr;
+		}
+		Texture* texture = new Texture();
+		int width, height, channels;
+		texture->pixels = stbi_load((this->m_assetDir + path).c_str(), &width, &height, &channels, STBI_rgb_alpha);
+		if (texture->pixels == nullptr) {
+			delete texture;
+			OSE_LOG(LOG_OSE_ERROR, "Failed to load asset : " + path)
+			return nullptr;
+		}
+		texture->width = width;
+		texture->height = height;
+		this->m_textures[name] = texture;
+		return texture;
+	}
+
+	Texture* AssetSystem::getTexture(string name) {
+		return this->m_textures[name];
 	}
 
 	std::vector<Tetrahedron> AssetSystem::cutPrism(vec4 a1, vec2 u1, vec4 a2, vec2 u2, vec4 a3, vec2 u3, vec4 b1, vec2 v1, vec4 b2, vec2 v2, vec4 b3, vec2 v3) {

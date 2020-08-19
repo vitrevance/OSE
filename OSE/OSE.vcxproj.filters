@@ -84,9 +84,6 @@
     <ClInclude Include="src\OSE\Math\Vecmath.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="src\OSE\Blueprints\Transform.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="src\OSE\Blueprints\Camera.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -97,6 +94,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="src\OSE\Blueprints\Material.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OSE\Math\Transform.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OSE\Blueprints\Texture.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -162,6 +165,12 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="src\OSE\Blueprints\Material.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OSE\Math\Transform.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OSE\Blueprints\Texture.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

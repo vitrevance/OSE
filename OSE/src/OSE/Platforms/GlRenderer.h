@@ -34,6 +34,7 @@ namespace OSE {
 		std::set<StaticMesh*> m_drawQuery;
 		std::map<StaticMesh*, unsigned int> m_instanceBuffers;
 		std::map<StaticMesh*, std::vector<GLTransform> > m_batch;
+		std::map<Material*, std::vector<unsigned int> > m_textures;
 
 		void setupStaticMesh(StaticMesh* mesh);
 		Renderer::Shader createShader(string vertexText, string geometryText, string fragmentText);

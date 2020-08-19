@@ -5,6 +5,7 @@
 #include <fstream>
 #include <OSE/Systems/Renderer.h>
 #include <OSE/Blueprints/Material.h>
+#include <OSE/Blueprints/Texture.h>
 #include <assimp/cimport.h>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -33,14 +34,19 @@ namespace OSE {
 
 		Material* getMeshMaterial(StaticMesh* mesh);
 
+		Texture* loadTexture(string name, string path);
+		Texture* getTexture(string name);
+
 		std::map<string, StaticMesh*>& getStaticMeshes();
 		std::map<string, Material*>& getMaterials();
+		std::map<string, Texture*>& getTextures();
 
 	protected:
 		string m_assetDir;
 		std::map<string, StaticMesh*> m_staticMeshes;
 		std::map<string, Material*> m_materials;
 		std::map<StaticMesh*, Material*> m_meshMaterials;
+		std::map<string, Texture*> m_textures;
 		
 		std::vector<Tetrahedron> cutPrism(vec4 a1, vec2 u1, vec4 a2, vec2 u2, vec4 a3, vec2 u3, vec4 b1, vec2 v1, vec4 b2, vec2 v2, vec4 b3, vec2 v3);
 	};

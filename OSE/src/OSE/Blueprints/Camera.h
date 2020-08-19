@@ -3,7 +3,7 @@
 
 #include <OSE/Core.h>
 #include <OSE/Math/Vecmath.h>
-#include <OSE/Blueprints/Transform.h>
+#include <OSE/Math/Transform.h>
 
 namespace OSE {
 	class OSE_API Camera {

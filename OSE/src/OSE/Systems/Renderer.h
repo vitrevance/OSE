@@ -4,7 +4,7 @@
 #include <OSE/Core.h>
 #include <OSE/Blueprints/Camera.h>
 #include <OSE/Blueprints/StaticMesh.h>
-#include <OSE/Blueprints/Transform.h>
+#include <OSE/Math/Transform.h>
 #include <OSE/Blueprints/LightSource.h>
 
 namespace OSE {
