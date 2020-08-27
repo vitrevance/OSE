@@ -10,6 +10,10 @@ public:
 	}
 
 	void onEvent(OSE::TickEvent& event) override {
+		t_float angle = OSE::Random::decimal() / event.getDeltaTime() / 1000;
+		this->m_transform.rotate(angle / OSE::Random::integer(1, 4), angle / OSE::Random::integer(1, 4),
+			angle / OSE::Random::integer(1, 4), angle / OSE::Random::integer(1, 4), angle / OSE::Random::integer(1, 4),
+			angle / OSE::Random::integer(1, 4));
 	}
 
 	void onRender(OSE::Renderer* renderer) {
@@ -138,6 +142,21 @@ public:
 		TestActor* floor = new TestActor();
 		floor->getTransform().position = vec4(0, -2.7, 0, 0);
 		floor->getTransform().scale(20, 1, 20, 20);
+		TestActor* roof = new TestActor();
+		roof->getTransform().position = vec4(0, -2.7 + 20, 0, 0);
+		roof->getTransform().scale(20, 1, 20, 20);
+		TestActor* wall1 = new TestActor();
+		wall1->getTransform().position = vec4(20, -2.7 + 10, 0, 0);
+		wall1->getTransform().scale(1, 10, 20, 20);
+		TestActor* wall3 = new TestActor();
+		wall3->getTransform().position = vec4(-20, -2.7 + 10, 0, 0);
+		wall3->getTransform().scale(1, 10, 20, 20);
+		TestActor* wall2 = new TestActor();
+		wall2->getTransform().position = vec4(0, -2.7 + 10, 20, 0);
+		wall2->getTransform().scale(20, 10, 1, 20);
+		TestActor* wall4 = new TestActor();
+		wall4->getTransform().position = vec4(0, -2.7 + 10, -20, 0);
+		wall4->getTransform().scale(20, 10, 1, 20);
 
 		for (int i = 0; i < 10; i++) {
 			TestActor* cube = new TestActor();
@@ -149,12 +168,18 @@ public:
 			vec3 xyzrot = OSE::Random::vector3();
 			vec3 wrot = OSE::Random::vector3();
 			cube->getTransform().rotate(xyzrot.x, xyzrot.y, xyzrot.z, wrot.x, wrot.y, wrot.z);
-			layer->add(cube);
+			layer->addAndSubscribe(cube);
 		}
 
-		layer->addAndSubscribe(floor);
+		layer->add(floor);
+		layer->add(roof);
+		layer->add(wall1);
+		layer->add(wall2);
+		layer->add(wall3);
+		layer->add(wall4);
 		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::DIRECTIONAL_LIGHT, OSE::vec3(1), OSE::lookAt(OSE::vec3(), OSE::vec3({1, -1, 1}))));
-		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::AMBIENT_LIGHT, OSE::vec3(0.2)));
+		//layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::POINT_LIGHT, OSE::vec3(1), OSE::vec4(0, 15, 0, 0)));
+		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::AMBIENT_LIGHT, OSE::vec3(0.4)));
 		OSE::Camera* camera = new OSE::Camera(this->m_window->getWidth(), this->m_window->getHeight());
 		Player* player = new Player();
 		player->camera = camera;

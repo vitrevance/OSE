@@ -180,13 +180,18 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(37): warning
           ]
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\random.h(23): warning C4244: инициализация: преобразование "double" в "t_float", возможна потеря данных
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\random.h(24): warning C4244: аргумент: преобразование "t_float" в "int", возможна потеря данных
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(27): warning C4305: инициализация: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(36): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(37): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(38): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(39): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(43): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(139): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(146): warning C4244: =: преобразование "double" в "t_float", возможна потеря данных
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(157): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(31): warning C4305: инициализация: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(40): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(41): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(42): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(43): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(47): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(143): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(146): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(149): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(152): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(155): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(158): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(165): warning C4244: =: преобразование "double" в "t_float", возможна потеря данных
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(182): warning C4305: аргумент: усечение из "double" в "t_float"
   Sandbox.vcxproj -> C:\Users\N Ashabokov\Desktop\OSE\bin\Debug-x64\Sandbox\Sandbox.exe

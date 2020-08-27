@@ -75,6 +75,7 @@ void main() {
 		resultPos = outBase1[0].xyz;
         uv_coord = outUVB1[0];
 		EmitVertex();
+        //resultNorm = normalize(cross(outBase2[0].xyz - outBase3[0].xyz, outBase2[0].xyz - outVertex[0].xyz));
 		gl_Position = matPVM * vec4(outBase2[0].xyz, 1);
 		resultPos = outBase2[0].xyz;
         uv_coord = outUVB2[0];
@@ -83,6 +84,7 @@ void main() {
 		resultPos = outBase3[0].xyz;
         uv_coord = outUVB3[0];
 		EmitVertex();
+        //resultNorm = normalize(cross(outBase3[0].xyz - outVertex[0].xyz, outBase3[0].xyz - outBase1[0].xyz));
 		gl_Position = matPVM * vec4(outVertex[0].xyz, 1);
 		resultPos = outVertex[0].xyz;
         uv_coord = outUVVe[0];
@@ -91,6 +93,7 @@ void main() {
 		resultPos = outBase1[0].xyz;
         uv_coord = outUVB1[0];
 		EmitVertex();
+        //resultNorm = normalize(cross(outVertex[0].xyz - outBase1[0].xyz, outVertex[0].xyz - outBase2[0].xyz));
 		gl_Position = matPVM * vec4(outBase2[0].xyz, 1);
 		resultPos = outBase2[0].xyz;
         uv_coord = outUVB2[0];
@@ -124,7 +127,7 @@ void main() {
         d1.b.uv = points[1].uv;
         d2.a.uv = points[2].uv;
         d2.b.uv = points[3].uv;
-        /*
+        
         if (length(points[0].pos - points[1].pos) > length(points[0].pos - points[2].pos)) {
             if (length(points[0].pos - points[1].pos) > length(points[0].pos - points[3].pos)) {
                 d1.a.pos = points[0].pos;
@@ -169,9 +172,9 @@ void main() {
                 d2.b.uv = points[2].uv;
             }
         }
-        */
+        
 		resultNorm = normalize(cross(d1.a.pos - d1.b.pos, d2.a.pos - d2.b.pos));
-        resultNorm *= sign(dot(resultNorm, normalize(points[0].pos - translate[0].xyz)));
+        resultNorm *= sign(dot(resultNorm, normalize(d2.a.pos - translate[0].xyz)));
         gl_Position = matPVM * vec4(d2.a.pos, 1);
 		resultPos = d2.a.pos;
         uv_coord = d2.a.uv;
