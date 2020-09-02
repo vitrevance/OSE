@@ -3,6 +3,8 @@
 
 #include <OSE/Math/Vector.h>
 #include <OSE/Math/Matrix.h>
+#include <OSE/Math/Multivector.h>
+#include <OSE/Math/Rotor.h>
 
 #define CONST_PI 3.141592653589793238462643383279502884L
 
@@ -22,11 +24,30 @@ namespace OSE {
 
 	vec3 OSE_API operator* (mat<3, 4> m, vec4 v);
 
+	vec2 OSE_API operator* (t_float a, const vec2& b);
+	vec3 OSE_API operator* (t_float a, const vec3& b);
+	vec4 OSE_API operator* (t_float a, const vec4& b);
+
 	vec3 OSE_API cross(vec3 a, vec3 b);
+
+	t_float OSE_API dot(const vec2& a, const vec2& b);
+	t_float OSE_API dot(const vec3& a, const vec3& b);
+	t_float OSE_API dot(const vec4& a, const vec4& b);
 
 	mat<4, 4> OSE_API lookAt(vec3 from, vec3 at);
 
 	t_float OSE_API toRadians(t_float degrees);
+
+	Bivector4 OSE_API operator^ (const vec4& a, const vec4& b);
+	Trivector4 OSE_API operator^ (const Bivector4& a, const vec4& b);
+	Tetravector4 OSE_API operator^ (const Trivector4& a, const vec4& b);
+
+	Multivector4 OSE_API operator* (const vec4& a, const vec4& b);
+	Multivector4 OSE_API operator* (const Multivector4& a, const vec4& b);
+	Multivector4 OSE_API operator* (const Multivector4& a, const Multivector4& b);
+
+	//Rotor4 OSE_API operator* (const vec4& a, const vec4& b);
+	Rotor4 OSE_API operator* (const Rotor4& a, const Rotor4& b);
 
 	typedef mat<2, 2> mat2;
 	typedef mat<3, 3> mat3;

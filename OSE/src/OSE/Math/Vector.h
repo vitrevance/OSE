@@ -10,17 +10,17 @@ namespace OSE {
 
 		vec2();
 		vec2(t_float x, t_float y);
-		vec2(t_float v);
+		explicit vec2(t_float v);
 
 		t_float length();
 		void normalize();
 		vec2 normalized();
 
 		t_float& operator[] (unsigned int i);
-		vec2 operator+ (const vec2& a);
-		vec2 operator- (const vec2& a);
-		vec2 operator* (t_float a);
-		vec2 operator/ (t_float a);
+		vec2 operator+ (const vec2& a) const;
+		vec2 operator- (const vec2& a) const;
+		vec2 operator* (t_float a) const;
+		vec2 operator/ (t_float a) const;
 		void operator+= (const vec2& a);
 		void operator-= (const vec2& a);
 		void operator*= (t_float a);
@@ -37,7 +37,7 @@ namespace OSE {
 
 		vec3();
 		vec3(t_float x, t_float y, t_float z);
-		vec3(t_float v);
+		explicit vec3(t_float v);
 		vec3(vec2 xy, t_float z);
 		vec3(t_float x, vec2 yz);
 
@@ -46,10 +46,10 @@ namespace OSE {
 		vec3 normalized();
 
 		t_float& operator[] (unsigned int i);
-		vec3 operator+ (const vec3& a);
-		vec3 operator- (const vec3& a);
-		vec3 operator* (t_float a);
-		vec3 operator/ (t_float a);
+		vec3 operator+ (const vec3& a) const;
+		vec3 operator- (const vec3& a) const;
+		vec3 operator* (t_float a) const;
+		vec3 operator/ (t_float a) const;
 		void operator+= (const vec3& a);
 		void operator-= (const vec3& a);
 		void operator*= (t_float a);
@@ -69,7 +69,7 @@ namespace OSE {
 
 		vec4();
 		vec4(t_float x, t_float y, t_float z, t_float w);
-		vec4(t_float v);
+		explicit vec4(t_float v);
 		vec4(vec2 xy, t_float z, t_float w);
 		vec4(t_float x, vec2 yz, t_float w);
 		vec4(t_float x, t_float y, vec2 zw);
@@ -81,10 +81,11 @@ namespace OSE {
 		vec4 normalized();
 
 		t_float& operator[] (unsigned int i);
-		vec4 operator+ (const vec4& a);
-		vec4 operator- (const vec4& a);
-		vec4 operator* (t_float a);
-		vec4 operator/ (t_float a);
+		vec4 operator+ (const vec4& a) const;
+		vec4 operator- (const vec4& a) const;
+		vec4 operator* (t_float a) const;
+		vec4 operator/ (t_float a) const;
+		vec4 operator- () const;
 		void operator+= (const vec4& a);
 		void operator-= (const vec4& a);
 		void operator*= (t_float a);

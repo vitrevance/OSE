@@ -63,4 +63,12 @@ namespace OSE {
 		this->rotation[2][2] *= z;
 		this->rotation[3][3] *= w;
 	}
+
+	void Transform::rotorXZ(t_float angle) {
+		vec4 a = vec4(1, 0, 0, 0);
+		vec4 b = vec4(cos(angle / 2), sin(angle / 2), 0, 0);
+		//Rotor4 ab = a * b;
+		//Rotor4 ba = b * a;
+		
+	}
 }

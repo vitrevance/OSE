@@ -26,9 +26,9 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\systems\eventsystem.h(51): warning 
 c:\users\n ashabokov\desktop\ose\ose\src\ose\systems\eventsystem.h(52): warning C4251: OSE::EventSystem::m_sceneLayerCallback: class "std::function<OSE::EventSystem *(int)>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
   c:\users\n ashabokov\desktop\ose\ose\src\ose\systems\eventsystem.h(19): note:  см. объявление "std::function<OSE::EventSystem *(int)>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\camera.h(23): warning C4251: OSE::Camera::m_projection: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Camera"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\staticmesh.h(25): warning C4251: OSE::StaticMesh::cells: class "std::vector<OSE::Tetrahedron,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::StaticMesh"
           with
           [
@@ -42,9 +42,9 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\staticmesh.h(25): warnin
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\lightsource.h(15): warning C4091: static : пропускается слева от "OSE::LightSource::Type", когда ни одна переменная не объявлена
   Camera.cpp
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\camera.h(23): warning C4251: OSE::Camera::m_projection: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Camera"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
   Entity.cpp
 c:\users\n ashabokov\desktop\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
           with
@@ -59,9 +59,9 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\events\event.h(70): warning C4251: 
               _Ty=void *
           ]
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\camera.h(23): warning C4251: OSE::Camera::m_projection: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Camera"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\staticmesh.h(25): warning C4251: OSE::StaticMesh::cells: class "std::vector<OSE::Tetrahedron,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::StaticMesh"
           with
           [
@@ -87,9 +87,9 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\events\event.h(70): warning C4251: 
               _Ty=void *
           ]
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\camera.h(23): warning C4251: OSE::Camera::m_projection: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Camera"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\staticmesh.h(25): warning C4251: OSE::StaticMesh::cells: class "std::vector<OSE::Tetrahedron,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::StaticMesh"
           with
           [
@@ -149,9 +149,9 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\events\event.h(70): warning C4251: 
               _Ty=void *
           ]
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\camera.h(23): warning C4251: OSE::Camera::m_projection: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Camera"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\staticmesh.h(25): warning C4251: OSE::StaticMesh::cells: class "std::vector<OSE::Tetrahedron,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::StaticMesh"
           with
           [
@@ -208,6 +208,17 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\scene.h(23): warning C42
               _Ty=OSE::Layer *
           ]
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\scene.cpp(53): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  StaticMesh.cpp
+c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\staticmesh.h(25): warning C4251: OSE::StaticMesh::cells: class "std::vector<OSE::Tetrahedron,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::StaticMesh"
+          with
+          [
+              _Ty=OSE::Tetrahedron
+          ]
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\staticmesh.h(25): note:  см. объявление "std::vector<OSE::Tetrahedron,std::allocator<_Ty>>"
+          with
+          [
+              _Ty=OSE::Tetrahedron
+          ]
   Engine.cpp
 c:\users\n ashabokov\desktop\ose\ose\src\ose\events\event.h(70): warning C4251: OSE::EventListenerBase::m_eventTypes: class "std::map<OSE::EventType,void *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventListenerBase"
           with
@@ -236,9 +247,9 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\systems\eventsystem.h(51): warning 
 c:\users\n ashabokov\desktop\ose\ose\src\ose\systems\eventsystem.h(52): warning C4251: OSE::EventSystem::m_sceneLayerCallback: class "std::function<OSE::EventSystem *(int)>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
   c:\users\n ashabokov\desktop\ose\ose\src\ose\systems\eventsystem.h(19): note:  см. объявление "std::function<OSE::EventSystem *(int)>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\camera.h(23): warning C4251: OSE::Camera::m_projection: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Camera"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\staticmesh.h(25): warning C4251: OSE::StaticMesh::cells: class "std::vector<OSE::Tetrahedron,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::StaticMesh"
           with
           [
@@ -390,14 +401,19 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(37): warning
           ]
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\random.h(23): warning C4244: инициализация: преобразование "double" в "t_float", возможна потеря данных
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\random.h(24): warning C4244: аргумент: преобразование "t_float" в "int", возможна потеря данных
+  Multivector.cpp
+  Rotor.cpp
   Transform.cpp
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
+  Vecmath.cpp
+c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.cpp(114): warning C4244: return: преобразование "long double" в "t_float", возможна потеря данных
+  Vector.cpp
   AssetSystem.cpp
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\camera.h(23): warning C4251: OSE::Camera::m_projection: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Camera"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\staticmesh.h(25): warning C4251: OSE::StaticMesh::cells: class "std::vector<OSE::Tetrahedron,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::StaticMesh"
           with
           [
@@ -479,9 +495,9 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.cpp(135): war
 c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\assetsystem.cpp(147): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
   GlRenderer.cpp
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\camera.h(23): warning C4251: OSE::Camera::m_projection: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Camera"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\staticmesh.h(25): warning C4251: OSE::StaticMesh::cells: class "std::vector<OSE::Tetrahedron,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::StaticMesh"
           with
           [
@@ -606,9 +622,9 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.cpp(228): warn
 c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.cpp(371): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
   Renderer.cpp
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\camera.h(23): warning C4251: OSE::Camera::m_projection: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Camera"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\staticmesh.h(25): warning C4251: OSE::StaticMesh::cells: class "std::vector<OSE::Tetrahedron,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::StaticMesh"
           with
           [

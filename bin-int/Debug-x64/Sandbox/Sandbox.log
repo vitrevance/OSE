@@ -26,9 +26,9 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\systems\eventsystem.h(51): warning 
 c:\users\n ashabokov\desktop\ose\ose\src\ose\systems\eventsystem.h(52): warning C4251: OSE::EventSystem::m_sceneLayerCallback: class "std::function<OSE::EventSystem *(int)>" должен иметь dll-интерфейс для использования клиентами class "OSE::EventSystem"
   c:\users\n ashabokov\desktop\ose\ose\src\ose\systems\eventsystem.h(19): note:  см. объявление "std::function<OSE::EventSystem *(int)>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\camera.h(23): warning C4251: OSE::Camera::m_projection: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Camera"
-  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(15): note:  см. объявление "OSE::mat<4,4>"
+  c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
 c:\users\n ashabokov\desktop\ose\ose\src\ose\blueprints\staticmesh.h(25): warning C4251: OSE::StaticMesh::cells: class "std::vector<OSE::Tetrahedron,std::allocator<_Ty>>" должен иметь dll-интерфейс для использования клиентами class "OSE::StaticMesh"
           with
           [
@@ -186,12 +186,12 @@ c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(41): warning C4244: а�
 c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(42): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
 c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(43): warning C4244: аргумент: преобразование "int" в "t_float", возможна потеря данных
 c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(47): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(143): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(146): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(149): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(152): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(155): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(158): warning C4305: аргумент: усечение из "double" в "t_float"
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(165): warning C4244: =: преобразование "double" в "t_float", возможна потеря данных
-c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(182): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(150): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(153): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(156): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(159): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(162): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(165): warning C4305: аргумент: усечение из "double" в "t_float"
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(172): warning C4244: =: преобразование "double" в "t_float", возможна потеря данных
+c:\users\n ashabokov\desktop\ose\sandbox\src\sandbox.cpp(189): warning C4305: аргумент: усечение из "double" в "t_float"
   Sandbox.vcxproj -> C:\Users\N Ashabokov\Desktop\OSE\bin\Debug-x64\Sandbox\Sandbox.exe

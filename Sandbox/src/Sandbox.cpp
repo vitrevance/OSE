@@ -138,6 +138,13 @@ public:
 		OSE::EventSystem::instance->subscribeEventListener(this);
 		OSE::Scene* scene = new OSE::Scene();
 		OSE::Layer* layer = new OSE::Layer();
+
+		OSE::Multivector4 mv = -vec4(0, 1, 0, 0) * vec4(1, 1, 0, 0) * vec4(0, 1, 0, 0);
+		std::cout << mv.scalar << std::endl <<
+			mv.v1.x << " " << mv.v1.y << " " << mv.v1.z << " " << mv.v1.w << std::endl <<
+			mv.v2.xy << " " << mv.v2.yz << " " << mv.v2.xz << " " << mv.v2.xw << " " << mv.v2.yw << " " << mv.v2.zw << std::endl <<
+			mv.v3.xyz << " " << mv.v3.yzw << " " << mv.v3.xyw << " " << mv.v3.xzw << std::endl <<
+			mv.v4.xyzw << std::endl;
 		
 		TestActor* floor = new TestActor();
 		floor->getTransform().position = vec4(0, -2.7, 0, 0);

@@ -22,19 +22,19 @@ namespace OSE {
 		return ((t_float*)this)[i];
 	}
 
-	vec2 vec2::operator+ (const vec2& a) {
+	vec2 vec2::operator+ (const vec2& a) const {
 		return vec2(this->x + a.x, this->y + a.y);
 	}
 
-	vec2 vec2::operator- (const vec2& a) {
+	vec2 vec2::operator- (const vec2& a) const {
 		return vec2(this->x + a.x, this->y + a.y);
 	}
 
-	vec2 vec2::operator* (t_float a) {
+	vec2 vec2::operator* (t_float a) const {
 		return vec2(this->x * a, this->y * a);
 	}
 
-	vec2 vec2::operator/ (t_float a) {
+	vec2 vec2::operator/ (t_float a) const {
 		return vec2(this->x / a, this->y / a);
 	}
 
@@ -80,19 +80,19 @@ namespace OSE {
 		return ((t_float*)this)[i];
 	}
 
-	vec3 vec3::operator+ (const vec3& a) {
+	vec3 vec3::operator+ (const vec3& a) const {
 		return vec3(this->x + a.x, this->y + a.y, this->z + a.z);
 	}
 
-	vec3 vec3::operator- (const vec3& a) {
+	vec3 vec3::operator- (const vec3& a) const {
 		return vec3(this->x - a.x, this->y - a.y, this->z - a.z);
 	}
 
-	vec3 vec3::operator* (t_float a) {
+	vec3 vec3::operator* (t_float a) const {
 		return vec3(this->x * a, this->y * a, this->z * a);
 	}
 
-	vec3 vec3::operator/ (t_float a) {
+	vec3 vec3::operator/ (t_float a) const {
 		return vec3(this->x / a, this->y / a, this->z / a);
 	}
 
@@ -145,20 +145,24 @@ namespace OSE {
 		return ((t_float*)this)[i];
 	}
 
-	vec4 vec4::operator+ (const vec4& a) {
+	vec4 vec4::operator+ (const vec4& a) const {
 		return vec4(this->x + a.x, this->y + a.y, this->z + a.z, this->w + a.w);
 	}
 
-	vec4 vec4::operator- (const vec4& a) {
+	vec4 vec4::operator- (const vec4& a) const {
 		return vec4(this->x - a.x, this->y - a.y, this->z - a.z, this->w - a.w);
 	}
 
-	vec4 vec4::operator* (t_float a) {
+	vec4 vec4::operator* (t_float a) const {
 		return vec4(this->x * a, this->y * a, this->z * a, this->w * a);
 	}
 
-	vec4 vec4::operator/ (t_float a) {
+	vec4 vec4::operator/ (t_float a) const {
 		return vec4(this->x / a, this->y / a, this->z / a, this->w / a);
+	}
+
+	vec4 vec4::operator- () const {
+		return vec4(-this->x, -this->y, -this->z, -this->w);
 	}
 
 	void vec4::operator+= (const vec4& a) {
