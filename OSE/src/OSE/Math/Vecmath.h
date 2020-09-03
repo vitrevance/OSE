@@ -41,6 +41,7 @@ namespace OSE {
 	Bivector4 OSE_API operator^ (const vec4& a, const vec4& b);
 	Trivector4 OSE_API operator^ (const Bivector4& a, const vec4& b);
 	Tetravector4 OSE_API operator^ (const Trivector4& a, const vec4& b);
+	Tetravector4 OSE_API operator^ (const Bivector4& a, const Bivector4& b);
 
 	Multivector4 OSE_API operator* (const vec4& a, const vec4& b);
 	Multivector4 OSE_API operator* (const Multivector4& a, const vec4& b);

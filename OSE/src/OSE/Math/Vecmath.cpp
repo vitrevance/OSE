@@ -135,6 +135,12 @@ namespace OSE {
 		return result;
 	}
 
+	Tetravector4 operator^ (const Bivector4& a, const Bivector4& b) {
+		Tetravector4 result;
+		result.xyzw = a.xy * b.zw + a.yz * b.xw - a.xz * b.yw + a.xw + b.yz - a.yw * b.xz + a.zw * b.xy;
+		return result;
+	}
+
 	Multivector4 operator* (const vec4& a, const vec4& b) {
 		Multivector4 result;
 		result.scalar = dot(a, b);
@@ -159,6 +165,20 @@ namespace OSE {
 	Multivector4 operator* (const Multivector4& a, const Multivector4& b) {
 		Multivector4 result;
 		result.scalar = a.scalar * b.scalar;
+		result.v1 = a.scalar * b.v1 + a.v1 * b.scalar + vec4(
+			 a.v2.xy * b.v1.y + a.v2.xz * b.v1.z + a.v2.xw * b.v1.w,
+			-a.v2.xy * b.v1.x + a.v2.yz * b.v1.z + a.v2.yw * b.v1.w,
+			-a.v2.yz * b.v1.y - a.v2.xz * b.v1.x + a.v2.zw * b.v1.w,
+			-a.v2.xw * b.v1.x - a.v2.yw * b.v1.y - a.v2.zw * b.v1.z
+		) + vec4(
+			-b.v2.xy * a.v1.y - b.v2.xz * a.v1.z - b.v2.xw * a.v1.w,
+			 b.v2.xy * a.v1.x - b.v2.yz * a.v1.z - b.v2.yw * a.v1.w,
+			 b.v2.yz * a.v1.y + b.v2.xz * a.v1.x - b.v2.zw * a.v1.w,
+			 b.v2.xw * a.v1.x + b.v2.yw * a.v1.y + b.v2.zw * a.v1.z
+		);
+		result.v2 = a.v2 * b.scalar + b.v2 * a.scalar + (a.v1 ^ b.v1);
+		result.v3 = a.v3 * b.scalar + b.v3 * a.scalar + (b.v2 ^ a.v1) + (a.v2 ^ b.v1);
+		result.v4 = a.v4 * b.scalar + b.v4 * a.scalar + (a.v3 ^ b.v1) + (a.v2 ^ b.v2) - (b.v3 ^ a.v1);
 		return result;
 	}
 	/*

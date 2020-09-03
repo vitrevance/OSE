@@ -401,14 +401,11 @@ c:\users\n ashabokov\desktop\ose\ose\src\ose\platforms\glrenderer.h(37): warning
           ]
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\random.h(23): warning C4244: инициализация: преобразование "double" в "t_float", возможна потеря данных
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\random.h(24): warning C4244: аргумент: преобразование "t_float" в "int", возможна потеря данных
-  Multivector.cpp
-  Rotor.cpp
   Transform.cpp
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
   c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"
   Vecmath.cpp
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.cpp(114): warning C4244: return: преобразование "long double" в "t_float", возможна потеря данных
-  Vector.cpp
   AssetSystem.cpp
 c:\users\n ashabokov\desktop\ose\ose\src\ose\math\transform.h(10): warning C4251: OSE::Transform::rotation: class "OSE::mat<4,4>" должен иметь dll-интерфейс для использования клиентами class "OSE::Transform"
   c:\users\n ashabokov\desktop\ose\ose\src\ose\math\vecmath.h(17): note:  см. объявление "OSE::mat<4,4>"

@@ -139,12 +139,17 @@ public:
 		OSE::Scene* scene = new OSE::Scene();
 		OSE::Layer* layer = new OSE::Layer();
 
-		OSE::Multivector4 mv = -vec4(0, 1, 0, 0) * vec4(1, 1, 0, 0) * vec4(0, 1, 0, 0);
+		vec4 ra = vec4(1, 0, 0, 0).normalized();
+		vec4 rb = vec4(cos(OSE::toRadians(90)), sin(OSE::toRadians(90)), 0, 0);
+		vec4 orig = vec4(2, 0, 0, 0);
+		OSE::Multivector4 mv = rb * ra * orig * ra * rb;
 		std::cout << mv.scalar << std::endl <<
 			mv.v1.x << " " << mv.v1.y << " " << mv.v1.z << " " << mv.v1.w << std::endl <<
 			mv.v2.xy << " " << mv.v2.yz << " " << mv.v2.xz << " " << mv.v2.xw << " " << mv.v2.yw << " " << mv.v2.zw << std::endl <<
 			mv.v3.xyz << " " << mv.v3.yzw << " " << mv.v3.xyw << " " << mv.v3.xzw << std::endl <<
 			mv.v4.xyzw << std::endl;
+
+		stopEngine();
 		
 		TestActor* floor = new TestActor();
 		floor->getTransform().position = vec4(0, -2.7, 0, 0);
