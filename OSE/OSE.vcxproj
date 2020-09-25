@@ -102,6 +102,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\OSE\Blueprints\Camera.h" />
+    <ClInclude Include="src\OSE\Blueprints\Convex.h" />
     <ClInclude Include="src\OSE\Blueprints\LightSource.h" />
     <ClInclude Include="src\OSE\Blueprints\Material.h" />
     <ClInclude Include="src\OSE\Blueprints\Texture.h" />

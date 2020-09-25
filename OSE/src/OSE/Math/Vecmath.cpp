@@ -176,9 +176,17 @@ namespace OSE {
 			 b.v2.yz * a.v1.y + b.v2.xz * a.v1.x - b.v2.zw * a.v1.w,
 			 b.v2.xw * a.v1.x + b.v2.yw * a.v1.y + b.v2.zw * a.v1.z
 		);
-		result.v2 = a.v2 * b.scalar + b.v2 * a.scalar + (a.v1 ^ b.v1);
-		result.v3 = a.v3 * b.scalar + b.v3 * a.scalar + (b.v2 ^ a.v1) + (a.v2 ^ b.v1);
-		result.v4 = a.v4 * b.scalar + b.v4 * a.scalar + (a.v3 ^ b.v1) + (a.v2 ^ b.v2) - (b.v3 ^ a.v1);
+		result.v2 = a.v2 * b.scalar + b.v2 * a.scalar + (a.v1 ^ b.v1) + Bivector4(
+			a.v3.xyz * b.v1.z + a.v3.xyw * b.v1.w + b.v3.xyz * a.v1.z + b.v3.xyw * a.v1.w + a.v4.xyzw * b.v2.zw + b.v4.xyzw * a.v2.zw,
+			a.v3.xyz * b.v1.x + a.v3.yzw * b.v1.w + b.v3.xyz * a.v1.x + b.v3.yzw * a.v1.w + a.v4.xyzw * b.v2.xw + b.v4.xyzw * a.v2.xw,
+			-a.v3.xyz * b.v1.y + a.v3.xzw * b.v1.w - b.v3.xyz * a.v1.y + b.v3.xzw * a.v1.w + a.v4.xyzw * b.v2.yw + b.v4.xyzw * a.v2.yw,
+			-a.v3.xyw * b.v1.y - a.v3.xzw * b.v1.z - b.v3.xyw * a.v1.y - b.v3.xzw * a.v1.z + a.v4.xyzw * b.v2.yz + b.v4.xyzw * a.v2.yz,
+			a.v3.xyw * b.v1.x - a.v3.yzw * b.v1.z + b.v3.xyw * a.v1.x - b.v3.yzw * a.v1.z + a.v4.xyzw * b.v2.xz + b.v4.xyzw * a.v2.xz,
+			a.v3.yzw * b.v1.y + a.v3.xzw * b.v1.x + b.v3.yzw * a.v1.y + b.v3.xzw * a.v1.x + a.v4.xyzw * b.v2.xy + b.v4.xyzw * a.v2.xy
+		);
+		result.v3 = a.v3 * b.scalar + b.v3 * a.scalar + Trivector4(
+			//a.v2.xy * b.v1.z + b.v2.xy * a.v1.z + a.v2.yz * b.v1.x + b.v2.yz * a.v1.x + a.v2.
+		);
 		return result;
 	}
 	/*
