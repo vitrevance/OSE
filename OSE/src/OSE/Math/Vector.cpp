@@ -6,7 +6,7 @@ namespace OSE {
 	vec2::vec2(t_float x, t_float y) : x(x), y(y) {}
 	vec2::vec2(t_float v) : x(v), y(v) {}
 
-	t_float vec2::length() {
+	t_float vec2::length() const {
 		return sqrt(this->x*this->x + this->y*this->y);
 	}
 
@@ -14,7 +14,7 @@ namespace OSE {
 		*this /= this->length();
 	}
 
-	vec2 vec2::normalized() {
+	vec2 vec2::normalized() const {
 		return *this / this->length();
 	}
 
@@ -64,7 +64,7 @@ namespace OSE {
 	vec3::vec3(vec2 xy, t_float z) : xy(xy), _z(z) {}
 	vec3::vec3(t_float x, vec2 yz) : _x(x), yz(yz) {}
 
-	t_float vec3::length() {
+	t_float vec3::length() const {
 		return sqrt(this->x*this->x + this->y*this->y + this->z*this->z);
 	}
 
@@ -72,7 +72,7 @@ namespace OSE {
 		*this /= this->length();
 	}
 
-	vec3 vec3::normalized() {
+	vec3 vec3::normalized() const {
 		return *this / this->length();
 	}
 
@@ -129,7 +129,7 @@ namespace OSE {
 	vec4::vec4(vec3 xyz, t_float w) : x(xyz.x), y(xyz.y), z(xyz.z), w(w) {}
 	vec4::vec4(t_float x, vec3 yzw) : x(x), y(yzw.x), z(yzw.y), w(yzw.z) {}
 
-	t_float vec4::length() {
+	t_float vec4::length() const {
 		return sqrt(this->x*this->x + this->y*this->y + this->z*this->z + this->w*this->w);
 	}
 
@@ -137,7 +137,7 @@ namespace OSE {
 		*this /= this->length();
 	}
 
-	vec4 vec4::normalized() {
+	vec4 vec4::normalized() const {
 		return *this / this->length();
 	}
 

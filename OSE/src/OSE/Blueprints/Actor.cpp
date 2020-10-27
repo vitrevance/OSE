@@ -7,8 +7,4 @@ namespace OSE {
 	Actor::~Actor() {
 
 	}
-
-	Transform& Actor::getTransform() {
-		return this->m_transform;
-	}
 }

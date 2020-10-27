@@ -4,6 +4,7 @@
 #include <OSE/Core.h>
 #include <OSE/Blueprints/Entity.h>
 #include <OSE/Systems/EventSystem.h>
+#include <OSE/Systems/PhysicsSystem.h>
 
 namespace OSE {
 
@@ -25,11 +26,13 @@ namespace OSE {
 		void free();
 
 		virtual void onRender(Renderer* renderer);
+		void updatePhysics(t_float delta);
 		EventSystem& eventSystem();
 	protected:
 		std::set<Entity*> m_entities;
 		std::set<LightSource*> m_lights;
 		EventSystem m_eventSystem;
+		PhysicsSystem m_physicsSystem;
 	};
 }
 

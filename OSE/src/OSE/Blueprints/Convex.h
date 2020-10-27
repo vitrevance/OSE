@@ -3,11 +3,14 @@
 
 #include <OSE/Math/Vecmath.h>
 
-class Convex {
-public:
-	std::vector<vec4> m_vertices;
+namespace OSE {
+	class OSE_API Convex {
+	public:
+		std::set<vec4> vertices;
 
-
-};
+		Convex();
+		~Convex() = default;
+	};
+}
 
 #endif

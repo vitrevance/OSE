@@ -112,8 +112,10 @@
     <ClInclude Include="src\OSE\Math\Matrix.h" />
     <ClInclude Include="src\OSE\Math\Random.h" />
     <ClInclude Include="src\OSE\Math\Vecmath.h" />
+    <ClInclude Include="src\OSE\Physics\RigidBody.h" />
     <ClInclude Include="src\OSE\Platforms\AssetSystem.h" />
     <ClInclude Include="src\OSE\Platforms\GlRenderer.h" />
+    <ClInclude Include="src\OSE\Systems\PhysicsSystem.h" />
     <ClInclude Include="src\OSE\Systems\Renderer.h" />
     <ClInclude Include="src\OSE\Blueprints\Actor.h" />
     <ClInclude Include="src\OSE\Blueprints\Scene.h" />
@@ -136,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\OSE\Blueprints\Camera.cpp" />
+    <ClCompile Include="src\OSE\Blueprints\Convex.cpp" />
     <ClCompile Include="src\OSE\Blueprints\Material.cpp" />
     <ClCompile Include="src\OSE\Blueprints\Texture.cpp" />
     <ClCompile Include="src\OSE\Math\Multivector.cpp" />
@@ -143,8 +146,10 @@
     <ClCompile Include="src\OSE\Math\Transform.cpp" />
     <ClCompile Include="src\OSE\Math\Vecmath.cpp" />
     <ClCompile Include="src\OSE\Math\Vector.cpp" />
+    <ClCompile Include="src\OSE\Physics\RigidBody.cpp" />
     <ClCompile Include="src\OSE\Platforms\GlRenderer.cpp" />
     <ClCompile Include="src\OSE\Platforms\AssetSystem.cpp" />
+    <ClCompile Include="src\OSE\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="src\OSE\Systems\Renderer.cpp" />
     <ClCompile Include="src\OSE\Blueprints\Actor.cpp" />
     <ClCompile Include="src\OSE\Blueprints\Scene.cpp" />

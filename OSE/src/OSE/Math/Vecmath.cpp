@@ -84,8 +84,12 @@ namespace OSE {
 		return b * a;
 	}
 
-	vec3 cross(vec3 a, vec3 b) {
+	vec3 cross(const vec3& a, const vec3& b) {
 		return vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+	}
+
+	bool operator< (const vec4& a, const vec4& b) {
+		return a.x == b.x ? (a.y == b.y ? (a.z == b.z ? (a.w < b.w) : a.z < b.z) : a.y < b.y) : a.x < b.x;
 	}
 
 	t_float dot(const vec2& a, const vec2& b) {
@@ -98,6 +102,18 @@ namespace OSE {
 
 	t_float dot(const vec4& a, const vec4& b) {
 		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+	}
+
+	t_float veccos(const vec2& a, const vec2& b) {
+		return (a.x * b.x + a.y + b.y) / a.length() / b.length();
+	}
+
+	t_float veccos(const vec3& a, const vec3& b) {
+		return (a.x * b.x + a.y * b.y + a.z * b.z) / a.length() / b.length();
+	}
+
+	t_float veccos(const vec4& a, const vec4& b) {
+		return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w) / a.length() / b.length();
 	}
 
 	mat<4, 4> lookAt(vec3 from, vec3 at) {

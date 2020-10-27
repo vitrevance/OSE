@@ -11,15 +11,11 @@
 namespace OSE {
 
 	vec2 OSE_API operator* (vec2 v, mat<2, 2> m);
-
 	vec3 OSE_API operator* (vec3 v, mat<3, 3> m);
-
 	vec4 OSE_API operator* (vec4 v, mat<4, 4> m);
 
 	vec2 OSE_API operator* (mat<2, 2> m, vec2 v);
-
 	vec3 OSE_API operator* (mat<3, 3> m, vec3 v);
-
 	vec4 OSE_API operator* (mat<4, 4> m, vec4 v);
 
 	vec3 OSE_API operator* (mat<3, 4> m, vec4 v);
@@ -28,11 +24,16 @@ namespace OSE {
 	vec3 OSE_API operator* (t_float a, const vec3& b);
 	vec4 OSE_API operator* (t_float a, const vec4& b);
 
-	vec3 OSE_API cross(vec3 a, vec3 b);
+	vec3 OSE_API cross(const vec3& a, const vec3& b);
+	bool OSE_API operator< (const vec4& a, const vec4& b);
 
 	t_float OSE_API dot(const vec2& a, const vec2& b);
 	t_float OSE_API dot(const vec3& a, const vec3& b);
 	t_float OSE_API dot(const vec4& a, const vec4& b);
+
+	t_float OSE_API veccos(const vec2& a, const vec2& b);
+	t_float OSE_API veccos(const vec3& a, const vec3& b);
+	t_float OSE_API veccos(const vec4& a, const vec4& b);
 
 	mat<4, 4> OSE_API lookAt(vec3 from, vec3 at);
 

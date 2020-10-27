@@ -12,10 +12,7 @@ namespace OSE {
 		Actor();
 		virtual ~Actor();
 
-		virtual Transform& getTransform();
-
-	protected:
-		Transform m_transform;
+		virtual Transform& getTransform() = 0;
 	};
 }
 

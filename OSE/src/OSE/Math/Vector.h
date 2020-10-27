@@ -12,9 +12,9 @@ namespace OSE {
 		vec2(t_float x, t_float y);
 		explicit vec2(t_float v);
 
-		t_float length();
+		t_float length() const;
 		void normalize();
-		vec2 normalized();
+		vec2 normalized() const;
 
 		t_float& operator[] (unsigned int i);
 		vec2 operator+ (const vec2& a) const;
@@ -41,9 +41,9 @@ namespace OSE {
 		vec3(vec2 xy, t_float z);
 		vec3(t_float x, vec2 yz);
 
-		t_float length();
+		t_float length() const;
 		void normalize();
-		vec3 normalized();
+		vec3 normalized() const;
 
 		t_float& operator[] (unsigned int i);
 		vec3 operator+ (const vec3& a) const;
@@ -76,9 +76,9 @@ namespace OSE {
 		vec4(vec3 xyz, t_float w);
 		vec4(t_float x, vec3 yzw);
 
-		t_float length();
+		t_float length() const;
 		void normalize();
-		vec4 normalized();
+		vec4 normalized() const;
 
 		t_float& operator[] (unsigned int i);
 		vec4 operator+ (const vec4& a) const;

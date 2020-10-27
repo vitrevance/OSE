@@ -6,24 +6,37 @@ using OSE::vec4;
 
 class TestActor : public OSE::Actor {
 public:
-	TestActor() {
+	OSE::RigidBody rigidBody;
+
+	TestActor() : rigidBody(OSE::RigidBody(OSE::AssetSystem::instance->getConvex("cube"))) {
 	}
 
 	void onEvent(OSE::TickEvent& event) override {
+		/*
 		t_float angle = OSE::Random::decimal() / event.getDeltaTime() / 1000;
-		this->m_transform.rotate(angle / OSE::Random::integer(1, 4), angle / OSE::Random::integer(1, 4),
+		this->rigidBody.getTransform().rotate(angle / OSE::Random::integer(1, 4), angle / OSE::Random::integer(1, 4),
 			angle / OSE::Random::integer(1, 4), angle / OSE::Random::integer(1, 4), angle / OSE::Random::integer(1, 4),
 			angle / OSE::Random::integer(1, 4));
+			*/
 	}
 
 	void onRender(OSE::Renderer* renderer) {
-		renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("cube") , &this->m_transform);
+		renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("cube") , &this->rigidBody.getTransform());
+	}
+
+	OSE::RigidBody* getPhysicsBody() override {
+		return &this->rigidBody;
+	}
+
+	OSE::Transform& getTransform() override {
+		return this->rigidBody.getTransform();
 	}
 };
 
 class Player : public OSE::Actor, OSE::EventListener<OSE::KeyPressedEvent>, OSE::EventListener<OSE::KeyReleasedEvent>,
 	OSE::EventListener<OSE::MouseMovedEvent> {
 public:
+	OSE::Transform m_transform;
 
 	OSE::vec4 velocity;
 	OSE::vec4 acceleration;
@@ -118,6 +131,10 @@ public:
 	void onEvent(OSE::MouseMovedEvent& event) override {
 		this->camera->getTransform().rotate(0, event.getX() / 500, event.getY() / 500, 0, 0, 0);
 	}
+
+	OSE::Transform& getTransform() override {
+		return this->m_transform;
+	}
 };
 
 class Sandbox : public OSE::Engine, OSE::EventListener<OSE::WindowClosedEvent>, OSE::EventListener<OSE::KeyPressedEvent>,
@@ -127,18 +144,23 @@ public:
 	Sandbox() {
 		OSE_LOG(LOG_APP_TRACE, "Sandbox startup...")
 
-		//OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
+		OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
 
 		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube1.obj");
 		OSE::AssetSystem::instance->loadTexture("crate", "OSE/cube1.bmp");
 		OSE::AssetSystem::instance->createMaterial("flat", "#texture crate\nvec4 material() { vec4 matcol = texture(texture0, uv_coord); return matcol + vec4(0.2); }");
 		OSE::AssetSystem::instance->attachMaterial("cube", "flat");
+		OSE::AssetSystem::instance->genConvexForMesh("cube");
 
 		this->createWindow();
 		OSE::EventSystem::instance->subscribeEventListener(this);
 		OSE::Scene* scene = new OSE::Scene();
 		OSE::Layer* layer = new OSE::Layer();
 
+
+		//TEST FIELD
+		//GEOMETRIC ALGEBRA TEST
+		/*
 		vec4 ra = vec4(1, 0, 0, 0).normalized();
 		vec4 rb = vec4(cos(OSE::toRadians(90)), sin(OSE::toRadians(90)), 0, 0);
 		vec4 orig = vec4(2, 0, 0, 0);
@@ -148,12 +170,12 @@ public:
 			mv.v2.xy << " " << mv.v2.yz << " " << mv.v2.xz << " " << mv.v2.xw << " " << mv.v2.yw << " " << mv.v2.zw << std::endl <<
 			mv.v3.xyz << " " << mv.v3.yzw << " " << mv.v3.xyw << " " << mv.v3.xzw << std::endl <<
 			mv.v4.xyzw << std::endl;
-
-		stopEngine();
+		*/
 		
 		TestActor* floor = new TestActor();
 		floor->getTransform().position = vec4(0, -2.7, 0, 0);
 		floor->getTransform().scale(20, 1, 20, 20);
+		/*
 		TestActor* roof = new TestActor();
 		roof->getTransform().position = vec4(0, -2.7 + 20, 0, 0);
 		roof->getTransform().scale(20, 1, 20, 20);
@@ -169,26 +191,31 @@ public:
 		TestActor* wall4 = new TestActor();
 		wall4->getTransform().position = vec4(0, -2.7 + 10, -20, 0);
 		wall4->getTransform().scale(20, 10, 1, 20);
-
-		for (int i = 0; i < 10; i++) {
+		*/
+		for (int i = 0; i < 1; i++) {
 			TestActor* cube = new TestActor();
 			cube->getTransform().scale(0.5, 0.5, 0.5, 0.5);
 			cube->getTransform().position.x = OSE::Random::signedDecimal() * 18;
-			cube->getTransform().position.x = OSE::Random::signedDecimal() * 0.3 - 0.15;
+			cube->getTransform().position.y = OSE::Random::signedDecimal() * 0.3 - 0.15;
 			cube->getTransform().position.z = OSE::Random::signedDecimal() * 18;
-			cube->getTransform().position.w = OSE::Random::signedDecimal() * 15;
+			cube->getTransform().position.w = 0;//OSE::Random::signedDecimal() * 15;
 			vec3 xyzrot = OSE::Random::vector3();
 			vec3 wrot = OSE::Random::vector3();
-			cube->getTransform().rotate(xyzrot.x, xyzrot.y, xyzrot.z, wrot.x, wrot.y, wrot.z);
+			//cube->getTransform().rotate(xyzrot.x, xyzrot.y, xyzrot.z, wrot.x, wrot.y, wrot.z);
+			cube->getTransform().rotate(xyzrot.x, xyzrot.y, xyzrot.z, 0, 0, 0);
+			cube->rigidBody.m_velocity = vec4(0, -0.2, 0, 0);
+			cube->getTransform().position.y = 1;
 			layer->addAndSubscribe(cube);
 		}
 
 		layer->add(floor);
+		/*
 		layer->add(roof);
 		layer->add(wall1);
 		layer->add(wall2);
 		layer->add(wall3);
 		layer->add(wall4);
+		*/
 		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::DIRECTIONAL_LIGHT, OSE::vec3(1), OSE::lookAt(OSE::vec3(), OSE::vec3({1, -1, 1}))));
 		//layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::POINT_LIGHT, OSE::vec3(1), OSE::vec4(0, 15, 0, 0)));
 		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::AMBIENT_LIGHT, OSE::vec3(0.4)));

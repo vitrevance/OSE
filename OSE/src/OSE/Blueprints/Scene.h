@@ -17,6 +17,7 @@ namespace OSE {
 		void free();
 
 		virtual void render(Renderer* renderer);
+		void updatePhysics(t_float delta);
 		EventSystem* getLayerEventSystem(int index);
 
 	protected:

@@ -9,12 +9,18 @@ namespace OSE {
 
 	void Layer::add(Entity* entity) {
 		this->m_entities.insert(entity);
+		if (entity->getPhysicsBody() != nullptr) {
+			this->m_physicsSystem.add(entity->getPhysicsBody());
+		}
 	}
 
 	void Layer::remove(Entity* entity) {
 		this->m_entities.erase(entity);
 		if (dynamic_cast<EventListenerBase*>(entity)) {
 			this->unsubscribeEventListener((EventListenerBase*)entity);
+		}
+		if (entity->getPhysicsBody() != nullptr) {
+			this->m_physicsSystem.remove(entity->getPhysicsBody());
 		}
 	}
 
@@ -65,6 +71,10 @@ namespace OSE {
 		for (Entity* entity : this->m_entities) {
 			entity->onRender(renderer);
 		}
+	}
+
+	void Layer::updatePhysics(t_float delta) {
+		this->m_physicsSystem.update(delta);
 	}
 
 	EventSystem& Layer::eventSystem() {

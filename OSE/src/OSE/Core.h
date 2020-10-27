@@ -26,6 +26,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <cmath>
 
 namespace OSE {
 	using std::string;

@@ -31,6 +31,7 @@ namespace OSE {
 		Window* m_window;
 		Scene* m_activeScene;
 		Renderer* m_renderer;
+		PhysicsSystem* m_physics;
 
 		virtual Window* createWindow(WindowProps windowProps = Window::getDefaultWindowProps());
 		virtual void disposeWindow();

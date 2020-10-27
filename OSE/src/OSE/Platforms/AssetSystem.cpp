@@ -19,19 +19,24 @@ namespace OSE {
 		for (std::pair<const string, Texture*>& it : this->m_textures) {
 			delete it.second;
 		}
+		/*
+		for (std::pair<const string, Convex*>& it : this->m_convexes) {
+			delete it.second;
+		}
+		*/
 	}
 
 	void AssetSystem::setAssetDir(string path) {
 		this->m_assetDir = path;
 	}
 
-	string AssetSystem::loadRawString(string path) {
+	string AssetSystem::loadRawString(const string& path) {
 		std::ifstream ifs(this->m_assetDir + path);
 		std::string text((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
 		return text;
 	}
 
-	StaticMesh* AssetSystem::loadStaticMesh(string name, string path, vec4 bottomExtrusion, vec4 topExtrusion) {
+	StaticMesh* AssetSystem::loadStaticMesh(const string& name, string path, vec4 bottomExtrusion, vec4 topExtrusion) {
 		if (this->m_staticMeshes.count(name) > 0) {
 			OSE_LOG(LOG_OSE_ERROR, "AssetSystem: static mesh with name <" + name + "> already exists!")
 			return nullptr;
@@ -103,7 +108,7 @@ namespace OSE {
 		return nullptr;
 	}
 
-	StaticMesh* AssetSystem::getStaticMesh(string name) {
+	StaticMesh* AssetSystem::getStaticMesh(const string& name) {
 		return this->m_staticMeshes[name];
 	}
 
@@ -119,7 +124,7 @@ namespace OSE {
 		return this->m_textures;
 	}
 
-	Material* AssetSystem::createMaterial(string name, string materialText) {
+	Material* AssetSystem::createMaterial(const string& name, string materialText) {
 		if (this->m_materials.count(name) > 0) {
 			OSE_LOG(LOG_OSE_ERROR, "AssetSystem: material with name <" + name + "> already exists!")
 			return nullptr;
@@ -151,7 +156,7 @@ namespace OSE {
 		return material;
 	}
 
-	void AssetSystem::attachMaterial(string meshName, string materialName) {
+	void AssetSystem::attachMaterial(const string& meshName, string materialName) {
 		this->m_meshMaterials[this->m_staticMeshes[meshName]] = this->m_materials[materialName];
 	}
 
@@ -163,7 +168,7 @@ namespace OSE {
 		return this->m_meshMaterials[mesh];
 	}
 
-	Texture* AssetSystem::loadTexture(string name, string path) {
+	Texture* AssetSystem::loadTexture(const string& name, const string& path) {
 		if (this->m_textures.count(name) > 0) {
 			OSE_LOG(LOG_OSE_ERROR, "AssetSystem: texture with name <" + name + "> already exists!")
 			return nullptr;
@@ -182,10 +187,26 @@ namespace OSE {
 		return texture;
 	}
 
-	Texture* AssetSystem::getTexture(string name) {
+	Texture* AssetSystem::getTexture(const string& name) {
 		return this->m_textures[name];
 	}
-
+	
+	Convex* AssetSystem::genConvexForMesh(const string& name) {
+		StaticMesh* mesh = this->m_staticMeshes[name];
+		Convex* result = new Convex();
+		for (Tetrahedron& it : mesh->cells) {
+			result->vertices.insert(it.base_1);
+			result->vertices.insert(it.base_2);
+			result->vertices.insert(it.base_3);
+		}
+		this->m_convexes[name] = result;
+		return result;
+	}
+	
+	Convex* AssetSystem::getConvex(const string& name) {
+		return this->m_convexes[name];
+	}
+	
 	std::vector<Tetrahedron> AssetSystem::cutPrism(vec4 a1, vec2 u1, vec4 a2, vec2 u2, vec4 a3, vec2 u3, vec4 b1, vec2 v1, vec4 b2, vec2 v2, vec4 b3, vec2 v3) {
 		std::vector<Tetrahedron> result;
 		Tetrahedron t1;
