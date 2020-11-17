@@ -3,6 +3,7 @@
 
 #include <OSE/Core.h>
 #include <OSE/Physics/RigidBody.h>
+#include <OSE/Blueprints/StaticMesh.h>
 #include <OSE/Math/Vecmath.h>
 
 namespace OSE {
@@ -22,7 +23,8 @@ namespace OSE {
 
 		vec4 getSupport(Convex* convex, Transform& transform, vec4 d);
 		vec4 GJK(Convex* a, Transform& ta, Convex* b, Transform& tb);
-		vec4 diagonals(Convex* a, Transform& ta, Convex* b, Transform& tb);
+		vec4 orderedDiagonals(Convex* a, Transform& ta, Convex* b, Transform& tb);
+		vec4 volumes(Convex* a, Transform& ta, Convex* b, Transform& tb);
 		void updateBodies(RigidBody* a, RigidBody* b, t_float delta);
 	};
 }

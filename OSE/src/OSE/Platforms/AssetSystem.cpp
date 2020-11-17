@@ -199,6 +199,7 @@ namespace OSE {
 			result->vertices.insert(it.base_2);
 			result->vertices.insert(it.base_3);
 		}
+		result->parent = mesh;
 		this->m_convexes[name] = result;
 		return result;
 	}

@@ -25,10 +25,13 @@ namespace OSE {
 		Trivector4();
 		Trivector4(t_float xyz, t_float yzw, t_float xyw, t_float xzw);
 
+		Trivector4 abs() const;
+
 		Trivector4 operator+ (const Trivector4& a) const;
 		Trivector4 operator- (const Trivector4& a) const;
 		Trivector4 operator- () const;
 		Trivector4 operator* (t_float a) const;
+		bool operator== (const Trivector4& a) const;
 	};
 
 	class OSE_API Tetravector4 {

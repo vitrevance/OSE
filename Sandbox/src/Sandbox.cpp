@@ -144,7 +144,7 @@ public:
 	Sandbox() {
 		OSE_LOG(LOG_APP_TRACE, "Sandbox startup...")
 
-		OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
+		//OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
 
 		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube1.obj");
 		OSE::AssetSystem::instance->loadTexture("crate", "OSE/cube1.bmp");
@@ -171,6 +171,17 @@ public:
 			mv.v3.xyz << " " << mv.v3.yzw << " " << mv.v3.xyw << " " << mv.v3.xzw << std::endl <<
 			mv.v4.xyzw << std::endl;
 		*/
+		vec4 b = vec4(1, 2, 0, 0);
+		vec4 c = vec4(0, 6, 0, 0);
+		vec4 d = vec4(2, 3, 4, 0);
+		vec4 e = vec4(0, 0, 0, 1);
+		OSE::Bivector4 p = b ^ c;
+		std::cout << p.xy << " " << p.yz << " " << p.xz << " " << p.xw << " " << p.yw << " " << p.zw << std::endl;
+		OSE::Trivector4 v = b ^ c ^ d;
+		std::cout << v.xyz << " " << v.yzw << " " << v.xyw << " " << v.xzw << std::endl;
+		OSE::Tetravector4 m = b ^ c ^ d ^ e;
+		std::cout << m.xyzw << std::endl;
+		//this->stopEngine();
 		
 		TestActor* floor = new TestActor();
 		floor->getTransform().position = vec4(0, -2.7, 0, 0);
@@ -192,6 +203,7 @@ public:
 		wall4->getTransform().position = vec4(0, -2.7 + 10, -20, 0);
 		wall4->getTransform().scale(20, 10, 1, 20);
 		*/
+		/*
 		for (int i = 0; i < 1; i++) {
 			TestActor* cube = new TestActor();
 			cube->getTransform().scale(0.5, 0.5, 0.5, 0.5);
@@ -209,6 +221,7 @@ public:
 		}
 
 		layer->add(floor);
+		*/
 		/*
 		layer->add(roof);
 		layer->add(wall1);
@@ -216,6 +229,19 @@ public:
 		layer->add(wall3);
 		layer->add(wall4);
 		*/
+
+		TestActor* cube1 = new TestActor();
+		cube1->getTransform().position = vec4(-2, 0, 5, 0);
+		cube1->getTransform().rotate(1.8, 1.2, 1.2, 0, 1.4, 0.4);
+		cube1->rigidBody.m_velocity.x = 5;
+
+
+		TestActor* cube2 = new TestActor();
+		cube2->getTransform().position = vec4(2, 0, 5, 0);
+		layer->addAndSubscribe(cube1);
+		layer->addAndSubscribe(cube2);
+
+
 		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::DIRECTIONAL_LIGHT, OSE::vec3(1), OSE::lookAt(OSE::vec3(), OSE::vec3({1, -1, 1}))));
 		//layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::POINT_LIGHT, OSE::vec3(1), OSE::vec4(0, 15, 0, 0)));
 		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::AMBIENT_LIGHT, OSE::vec3(0.4)));

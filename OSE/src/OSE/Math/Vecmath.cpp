@@ -88,6 +88,22 @@ namespace OSE {
 		return vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
 	}
 
+	vec4 cross(const vec4& u, const vec4& v, const vec4& w) {
+		t_float A = (v.x * w.y) - (v.y * w.x);
+		t_float B = (v.x * w.z) - (v.z * w.x);
+		t_float C = (v.x * w.w) - (v.w * w.x);
+		t_float D = (v.y * w.z) - (v.z * w.y);
+		t_float E = (v.y * w.w) - (v.w * w.y);
+		t_float F = (v.z * w.w) - (v.w * w.z);
+		// Calculate the result-vector components.
+		vec4 result;
+		result.x = (u.y * F) - (u.z * E) + (u.w * D);
+		result.y = -(u.x * F) + (u.z * C) - (u.w * B);
+		result.z = (u.x * E) - (u.y * C) + (u.w * A);
+		result.w = -(u.x * D) + (u.y * B) - (u.z * A);
+		return -result;
+	}
+
 	bool operator< (const vec4& a, const vec4& b) {
 		return a.x == b.x ? (a.y == b.y ? (a.z == b.z ? (a.w < b.w) : a.z < b.z) : a.y < b.y) : a.x < b.x;
 	}

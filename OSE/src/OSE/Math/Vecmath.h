@@ -25,6 +25,7 @@ namespace OSE {
 	vec4 OSE_API operator* (t_float a, const vec4& b);
 
 	vec3 OSE_API cross(const vec3& a, const vec3& b);
+	vec4 OSE_API cross(const vec4& u, const vec4& v, const vec4& w);
 	bool OSE_API operator< (const vec4& a, const vec4& b);
 
 	t_float OSE_API dot(const vec2& a, const vec2& b);

@@ -26,6 +26,10 @@ namespace OSE {
 	Trivector4::Trivector4(t_float xyz, t_float yzw, t_float xyw, t_float xzw)
 		: xyz(xyz), yzw(yzw), xyw(xyw), xzw(xzw) {}
 
+	Trivector4 Trivector4::abs() const {
+		return Trivector4(std::abs(this->xyz), std::abs(this->yzw), std::abs(this->xyw), std::abs(this->xzw));
+	}
+
 	Trivector4 Trivector4::operator+ (const Trivector4& a) const {
 		return Trivector4(this->xyz + a.xyz, this->yzw + a.yzw, this->xyw + a.xyw, this->xzw + a.xzw);
 	}
@@ -40,6 +44,10 @@ namespace OSE {
 
 	Trivector4 Trivector4::operator* (t_float a) const {
 		return Trivector4(this->xyz * a, this->yzw * a, this->xyw * a, this->xzw * a);
+	}
+
+	bool Trivector4::operator== (const Trivector4& a) const {
+		return this->xyz == a.xyz && this->yzw == a.yzw && this->xyw == a.xyw && this->xzw == a.xzw;
 	}
 
 	Tetravector4::Tetravector4() : xyzw(0) {}
