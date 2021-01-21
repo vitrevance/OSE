@@ -144,7 +144,7 @@ public:
 	Sandbox() {
 		OSE_LOG(LOG_APP_TRACE, "Sandbox startup...")
 
-		//OSE::AssetSystem::instance->setAssetDir("C:/Users/Ruslan/source/repos/OSE/bin/Debug-x64/Sandbox/assets/");
+		OSE::AssetSystem::instance->setAssetDir("assets/");
 
 		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube1.obj");
 		OSE::AssetSystem::instance->loadTexture("crate", "OSE/cube1.bmp");
@@ -160,27 +160,18 @@ public:
 
 		//TEST FIELD
 		//GEOMETRIC ALGEBRA TEST
-		/*
+		
 		vec4 ra = vec4(1, 0, 0, 0).normalized();
-		vec4 rb = vec4(cos(OSE::toRadians(90)), sin(OSE::toRadians(90)), 0, 0);
+		t_float alpha = 45;
+		vec4 rb = vec4(cos(OSE::toRadians(alpha)), sin(OSE::toRadians(alpha)), 0, 0);
 		vec4 orig = vec4(2, 0, 0, 0);
-		OSE::Multivector4 mv = rb * ra * orig * ra * rb;
-		std::cout << mv.scalar << std::endl <<
+		OSE::Multivector4 mv = (rb*ra* rb * ra) * orig * (ra * rb * ra*rb);
+		std::cout << mv.v0 << std::endl <<
 			mv.v1.x << " " << mv.v1.y << " " << mv.v1.z << " " << mv.v1.w << std::endl <<
 			mv.v2.xy << " " << mv.v2.yz << " " << mv.v2.xz << " " << mv.v2.xw << " " << mv.v2.yw << " " << mv.v2.zw << std::endl <<
 			mv.v3.xyz << " " << mv.v3.yzw << " " << mv.v3.xyw << " " << mv.v3.xzw << std::endl <<
 			mv.v4.xyzw << std::endl;
-		*/
-		vec4 b = vec4(1, 2, 0, 0);
-		vec4 c = vec4(0, 6, 0, 0);
-		vec4 d = vec4(2, 3, 4, 0);
-		vec4 e = vec4(0, 0, 0, 1);
-		OSE::Bivector4 p = b ^ c;
-		std::cout << p.xy << " " << p.yz << " " << p.xz << " " << p.xw << " " << p.yw << " " << p.zw << std::endl;
-		OSE::Trivector4 v = b ^ c ^ d;
-		std::cout << v.xyz << " " << v.yzw << " " << v.xyw << " " << v.xzw << std::endl;
-		OSE::Tetravector4 m = b ^ c ^ d ^ e;
-		std::cout << m.xyzw << std::endl;
+		
 		//this->stopEngine();
 		
 		TestActor* floor = new TestActor();

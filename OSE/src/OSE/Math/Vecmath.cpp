@@ -175,50 +175,59 @@ namespace OSE {
 
 	Multivector4 operator* (const vec4& a, const vec4& b) {
 		Multivector4 result;
-		result.scalar = dot(a, b);
+		result.v0 = dot(a, b);
 		result.v2 = a ^ b;
 		return result;
 	}
 
 	Multivector4 operator* (const Multivector4& a, const vec4& b) {
 		Multivector4 result;
-		result.v1 = b * a.scalar + vec4(
-			a.v2.xy * b.y + a.v2.xz * b.z + a.v2.xw * b.w,
-			-a.v2.xy * b.x + a.v2.yz * b.z + a.v2.yw * b.w,
-			-a.v2.yz * b.y - a.v2.xz * b.x + a.v2.zw * b.w,
-			-a.v2.xw * b.x - a.v2.yw * b.y - a.v2.zw * b.z
-		);
-		result.v2 = a.v1 ^ b;
-		result.v3 = a.v2 ^ b;
-		result.v4 = a.v3 ^ b;
+		result.v0 = a.v1.w*b.w + a.v1.x*b.x + a.v1.y*b.y + a.v1.z*b.z;
+
+		result.v1.x = a.v0*b.x + a.v2.xw*b.w + a.v2.xy*b.y + a.v2.xz*b.z;
+		result.v1.y = a.v0*b.y - a.v2.xy*b.x + a.v2.yw*b.w + a.v2.yz*b.z;
+		result.v1.z = a.v0*b.z - a.v2.xz*b.x - a.v2.yz*b.y + a.v2.zw*b.w;
+		result.v1.w = a.v0*b.w - a.v2.xw*b.x - a.v2.yw*b.y - a.v2.zw*b.z;
+
+		result.v2.xy =  a.v1.x*b.y - a.v1.y*b.x + a.v3.xyw*b.w + a.v3.xyz*b.z;
+		result.v2.yz =  a.v1.y*b.z - a.v1.z*b.y + a.v3.xyz*b.x + a.v3.yzw*b.w;
+		result.v2.xz =  a.v1.x*b.z - a.v1.z*b.x - a.v3.xyz*b.y + a.v3.xzw*b.w;
+		result.v2.xw = -a.v1.w*b.x + a.v1.x*b.w - a.v3.xyw*b.y - a.v3.xzw*b.z;
+		result.v2.yw = -a.v1.w*b.y + a.v1.y*b.w + a.v3.xyw*b.x - a.v3.yzw*b.z;
+		result.v2.zw = -a.v1.w*b.z + a.v1.z*b.w + a.v3.xzw*b.x + a.v3.yzw*b.y;
+
+		result.v3.xyz =  a.v2.xy*b.z - a.v2.xz*b.y + a.v2.yz*b.x + a.v4.xyzw*b.w;
+		result.v3.yzw = -a.v2.yw*b.z + a.v2.yz*b.w + a.v2.zw*b.y - a.v4.xyzw*b.x;
+		result.v3.xyw = -a.v2.xw*b.y + a.v2.xy*b.w + a.v2.yw*b.x - a.v4.xyzw*b.z;
+		result.v3.xzw = -a.v2.xw*b.z + a.v2.xz*b.w + a.v2.zw*b.x + a.v4.xyzw*b.y;
+
+		result.v4.xyzw = -a.v3.xyw*b.z + a.v3.xyz*b.w + a.v3.xzw*b.y - a.v3.yzw*b.x;
+
 		return result;
 	}
 
 	Multivector4 operator* (const Multivector4& a, const Multivector4& b) {
 		Multivector4 result;
-		result.scalar = a.scalar * b.scalar;
-		result.v1 = a.scalar * b.v1 + a.v1 * b.scalar + vec4(
-			 a.v2.xy * b.v1.y + a.v2.xz * b.v1.z + a.v2.xw * b.v1.w,
-			-a.v2.xy * b.v1.x + a.v2.yz * b.v1.z + a.v2.yw * b.v1.w,
-			-a.v2.yz * b.v1.y - a.v2.xz * b.v1.x + a.v2.zw * b.v1.w,
-			-a.v2.xw * b.v1.x - a.v2.yw * b.v1.y - a.v2.zw * b.v1.z
-		) + vec4(
-			-b.v2.xy * a.v1.y - b.v2.xz * a.v1.z - b.v2.xw * a.v1.w,
-			 b.v2.xy * a.v1.x - b.v2.yz * a.v1.z - b.v2.yw * a.v1.w,
-			 b.v2.yz * a.v1.y + b.v2.xz * a.v1.x - b.v2.zw * a.v1.w,
-			 b.v2.xw * a.v1.x + b.v2.yw * a.v1.y + b.v2.zw * a.v1.z
-		);
-		result.v2 = a.v2 * b.scalar + b.v2 * a.scalar + (a.v1 ^ b.v1) + Bivector4(
-			a.v3.xyz * b.v1.z + a.v3.xyw * b.v1.w + b.v3.xyz * a.v1.z + b.v3.xyw * a.v1.w + a.v4.xyzw * b.v2.zw + b.v4.xyzw * a.v2.zw,
-			a.v3.xyz * b.v1.x + a.v3.yzw * b.v1.w + b.v3.xyz * a.v1.x + b.v3.yzw * a.v1.w + a.v4.xyzw * b.v2.xw + b.v4.xyzw * a.v2.xw,
-			-a.v3.xyz * b.v1.y + a.v3.xzw * b.v1.w - b.v3.xyz * a.v1.y + b.v3.xzw * a.v1.w + a.v4.xyzw * b.v2.yw + b.v4.xyzw * a.v2.yw,
-			-a.v3.xyw * b.v1.y - a.v3.xzw * b.v1.z - b.v3.xyw * a.v1.y - b.v3.xzw * a.v1.z + a.v4.xyzw * b.v2.yz + b.v4.xyzw * a.v2.yz,
-			a.v3.xyw * b.v1.x - a.v3.yzw * b.v1.z + b.v3.xyw * a.v1.x - b.v3.yzw * a.v1.z + a.v4.xyzw * b.v2.xz + b.v4.xyzw * a.v2.xz,
-			a.v3.yzw * b.v1.y + a.v3.xzw * b.v1.x + b.v3.yzw * a.v1.y + b.v3.xzw * a.v1.x + a.v4.xyzw * b.v2.xy + b.v4.xyzw * a.v2.xy
-		);
-		result.v3 = a.v3 * b.scalar + b.v3 * a.scalar + Trivector4(
-			//a.v2.xy * b.v1.z + b.v2.xy * a.v1.z + a.v2.yz * b.v1.x + b.v2.yz * a.v1.x + a.v2.
-		);
+		result.v0 = a.v0*b.v0 + a.v1.w*b.v1.w + a.v1.x*b.v1.x + a.v1.y*b.v1.y + a.v1.z*b.v1.z + a.v2.xw*b.v2.xw + a.v2.xy*b.v2.xy + a.v2.xz*b.v2.xz + a.v2.yw*b.v2.yw + a.v2.yz*b.v2.yz + a.v2.zw*b.v2.zw + a.v3.xyw*b.v3.xyw + a.v3.xyz*b.v3.xyz + a.v3.xzw*b.v3.xzw + a.v3.yzw*b.v3.yzw + a.v4.xyzw*b.v4.xyzw;
+
+		result.v1.x = a.v0*b.v1.x - a.v1.w*b.v2.xw + a.v1.x*b.v0 - a.v1.y*b.v2.xy - a.v1.z*b.v2.xz + a.v2.xw*b.v1.w + a.v2.xy*b.v1.y + a.v2.xz*b.v1.z + a.v2.yw*b.v3.xyw + a.v2.yz*b.v3.xyz + a.v2.zw*b.v3.xzw + a.v3.xyw*b.v2.yw + a.v3.xyz*b.v2.yz + a.v3.xzw*b.v2.zw - a.v3.yzw*b.v4.xyzw + a.v4.xyzw*b.v3.yzw;
+		result.v1.y = a.v0*b.v1.y - a.v1.w*b.v2.yw + a.v1.x*b.v2.xy + a.v1.y*b.v0 - a.v1.z*b.v2.yz - a.v2.xw*b.v3.xyw - a.v2.xy*b.v1.x - a.v2.xz*b.v3.xyz + a.v2.yw*b.v1.w + a.v2.yz*b.v1.z + a.v2.zw*b.v3.yzw - a.v3.xyw*b.v2.xw - a.v3.xyz*b.v2.xz + a.v3.xzw*b.v4.xyzw + a.v3.yzw*b.v2.zw - a.v4.xyzw*b.v3.xzw;
+		result.v1.z = a.v0*b.v1.z - a.v1.w*b.v2.zw + a.v1.x*b.v2.xz + a.v1.y*b.v2.yz + a.v1.z*b.v0 - a.v2.xw*b.v3.xzw + a.v2.xy*b.v3.xyz - a.v2.xz*b.v1.x - a.v2.yw*b.v3.yzw - a.v2.yz*b.v1.y + a.v2.zw*b.v1.w - a.v3.xyw*b.v4.xyzw + a.v3.xyz*b.v2.xy - a.v3.xzw*b.v2.xw - a.v3.yzw*b.v2.yw + a.v4.xyzw*b.v3.xyw;
+		result.v1.w = a.v0*b.v1.w + a.v1.w*b.v0 + a.v1.x*b.v2.xw + a.v1.y*b.v2.yw + a.v1.z*b.v2.zw - a.v2.xw*b.v1.x + a.v2.xy*b.v3.xyw + a.v2.xz*b.v3.xzw - a.v2.yw*b.v1.y + a.v2.yz*b.v3.yzw - a.v2.zw*b.v1.z + a.v3.xyw*b.v2.xy + a.v3.xyz*b.v4.xyzw + a.v3.xzw*b.v2.xz + a.v3.yzw*b.v2.yz - a.v4.xyzw*b.v3.xyz;
+
+		result.v2.xy = a.v0*b.v2.xy + a.v1.w*b.v3.xyw + a.v1.x*b.v1.y + a.v1.y*b.v1.x + a.v1.z*b.v3.xyz - a.v2.xw*b.v2.yw + a.v2.xy*b.v0 - a.v2.xz*b.v2.yz - a.v2.yw*b.v2.xw - a.v2.yz*b.v2.xz + a.v2.zw*b.v4.xyzw + a.v3.xyw*b.v1.w + a.v3.xyz*b.v1.z + a.v3.xzw*b.v3.yzw + a.v3.yzw*b.v3.xzw + a.v4.xyzw*b.v2.zw;
+		result.v2.yz = a.v0*b.v2.yz + a.v1.w*b.v3.yzw + a.v1.x*b.v3.xyz + a.v1.y*b.v1.z + a.v1.z*b.v1.y + a.v2.xw*b.v4.xyzw - a.v2.xy*b.v2.xz - a.v2.xz*b.v2.xy - a.v2.yw*b.v2.zw + a.v2.yz*b.v0 - a.v2.zw*b.v2.yw + a.v3.xyw*b.v3.xzw + a.v3.xyz*b.v1.x + a.v3.xzw*b.v3.xyw + a.v3.yzw*b.v1.w + a.v4.xyzw*b.v2.xw;
+		result.v2.xz = a.v0*b.v2.xz + a.v1.w*b.v3.xzw + a.v1.x*b.v1.z - a.v1.y*b.v3.xyz + a.v1.z*b.v1.x - a.v2.xw*b.v2.zw + a.v2.xy*b.v2.yz + a.v2.xz*b.v0 - a.v2.yw*b.v4.xyzw + a.v2.yz*b.v2.xy - a.v2.zw*b.v2.xw - a.v3.xyw*b.v3.yzw - a.v3.xyz*b.v1.y + a.v3.xzw*b.v1.w - a.v3.yzw*b.v3.xyw - a.v4.xyzw*b.v2.yw;
+		result.v2.xw = a.v0*b.v2.xw + a.v1.w*b.v1.x + a.v1.x*b.v1.w - a.v1.y*b.v3.xyw - a.v1.z*b.v3.xzw + a.v2.xw*b.v0 + a.v2.xy*b.v2.yw + a.v2.xz*b.v2.zw + a.v2.yw*b.v2.xy + a.v2.yz*b.v4.xyzw + a.v2.zw*b.v2.xz - a.v3.xyw*b.v1.y + a.v3.xyz*b.v3.yzw - a.v3.xzw*b.v1.z + a.v3.yzw*b.v3.xyz + a.v4.xyzw*b.v2.yz;
+		result.v2.yw = a.v0*b.v2.yw + a.v1.w*b.v1.y + a.v1.x*b.v3.xyw + a.v1.y*b.v1.w - a.v1.z*b.v3.yzw - a.v2.xw*b.v2.xy - a.v2.xy*b.v2.xw - a.v2.xz*b.v4.xyzw + a.v2.yw*b.v0 + a.v2.yz*b.v2.zw + a.v2.zw*b.v2.yz + a.v3.xyw*b.v1.x - a.v3.xyz*b.v3.xzw - a.v3.xzw*b.v3.xyz - a.v3.yzw*b.v1.z - a.v4.xyzw*b.v2.xz;
+		result.v2.zw = a.v0*b.v2.zw + a.v1.w*b.v1.z + a.v1.x*b.v3.xzw + a.v1.y*b.v3.yzw + a.v1.z*b.v1.w - a.v2.xw*b.v2.xz + a.v2.xy*b.v4.xyzw - a.v2.xz*b.v2.xw - a.v2.yw*b.v2.yz - a.v2.yz*b.v2.yw + a.v2.zw*b.v0 + a.v3.xyw*b.v3.xyz + a.v3.xyz*b.v3.xyw + a.v3.xzw*b.v1.x + a.v3.yzw*b.v1.y + a.v4.xyzw*b.v2.xy;
+
+		result.v3.xyz = a.v0*b.v3.xyz - a.v1.w*b.v4.xyzw + a.v1.x*b.v2.yz + a.v1.y*b.v2.xz + a.v1.z*b.v2.xy + a.v2.xw*b.v3.yzw + a.v2.xy*b.v1.z + a.v2.xz*b.v1.y + a.v2.yw*b.v3.xzw + a.v2.yz*b.v1.x + a.v2.zw*b.v3.xyw - a.v3.xyw*b.v2.zw + a.v3.xyz*b.v0 - a.v3.xzw*b.v2.yw - a.v3.yzw*b.v2.xw + a.v4.xyzw*b.v1.w;
+		result.v3.yzw = a.v0*b.v3.yzw + a.v1.w*b.v2.yz + a.v1.x*b.v4.xyzw + a.v1.y*b.v2.zw + a.v1.z*b.v2.yw - a.v2.xw*b.v3.xyz - a.v2.xy*b.v3.xzw - a.v2.xz*b.v3.xyw + a.v2.yw*b.v1.z + a.v2.yz*b.v1.w + a.v2.zw*b.v1.y + a.v3.xyw*b.v2.xz + a.v3.xyz*b.v2.xw + a.v3.xzw*b.v2.xy + a.v3.yzw*b.v0 - a.v4.xyzw*b.v1.x;
+		result.v3.xyw = a.v0*b.v3.xyw + a.v1.w*b.v2.xy + a.v1.x*b.v2.yw + a.v1.y*b.v2.xw + a.v1.z*b.v4.xyzw + a.v2.xw*b.v1.y + a.v2.xy*b.v1.w - a.v2.xz*b.v3.yzw + a.v2.yw*b.v1.x - a.v2.yz*b.v3.xzw - a.v2.zw*b.v3.xyz + a.v3.xyw*b.v0 + a.v3.xyz*b.v2.zw + a.v3.xzw*b.v2.yz + a.v3.yzw*b.v2.xz - a.v4.xyzw*b.v1.z;
+		result.v3.xzw = a.v0*b.v3.xzw + a.v1.w*b.v2.xz + a.v1.x*b.v2.zw - a.v1.y*b.v4.xyzw + a.v1.z*b.v2.xw + a.v2.xw*b.v1.z + a.v2.xy*b.v3.yzw + a.v2.xz*b.v1.w + a.v2.yw*b.v3.xyz + a.v2.yz*b.v3.xyw + a.v2.zw*b.v1.x - a.v3.xyw*b.v2.yz - a.v3.xyz*b.v2.yw + a.v3.xzw*b.v0 - a.v3.yzw*b.v2.xy + a.v4.xyzw*b.v1.y;
+
+		result.v4.xyzw = a.v0*b.v4.xyzw + a.v1.w*b.v3.xyz + a.v1.x*b.v3.yzw + a.v1.y*b.v3.xzw + a.v1.z*b.v3.xyw + a.v2.xw*b.v2.yz + a.v2.xy*b.v2.zw + a.v2.xz*b.v2.yw + a.v2.yw*b.v2.xz + a.v2.yz*b.v2.xw + a.v2.zw*b.v2.xy + a.v3.xyw*b.v1.z + a.v3.xyz*b.v1.w + a.v3.xzw*b.v1.y + a.v3.yzw*b.v1.x + a.v4.xyzw*b.v0;
 		return result;
 	}
 	/*

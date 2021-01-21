@@ -49,7 +49,7 @@ namespace OSE {
 
 	class OSE_API Multivector4 {
 	public:
-		t_float scalar;
+		t_float v0;
 		vec4 v1;
 		Bivector4 v2;
 		Trivector4 v3;

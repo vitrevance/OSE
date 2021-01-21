@@ -12,6 +12,12 @@
 #include <assimp/postprocess.h>
 #include <assimp/material.h>
 
+#ifdef WIN64
+namespace PLATFORM_WIN64 {
+#include <Windows.h>
+}
+#endif
+
 namespace OSE {
 	class OSE_API AssetSystem {
 	public:
@@ -51,6 +57,8 @@ namespace OSE {
 		std::map<string, Convex*> m_convexes;
 		
 		std::vector<Tetrahedron> cutPrism(vec4 a1, vec2 u1, vec4 a2, vec2 u2, vec4 a3, vec2 u3, vec4 b1, vec2 v1, vec4 b2, vec2 v2, vec4 b3, vec2 v3);
+
+		string getRunnableDir();
 	};
 }
 #endif

@@ -69,5 +69,5 @@ namespace OSE {
 		return Tetravector4(this->xyzw * a);
 	}
 
-	Multivector4::Multivector4() : scalar(0) {}
+	Multivector4::Multivector4() : v0(0) {}
 }

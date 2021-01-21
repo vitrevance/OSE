@@ -27,7 +27,7 @@ namespace OSE {
 	}
 
 	void AssetSystem::setAssetDir(string path) {
-		this->m_assetDir = path;
+		this->m_assetDir = this->getRunnableDir() + path;
 	}
 
 	string AssetSystem::loadRawString(const string& path) {
@@ -241,5 +241,18 @@ namespace OSE {
 		result.push_back(t2);
 		result.push_back(t3);
 		return result;
+	}
+
+	string AssetSystem::getRunnableDir() {
+		string path;
+#ifdef WIN64
+		char buffer[MAX_PATH];
+		PLATFORM_WIN64::GetModuleFileNameA(NULL, buffer, MAX_PATH);
+		std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+		path = string(buffer).substr(0, pos + 1);
+#else
+
+#endif
+		return path;
 	}
 }
