@@ -49,9 +49,6 @@ namespace OSE {
 	Multivector4 OSE_API operator* (const Multivector4& a, const vec4& b);
 	Multivector4 OSE_API operator* (const Multivector4& a, const Multivector4& b);
 
-	//Rotor4 OSE_API operator* (const vec4& a, const vec4& b);
-	Rotor4 OSE_API operator* (const Rotor4& a, const Rotor4& b);
-
 	typedef mat<2, 2> mat2;
 	typedef mat<3, 3> mat3;
 	typedef mat<4, 4> mat4;

@@ -161,11 +161,11 @@ public:
 		//TEST FIELD
 		//GEOMETRIC ALGEBRA TEST
 		
-		vec4 ra = vec4(1, 0, 0, 0).normalized();
+		vec4 ra = vec4(1, 2, 3, 4).normalized();
 		t_float alpha = 45;
 		vec4 rb = vec4(cos(OSE::toRadians(alpha)), sin(OSE::toRadians(alpha)), 0, 0);
 		vec4 orig = vec4(2, 0, 0, 0);
-		OSE::Multivector4 mv = (rb*ra* rb * ra) * orig * (ra * rb * ra*rb);
+		OSE::Multivector4 mv = ra * rb;
 		std::cout << mv.v0 << std::endl <<
 			mv.v1.x << " " << mv.v1.y << " " << mv.v1.z << " " << mv.v1.w << std::endl <<
 			mv.v2.xy << " " << mv.v2.yz << " " << mv.v2.xz << " " << mv.v2.xw << " " << mv.v2.yw << " " << mv.v2.zw << std::endl <<

@@ -230,15 +230,4 @@ namespace OSE {
 		result.v4.xyzw = a.v0*b.v4.xyzw + a.v1.w*b.v3.xyz + a.v1.x*b.v3.yzw + a.v1.y*b.v3.xzw + a.v1.z*b.v3.xyw + a.v2.xw*b.v2.yz + a.v2.xy*b.v2.zw + a.v2.xz*b.v2.yw + a.v2.yw*b.v2.xz + a.v2.yz*b.v2.xw + a.v2.zw*b.v2.xy + a.v3.xyw*b.v1.z + a.v3.xyz*b.v1.w + a.v3.xzw*b.v1.y + a.v3.yzw*b.v1.x + a.v4.xyzw*b.v0;
 		return result;
 	}
-	/*
-	Rotor4 operator* (const vec4& a, const vec4& b) {
-		Rotor4 result;
-		result.real = dot(a, b);
-		result.wedge = a ^ b;
-		return result;
-	}
-	*/
-	Rotor4 operator* (const Rotor4& a, const Rotor4& b) {
-		return Rotor4();
-	}
 }
