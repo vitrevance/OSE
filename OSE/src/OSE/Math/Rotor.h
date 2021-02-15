@@ -1,8 +1,7 @@
 #ifndef OSE_ROTOR_H
 #define OSE_ROTOR_H
 
-#include <OSE/Math/Vector.h>
-#include <OSE/Math/Multivector.h>
+#include <OSE/Math/Vecmath.h>
 
 namespace OSE {
 	class OSE_API Rotor4 {
@@ -27,6 +26,7 @@ namespace OSE {
 	};
 
 	Rotor4 OSE_API operator* (const Rotor4& a, const Rotor4& b);
+	vec4 OSE_API operator* (const Rotor4& r, const vec4& a);
 }
 
 #endif

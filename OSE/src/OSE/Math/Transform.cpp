@@ -2,65 +2,60 @@
 
 namespace OSE {
 
-	Transform::Transform() {}
-	Transform::Transform(vec4 position) : position(position) {}
-	Transform::Transform(vec4 position, mat4 rotation) : position(position), rotation(rotation) {}
-	Transform::Transform(mat4 rotation) : rotation(rotation) {}
-
-	void Transform::setRotation(t_float yaw, t_float pitch, t_float roll, t_float xw, t_float yw, t_float zw) {
-		mat4 myaw({
-			cos(yaw), -sin(yaw), 0, 0,
-			sin(yaw), cos(yaw), 0, 0,
-			0, 0, 1, 0,
-			0, 0, 0, 1
-			});
-		mat4 mpitch({
-			cos(pitch), 0, sin(pitch), 0,
-			0, 1, 0, 0,
-			-sin(pitch), 0, cos(pitch), 0,
-			0, 0, 0, 1
-			});
-		mat4 mroll({
-			1, 0, 0, 0,
-			0, cos(roll), -sin(roll), 0,
-			0, sin(roll), cos(roll), 0,
-			0, 0, 0, 1
-			});
-		mat4 mxw({
-			cos(xw), 0, 0, -sin(xw),
-			0, 1, 0, 0,
-			0, 0, 1, 0,
-			sin(xw), 0, 0, cos(xw)
-			});
-		mat4 myw({
-			1, 0, 0, 0,
-			0, cos(yw), 0, sin(yw),
-			0, 0, 1, 0,
-			0, -sin(yw), 0, cos(yw)
-			});
-		mat4 mzw({
-			1, 0, 0, 0,
-			0, 1, 0, 0,
-			0, 0, cos(zw), -sin(zw),
-			0, 0, sin(zw), cos(zw)
-			});
-		this->rotation = myaw * mpitch * mroll * mxw * myw * mzw;
+	Transform::Transform() {
+		this->scale = vec4(1);
 	}
 
-	void Transform::rotate(t_float yaw, t_float pitch, t_float roll, t_float xw, t_float yw, t_float zw) {
-		this->yaw += yaw;
-		this->pitch += pitch;
-		this->roll += roll;
-		this->xw += xw;
-		this->yw += yw;
-		this->zw += zw;
-		this->setRotation(this->yaw, this->pitch, this->roll, this->xw, this->yw, this->zw);
+	Transform::Transform(vec4 position) {
+		this->scale = vec4(1);
+		this->position = position;
 	}
 
-	void Transform::scale(t_float x, t_float y, t_float z, t_float w) {
-		this->rotation[0][0] *= x;
-		this->rotation[1][1] *= y;
-		this->rotation[2][2] *= z;
-		this->rotation[3][3] *= w;
+	mat4 Transform::toMatrix() {
+		mat4 result;
+
+
+		vec4 x = this->rotation * vec4(1, 0, 0, 0);
+		vec4 y = this->rotation * vec4(0, 1, 0, 0);
+		vec4 z = this->rotation * vec4(0, 0, 1, 0);
+		vec4 w = this->rotation * vec4(0, 0, 0, 1);
+
+		for (int i = 0; i < 4; i++) {
+			result[0][i] = x[i];
+			result[1][i] = y[i];
+			result[2][i] = z[i];
+			result[3][i] = w[i];
+		}
+
+		result[0][0] *= this->scale.x;
+		result[1][1] *= this->scale.y;
+		result[2][2] *= this->scale.z;
+		result[3][3] *= this->scale.w;
+
+		return result;
+	}
+
+	mat4 Transform::toMatrixTransposed() {
+		mat4 result;
+
+
+		vec4 x = this->rotation * vec4(1, 0, 0, 0);
+		vec4 y = this->rotation * vec4(0, 1, 0, 0);
+		vec4 z = this->rotation * vec4(0, 0, 1, 0);
+		vec4 w = this->rotation * vec4(0, 0, 0, 1);
+
+		for (int i = 0; i < 4; i++) {
+			result[i][0] = x[i];
+			result[i][1] = y[i];
+			result[i][2] = z[i];
+			result[i][3] = w[i];
+		}
+
+		result[0][0] *= this->scale.x;
+		result[1][1] *= this->scale.y;
+		result[2][2] *= this->scale.z;
+		result[3][3] *= this->scale.w;
+
+		return result;
 	}
 }

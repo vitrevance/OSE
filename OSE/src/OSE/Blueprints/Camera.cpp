@@ -30,7 +30,7 @@ namespace OSE {
 			0, 0, 1, pos.z,
 			0, 0, 0, 1
 			});
-		return matPos * this->m_transform.rotation;
+		return matPos * this->m_transform.toMatrix();
 	}
 
 	Transform& Camera::getTransform() {

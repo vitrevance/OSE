@@ -72,10 +72,12 @@ namespace OSE {
 				this->m_window->onRenderPost();
 			}
 			elapsed = clock::now() - start;
-			TickEvent tickEvent(elapsed.count());
-			EventSystem::instance->postEvent(tickEvent);
-			this->m_activeScene->updatePhysics(elapsed.count() / 1000.0);
-			start = clock::now();
+			if (elapsed.count() > 1) {
+				TickEvent tickEvent(elapsed.count());
+				EventSystem::instance->postEvent(tickEvent);
+				this->m_activeScene->updatePhysics(elapsed.count() / 1000.0);
+				start = clock::now();
+			}
 		}
 	}
 }

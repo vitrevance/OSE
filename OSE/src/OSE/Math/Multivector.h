@@ -56,6 +56,9 @@ namespace OSE {
 		Tetravector4 v4;
 
 		Multivector4();
+
+		Multivector4 operator+ (const Multivector4& a) const;
+		Multivector4 operator- (const Multivector4& a) const;
 	};
 }
 

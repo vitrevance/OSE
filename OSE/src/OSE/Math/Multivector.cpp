@@ -70,4 +70,24 @@ namespace OSE {
 	}
 
 	Multivector4::Multivector4() : v0(0) {}
+
+	Multivector4 Multivector4::operator+ (const Multivector4& a) const {
+		Multivector4 result;
+		result.v0 = this->v0 + a.v0;
+		result.v1 = this->v1 + a.v1;
+		result.v2 = this->v2 + a.v2;
+		result.v3 = this->v3 + a.v3;
+		result.v4 = this->v4 + a.v4;
+		return result;
+	}
+
+	Multivector4 Multivector4::operator- (const Multivector4& a) const {
+		Multivector4 result;
+		result.v0 = this->v0 - a.v0;
+		result.v1 = this->v1 - a.v1;
+		result.v2 = this->v2 - a.v2;
+		result.v3 = this->v3 - a.v3;
+		result.v4 = this->v4 - a.v4;
+		return result;
+	}
 }

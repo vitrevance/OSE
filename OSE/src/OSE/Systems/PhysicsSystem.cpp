@@ -33,7 +33,7 @@ namespace OSE {
 		vec4 support;
 
 		for (vec4 vertex : convex->vertices) {
-			vec4 translated = vertex * transform.rotation + transform.position;
+			vec4 translated = transform.rotation * vertex + transform.position;
 			t_float dp = dot(translated, d);
 			if (dp > highest) {
 				highest = dp;
@@ -49,7 +49,7 @@ namespace OSE {
 		int shape_it = 0;
 		int ITERATIONS = 0;
 		int MAX_ITERATIONS = 256;
-		vec4 v = *a->vertices.begin() * ta.rotation + ta.position;// -(*b->vertices.begin() * tb.rotation + tb.position);
+		vec4 v = ta.rotation * *a->vertices.begin() + ta.position;// -(*b->vertices.begin() * tb.rotation + tb.position);
 		bool flg = true;
 		t_float epsilon = 0.01;
 		while (v.length() > 0) {
@@ -86,12 +86,12 @@ namespace OSE {
 		StaticMesh* pb = (StaticMesh*)b->parent;
 		for (vec4 i : a->vertices) {
 			for (Tetrahedron t : pb->cells) {
-				t.vertex = t.vertex * tb.rotation + tb.position;
-				t.base_1 = t.base_1 * tb.rotation + tb.position;
-				t.base_2 = t.base_2 * tb.rotation + tb.position;
-				t.base_3 = t.base_3 * tb.rotation + tb.position;
+				t.vertex = tb.rotation * t.vertex + tb.position;
+				t.base_1 = tb.rotation * t.base_1 + tb.position;
+				t.base_2 = tb.rotation * t.base_2 + tb.position;
+				t.base_3 = tb.rotation * t.base_3 + tb.position;
 				vec4 d_start = ta.position;
-				vec4 d_end = i * ta.rotation + ta.position;
+				vec4 d_end = ta.rotation * i + ta.position;
 				vec4 volume_n = cross(t.base_1 - t.vertex, t.base_2 - t.vertex, t.base_3 - t.vertex).normalized();
 				t_float d1 = dot(volume_n, d_start - t.vertex);
 				t_float d2 = dot(volume_n, d_end - t.vertex);

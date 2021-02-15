@@ -4,7 +4,6 @@
 #include <OSE/Math/Vector.h>
 #include <OSE/Math/Matrix.h>
 #include <OSE/Math/Multivector.h>
-#include <OSE/Math/Rotor.h>
 
 #define CONST_PI 3.141592653589793238462643383279502884L
 

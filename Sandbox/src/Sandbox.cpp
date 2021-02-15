@@ -129,7 +129,9 @@ public:
 	}
 
 	void onEvent(OSE::MouseMovedEvent& event) override {
-		this->camera->getTransform().rotate(0, event.getX() / 500, event.getY() / 500, 0, 0, 0);
+		this->camera->getTransform().rotation.rotate(OSE::Rotor4::xz(event.getX() / 500));
+		//this->camera->getTransform().rotation.rotate(OSE::Rotor4::yz(event.getY() / 500));
+		//this->camera->getTransform().rotation.rotate(0, event.getX() / 500, event.getY() / 500, 0, 0, 0);
 	}
 
 	OSE::Transform& getTransform() override {
@@ -161,22 +163,27 @@ public:
 		//TEST FIELD
 		//GEOMETRIC ALGEBRA TEST
 		
-		vec4 ra = vec4(1, 2, 3, 4).normalized();
-		t_float alpha = 45;
+		vec4 ra = vec4(1, 0, 0, 0).normalized();
+		t_float alpha = 90;
 		vec4 rb = vec4(cos(OSE::toRadians(alpha)), sin(OSE::toRadians(alpha)), 0, 0);
 		vec4 orig = vec4(2, 0, 0, 0);
-		OSE::Multivector4 mv = ra * rb;
+		OSE::Multivector4 mv = ra * rb*orig*rb*ra;
 		std::cout << mv.v0 << std::endl <<
 			mv.v1.x << " " << mv.v1.y << " " << mv.v1.z << " " << mv.v1.w << std::endl <<
 			mv.v2.xy << " " << mv.v2.yz << " " << mv.v2.xz << " " << mv.v2.xw << " " << mv.v2.yw << " " << mv.v2.zw << std::endl <<
 			mv.v3.xyz << " " << mv.v3.yzw << " " << mv.v3.xyw << " " << mv.v3.xzw << std::endl <<
 			mv.v4.xyzw << std::endl;
 		
+		OSE::Rotor4 rot = OSE::Rotor4::xy(0);
+		vec4 res = rot * orig;
+		std::cout << res.x << " " << res.y << " " << res.z << " " << res.w << std::endl;
+
+
 		//this->stopEngine();
 		
 		TestActor* floor = new TestActor();
 		floor->getTransform().position = vec4(0, -2.7, 0, 0);
-		floor->getTransform().scale(20, 1, 20, 20);
+		floor->getTransform().scale = vec4(20, 1, 20, 20);
 		/*
 		TestActor* roof = new TestActor();
 		roof->getTransform().position = vec4(0, -2.7 + 20, 0, 0);
@@ -223,7 +230,8 @@ public:
 
 		TestActor* cube1 = new TestActor();
 		cube1->getTransform().position = vec4(-2, 0, 5, 0);
-		cube1->getTransform().rotate(1.8, 1.2, 1.2, 0, 1.4, 0.4);
+		//cube1->getTransform().rotate(1.8, 1.2, 1.2, 0, 1.4, 0.4);
+		cube1->getTransform().rotation.rotate(OSE::Rotor4::xw(OSE::toRadians(30)));
 		cube1->rigidBody.m_velocity.x = 5;
 
 
@@ -233,8 +241,8 @@ public:
 		layer->addAndSubscribe(cube2);
 
 
-		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::DIRECTIONAL_LIGHT, OSE::vec3(1), OSE::lookAt(OSE::vec3(), OSE::vec3({1, -1, 1}))));
-		//layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::POINT_LIGHT, OSE::vec3(1), OSE::vec4(0, 15, 0, 0)));
+		//layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::DIRECTIONAL_LIGHT, OSE::vec3(1), OSE::lookAt(OSE::vec3(), OSE::vec3({1, -1, 1}))));
+		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::POINT_LIGHT, OSE::vec3(1), OSE::vec4(0, 15, 0, 0)));
 		layer->addLightSource(new OSE::LightSource(OSE::LightSource::Type::AMBIENT_LIGHT, OSE::vec3(0.4)));
 		OSE::Camera* camera = new OSE::Camera(this->m_window->getWidth(), this->m_window->getHeight());
 		Player* player = new Player();

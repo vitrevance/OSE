@@ -110,7 +110,7 @@ namespace OSE {
 	void GlRenderer::drawStaticMesh(StaticMesh* mesh, Transform* transform) {
 		GLTransform batch;
 		batch.translation = transform->position;
-		batch.transform = transform->rotation.transposed();
+		batch.transform = transform->toMatrixTransposed();
 		this->m_drawQuery.insert(mesh);
 		this->m_batch[mesh].push_back(batch);
 	}
@@ -218,7 +218,7 @@ namespace OSE {
 			if (i >= 20) {
 				break;
 			}
-			mat4 light(it->transform.rotation);
+			mat4 light(it->transform.toMatrix());
 			light[3][0] = it->color[0];
 			light[3][1] = it->color[1];
 			light[3][2] = it->color[2];
