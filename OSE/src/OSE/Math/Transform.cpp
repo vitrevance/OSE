@@ -11,9 +11,8 @@ namespace OSE {
 		this->position = position;
 	}
 
-	mat4 Transform::toMatrix() {
+	mat4 Transform::toMatrixTransposed() {
 		mat4 result;
-
 
 		vec4 x = this->rotation * vec4(1, 0, 0, 0);
 		vec4 y = this->rotation * vec4(0, 1, 0, 0);
@@ -35,9 +34,8 @@ namespace OSE {
 		return result;
 	}
 
-	mat4 Transform::toMatrixTransposed() {
+	mat4 Transform::toMatrix() {
 		mat4 result;
-
 
 		vec4 x = this->rotation * vec4(1, 0, 0, 0);
 		vec4 y = this->rotation * vec4(0, 1, 0, 0);

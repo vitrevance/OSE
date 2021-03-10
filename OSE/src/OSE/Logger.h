@@ -21,8 +21,7 @@ namespace OSE {
 	#define LOG_APP_WARNING -3
 	#define LOG_APP_ERROR   -4
 
-	class OSE_API Logger
-	{
+	class OSE_API Logger {
 	public:
 		static Logger* instance;
 
@@ -35,9 +34,23 @@ namespace OSE {
 
 		void Stop();
 	};
+
+	template<typename T>
+	string to_str(const T& x) {
+		string res = "";
+		t_float* ptr = (t_float*)(&x);
+		int size = sizeof(x) / sizeof(t_float);
+		for (int i = 0; i < size; i++) {
+			res += std::to_string(ptr[i]);
+			if (i + 1 < size) {
+				res += " ";
+			}
+		}
+		return res;
+	}
 }
 
-#define OSE_LOG(...)	::OSE::Logger::instance->Log(__VA_ARGS__);
+#define OSE_LOG(...);	::OSE::Logger::instance->Log(__VA_ARGS__);
 
 #else
 #define OSE_LOG(...)

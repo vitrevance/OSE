@@ -26,6 +26,7 @@ namespace OSE {
 		Trivector4(t_float xyz, t_float yzw, t_float xyw, t_float xzw);
 
 		Trivector4 abs() const;
+		t_float value() const;
 
 		Trivector4 operator+ (const Trivector4& a) const;
 		Trivector4 operator- (const Trivector4& a) const;

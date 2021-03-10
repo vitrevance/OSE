@@ -110,7 +110,9 @@ namespace OSE {
 					Trivector4 volume_p = volume_1.abs() + volume_2.abs() + volume_3.abs() + volume_4.abs();
 					volume_p = volume_p.abs() - init_volume.abs();
 					//std::cout << volume_p.xyz << " " << volume_p.yzw << " " << volume_p.xyw << " " << volume_p.xzw << std::endl;
-					if (init_volume.abs() == volume_1.abs() + volume_2.abs() + volume_3.abs() + volume_4.abs()) {
+					//if (init_volume.abs() == volume_1.abs() + volume_2.abs() + volume_3.abs() + volume_4.abs()) {
+					if (volume_p.value() == 0) {
+						std::cout << volume_p.value() << std::endl;
 						std::cout << "collision" << std::endl;
 						return point_in_volume;
 					}

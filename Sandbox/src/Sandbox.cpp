@@ -94,7 +94,8 @@ public:
 			w = -1;
 		}
 		else if (event.getKeyCode() == 'L') {
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			this->camera->getTransform().rotation = OSE::Rotor4::xz(0.00001);
+			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 		else if (event.getKeyCode() == 'K') {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -129,9 +130,10 @@ public:
 	}
 
 	void onEvent(OSE::MouseMovedEvent& event) override {
-		this->camera->getTransform().rotation.rotate(OSE::Rotor4::xz(event.getX() / 500));
-		//this->camera->getTransform().rotation.rotate(OSE::Rotor4::yz(event.getY() / 500));
-		//this->camera->getTransform().rotation.rotate(0, event.getX() / 500, event.getY() / 500, 0, 0, 0);
+		this->camera->getTransform().rotation.rotate(OSE::Rotor4::xz(event.getX() / 1000.0));
+		vec4 xz = vec4(this->camera->getForward().x, 0, this->camera->getForward().z, 0).normalized();
+		vec4 up = vec4(xz.x * cos(event.getY() / 1000.0), sin(event.getY() / 1000.0), xz.z * cos(event.getY() / 1000.0), 0);
+		this->camera->getTransform().rotation.rotate(OSE::Rotor4(xz, up));
 	}
 
 	OSE::Transform& getTransform() override {
@@ -162,76 +164,44 @@ public:
 
 		//TEST FIELD
 		//GEOMETRIC ALGEBRA TEST
-		
-		vec4 ra = vec4(1, 0, 0, 0).normalized();
-		t_float alpha = 90;
-		vec4 rb = vec4(cos(OSE::toRadians(alpha)), sin(OSE::toRadians(alpha)), 0, 0);
-		vec4 orig = vec4(2, 0, 0, 0);
-		OSE::Multivector4 mv = ra * rb*orig*rb*ra;
-		std::cout << mv.v0 << std::endl <<
-			mv.v1.x << " " << mv.v1.y << " " << mv.v1.z << " " << mv.v1.w << std::endl <<
-			mv.v2.xy << " " << mv.v2.yz << " " << mv.v2.xz << " " << mv.v2.xw << " " << mv.v2.yw << " " << mv.v2.zw << std::endl <<
-			mv.v3.xyz << " " << mv.v3.yzw << " " << mv.v3.xyw << " " << mv.v3.xzw << std::endl <<
-			mv.v4.xyzw << std::endl;
-		
-		OSE::Rotor4 rot = OSE::Rotor4::xy(0);
-		vec4 res = rot * orig;
-		std::cout << res.x << " " << res.y << " " << res.z << " " << res.w << std::endl;
+		/*
+		t_float alpha = OSE::toRadians(30);
+		vec4 ra = vec4(1, 0, 0, 0);
+		vec4 rb = vec4(cos(alpha / 2), sin(alpha / 2), 0, 0);
+
+		OSE::Multivector4 m = ra * rb;
+		OSE::Multivector4 rm = rb * ra;
+
+		OSE::Rotor4 r = OSE::Rotor4::xy(alpha);
+		r.rotate(r);
+
+		vec4 v = vec4(1, 0, 1, 2);
+
+		vec4 vv = r * v;
+
+		std::cout << OSE::to_str(vv) << std::endl;
 
 
-		//this->stopEngine();
-		
-		TestActor* floor = new TestActor();
-		floor->getTransform().position = vec4(0, -2.7, 0, 0);
-		floor->getTransform().scale = vec4(20, 1, 20, 20);
-		/*
-		TestActor* roof = new TestActor();
-		roof->getTransform().position = vec4(0, -2.7 + 20, 0, 0);
-		roof->getTransform().scale(20, 1, 20, 20);
-		TestActor* wall1 = new TestActor();
-		wall1->getTransform().position = vec4(20, -2.7 + 10, 0, 0);
-		wall1->getTransform().scale(1, 10, 20, 20);
-		TestActor* wall3 = new TestActor();
-		wall3->getTransform().position = vec4(-20, -2.7 + 10, 0, 0);
-		wall3->getTransform().scale(1, 10, 20, 20);
-		TestActor* wall2 = new TestActor();
-		wall2->getTransform().position = vec4(0, -2.7 + 10, 20, 0);
-		wall2->getTransform().scale(20, 10, 1, 20);
-		TestActor* wall4 = new TestActor();
-		wall4->getTransform().position = vec4(0, -2.7 + 10, -20, 0);
-		wall4->getTransform().scale(20, 10, 1, 20);
-		*/
-		/*
-		for (int i = 0; i < 1; i++) {
-			TestActor* cube = new TestActor();
-			cube->getTransform().scale(0.5, 0.5, 0.5, 0.5);
-			cube->getTransform().position.x = OSE::Random::signedDecimal() * 18;
-			cube->getTransform().position.y = OSE::Random::signedDecimal() * 0.3 - 0.15;
-			cube->getTransform().position.z = OSE::Random::signedDecimal() * 18;
-			cube->getTransform().position.w = 0;//OSE::Random::signedDecimal() * 15;
-			vec3 xyzrot = OSE::Random::vector3();
-			vec3 wrot = OSE::Random::vector3();
-			//cube->getTransform().rotate(xyzrot.x, xyzrot.y, xyzrot.z, wrot.x, wrot.y, wrot.z);
-			cube->getTransform().rotate(xyzrot.x, xyzrot.y, xyzrot.z, 0, 0, 0);
-			cube->rigidBody.m_velocity = vec4(0, -0.2, 0, 0);
-			cube->getTransform().position.y = 1;
-			layer->addAndSubscribe(cube);
-		}
+		m = m * v * rm;
 
-		layer->add(floor);
+		std::cout << OSE::to_str(m.v0) << std::endl;
+		std::cout << OSE::to_str(m.v1) << std::endl;
+		std::cout << OSE::to_str(m.v2) << std::endl;
+		std::cout << OSE::to_str(m.v3) << std::endl;
+		std::cout << OSE::to_str(m.v4) << std::endl;
+		//std::cout << b.x << " " << b.y << " " << b.z << " " << b.w << std::endl;
+
+		this->stopEngine();
 		*/
-		/*
-		layer->add(roof);
-		layer->add(wall1);
-		layer->add(wall2);
-		layer->add(wall3);
-		layer->add(wall4);
-		*/
+		//----------------------------------------------------------------------
 
 		TestActor* cube1 = new TestActor();
-		cube1->getTransform().position = vec4(-2, 0, 5, 0);
+		cube1->getTransform().position = vec4(-2, -1, 6, 0);
 		//cube1->getTransform().rotate(1.8, 1.2, 1.2, 0, 1.4, 0.4);
-		cube1->getTransform().rotation.rotate(OSE::Rotor4::xw(OSE::toRadians(30)));
+		cube1->getTransform().rotation = OSE::Rotor4::xy(OSE::toRadians(30));
+		//cube1->getTransform().rotation.rotate(OSE::Rotor4::zw(OSE::toRadians(60)));
+		//cube1->getTransform().rotation.rotate(OSE::Rotor4::yw(OSE::toRadians(45)));
+		//cube1->getTransform().scale = vec4(2, 0.5, 1, 1);
 		cube1->rigidBody.m_velocity.x = 5;
 
 

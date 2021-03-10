@@ -30,6 +30,10 @@ namespace OSE {
 		return Trivector4(std::abs(this->xyz), std::abs(this->yzw), std::abs(this->xyw), std::abs(this->xzw));
 	}
 
+	t_float Trivector4::value() const {
+		return this->xyw*this->xyw + this->xyz*this->xyz + this->xzw*this->xzw + this->yzw*this->yzw;
+	}
+
 	Trivector4 Trivector4::operator+ (const Trivector4& a) const {
 		return Trivector4(this->xyz + a.xyz, this->yzw + a.yzw, this->xyw + a.xyw, this->xzw + a.xzw);
 	}
