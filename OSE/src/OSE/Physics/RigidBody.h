@@ -16,6 +16,8 @@ namespace OSE {
 		RigidBody(Convex* convex);
 		~RigidBody();
 
+		vec4 getFurthestVertex(vec4 direction);
+
 		Convex* getConvex();
 		Transform& getTransform();
 

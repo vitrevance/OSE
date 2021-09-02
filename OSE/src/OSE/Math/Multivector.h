@@ -11,10 +11,13 @@ namespace OSE {
 		Bivector4();
 		Bivector4(t_float xy, t_float yz, t_float xz, t_float xw, t_float yw, t_float zw);
 
+		t_float value() const;
+
 		Bivector4 operator+ (const Bivector4& a) const;
 		Bivector4 operator- (const Bivector4& a) const;
 		Bivector4 operator- () const;
 		Bivector4 operator* (t_float a) const;
+		void operator+= (const Bivector4& a);
 
 	};
 

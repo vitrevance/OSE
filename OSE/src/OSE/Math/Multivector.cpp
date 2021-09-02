@@ -6,6 +6,10 @@ namespace OSE {
 	Bivector4::Bivector4(t_float xy, t_float yz, t_float xz, t_float xw, t_float yw, t_float zw)
 		: xy(xy), yz(yz), xz(xz), xw(xw), yw(yw), zw(zw) {}
 
+	t_float Bivector4::value() const {
+		return this->xy*this->xy + this->yz*this->yz + this->xz*this->xz + this->xw*this->xw + this->yw*this->yw + this->zw*this->zw;
+	}
+
 	Bivector4 Bivector4::operator+ (const Bivector4& a) const {
 		return Bivector4(this->xy + a.xy, this->yz + a.yz, this->xz + a.xz, this->xw + a.xw, this->yw + a.yw, this->zw + a.zw);
 	}
@@ -20,6 +24,10 @@ namespace OSE {
 
 	Bivector4 Bivector4::operator* (t_float a) const {
 		return Bivector4(this->xy * a, this->yz * a, this->xz * a, this->xw * a, this->yw * a, this->zw * a);
+	}
+
+	void Bivector4::operator+=(const Bivector4 & a) {
+		*this = *this + a;
 	}
 
 	Trivector4::Trivector4() : xyz(0), yzw(0), xyw(0), xzw(0) {}

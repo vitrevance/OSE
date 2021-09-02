@@ -27,6 +27,7 @@
 #include <map>
 #include <set>
 #include <cmath>
+#include <algorithm>
 
 namespace OSE {
 	using std::string;
