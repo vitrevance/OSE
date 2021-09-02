@@ -94,8 +94,7 @@ public:
 			w = -1;
 		}
 		else if (event.getKeyCode() == 'L') {
-			this->camera->getTransform().rotation = OSE::Rotor4::xz(0.00001);
-			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 		else if (event.getKeyCode() == 'K') {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -152,7 +151,7 @@ public:
 
 		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube1.obj");
 		OSE::AssetSystem::instance->loadTexture("crate", "OSE/cube1.bmp");
-		OSE::AssetSystem::instance->createMaterial("flat", "#texture crate\nvec4 material() { vec4 matcol = texture(texture0, uv_coord); return matcol + vec4(0.2); }");
+		OSE::AssetSystem::instance->createMaterial("flat", "#texture crate\nvec4 material() { vec4 matcol = texture(texture0, uv_coord); return vec4(0.1, 0.9, 0.5, 1); return matcol + vec4(0.2); }");
 		OSE::AssetSystem::instance->attachMaterial("cube", "flat");
 		OSE::AssetSystem::instance->genConvexForMesh("cube");
 
@@ -196,17 +195,19 @@ public:
 		//----------------------------------------------------------------------
 
 		TestActor* cube1 = new TestActor();
-		cube1->getTransform().position = vec4(-2, -1, 6, 0);
+		cube1->getTransform().position = vec4(-2, 0, 5, 0);
+		cube1->getTransform().scale = vec4(0.7);
 		//cube1->getTransform().rotate(1.8, 1.2, 1.2, 0, 1.4, 0.4);
-		cube1->getTransform().rotation = OSE::Rotor4::xy(OSE::toRadians(30));
+		cube1->getTransform().rotation = OSE::Rotor4::xy(OSE::toRadians(58)) * OSE::Rotor4::xw(OSE::toRadians(40)) * OSE::Rotor4::yw(OSE::toRadians(35)) * OSE::Rotor4::zw(OSE::toRadians(73));
 		//cube1->getTransform().rotation.rotate(OSE::Rotor4::zw(OSE::toRadians(60)));
 		//cube1->getTransform().rotation.rotate(OSE::Rotor4::yw(OSE::toRadians(45)));
 		//cube1->getTransform().scale = vec4(2, 0.5, 1, 1);
-		cube1->rigidBody.m_velocity.x = 5;
+		cube1->rigidBody.m_velocity.x = 0.2;
 
 
 		TestActor* cube2 = new TestActor();
 		cube2->getTransform().position = vec4(2, 0, 5, 0);
+		//cube2->getTransform().rotation = OSE::Rotor4::xz(OSE::toRadians(0)) * OSE::Rotor4::xz(OSE::toRadians(35));
 		layer->addAndSubscribe(cube1);
 		layer->addAndSubscribe(cube2);
 

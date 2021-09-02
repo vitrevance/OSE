@@ -214,7 +214,7 @@ namespace OSE {
 	Multivector4 operator* (const Multivector4& a, const Multivector4& b) {
 		Multivector4 result;
 		
-		result.v0 = +a.v0*b.v0 + a.v1.w*b.v1.w + a.v1.x*b.v1.x + a.v1.y*b.v1.y + a.v1.z*b.v1.z - a.v2.xw*b.v2.xw - a.v2.xy*b.v2.xy - a.v2.xz*b.v2.xz - a.v2.yw*b.v2.yw - a.v2.yz*b.v2.yz - a.v2.zw*b.v2.zw - a.v3.xyw*b.v3.xyw - a.v3.xyz*b.v3.xyz - a.v3.xzw*b.v3.xzw - a.v3.yzw*b.v3.yzw + a.v4.xyzw*b.v4.xyzw;
+		result.v0 = a.v0*b.v0 + a.v1.w*b.v1.w + a.v1.x*b.v1.x + a.v1.y*b.v1.y + a.v1.z*b.v1.z - a.v2.xw*b.v2.xw - a.v2.xy*b.v2.xy - a.v2.xz*b.v2.xz - a.v2.yw*b.v2.yw - a.v2.yz*b.v2.yz - a.v2.zw*b.v2.zw - a.v3.xyw*b.v3.xyw - a.v3.xyz*b.v3.xyz - a.v3.xzw*b.v3.xzw - a.v3.yzw*b.v3.yzw + a.v4.xyzw*b.v4.xyzw;
 
 		result.v1.x = a.v0*b.v1.x - a.v1.w*b.v2.xw + a.v1.x*b.v0 - a.v1.y*b.v2.xy - a.v1.z*b.v2.xz + a.v2.xw*b.v1.w + a.v2.xy*b.v1.y + a.v2.xz*b.v1.z - a.v2.yw*b.v3.xyw - a.v2.yz*b.v3.xyz - a.v2.zw*b.v3.xzw - a.v3.xyw*b.v2.yw - a.v3.xyz*b.v2.yz - a.v3.xzw*b.v2.zw + a.v3.yzw*b.v4.xyzw - a.v4.xyzw*b.v3.yzw;
 		result.v1.y = a.v0*b.v1.y - a.v1.w*b.v2.yw + a.v1.x*b.v2.xy + a.v1.y*b.v0 - a.v1.z*b.v2.yz + a.v2.xw*b.v3.xyw - a.v2.xy*b.v1.x + a.v2.xz*b.v3.xyz + a.v2.yw*b.v1.w + a.v2.yz*b.v1.z - a.v2.zw*b.v3.yzw + a.v3.xyw*b.v2.xw + a.v3.xyz*b.v2.xz - a.v3.xzw*b.v4.xyzw - a.v3.yzw*b.v2.zw + a.v4.xyzw*b.v3.xzw;

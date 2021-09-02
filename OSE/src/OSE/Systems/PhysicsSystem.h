@@ -19,13 +19,23 @@ namespace OSE {
 
 		void update(t_float delta);
 	private:
+		struct CollisionData {
+			vec4 normal;
+			vec4 location;
+		};
+
 		std::set<RigidBody*> m_physicsBodies;
 
-		vec4 getSupport(Convex* convex, Transform& transform, vec4 d);
-		vec4 GJK(Convex* a, Transform& ta, Convex* b, Transform& tb);
-		vec4 orderedDiagonals(Convex* a, Transform& ta, Convex* b, Transform& tb);
-		vec4 volumes(Convex* a, Transform& ta, Convex* b, Transform& tb);
+		vec4 getSupport(RigidBody* a, RigidBody* b, vec4 direction);
+		PhysicsSystem::CollisionData GJK(RigidBody* a, RigidBody* b);
+		vec4 EPA(RigidBody* rba, RigidBody* rbb, std::vector<vec4>& simplex);
 		void updateBodies(RigidBody* a, RigidBody* b, t_float delta);
+
+		int SimplexCheck(std::vector<vec4>& simplex, vec4& direction);
+		int Line(std::vector<vec4>& simplex, vec4& direction);
+		int Triangle(std::vector<vec4>& simplex, vec4& direction);
+		int FTetrahedron(std::vector<vec4>& simplex, vec4& direction);
+		int FiveCell(std::vector<vec4>& simplex, vec4& direction);
 	};
 }
 
