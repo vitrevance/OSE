@@ -5,33 +5,10 @@ namespace OSE {
 
 	Logger* Logger::instance;
 
-	Logger::Logger() {
+	Logger::Logger() : m_logLevel(0) {
 	}
 
 	Logger::~Logger() {
-	}
-
-	void Logger::Log(int LogLevel, string message) {
-		if (LogLevel > 0) {
-			std::cout << "OSE:";
-		}
-		else {
-			std::cout << S_APP_NAME << ":";
-		}
-		switch (LogLevel & -LogLevel) {
-		case LOG_OSE_TRACE:
-			std::cout << "TRACE     <";
-			break;
-		case LOG_OSE_INFO:
-			std::cout << "INFO      <";
-			break;
-		case LOG_OSE_WARNING:
-			std::cout << "WARNING   <";
-			break;
-		case LOG_OSE_ERROR:
-			std::cout << "ERROR     <";
-		}
-		std::cout << message << std::endl;
 	}
 
 	void Logger::Start() {
@@ -46,6 +23,10 @@ namespace OSE {
 		OSE_LOG(LOG_OSE_INFO, "Logger stopped!");
 		Logger::instance = nullptr;
 		#endif
+	}
+
+	void Logger::setLogLevel(int level) {
+		this->m_logLevel = level;
 	}
 }
 #endif

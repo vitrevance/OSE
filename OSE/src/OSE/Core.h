@@ -33,6 +33,6 @@ namespace OSE {
 	using std::string;
 }
 
-
+#include<OSE/DebugData.h>
 
 #endif

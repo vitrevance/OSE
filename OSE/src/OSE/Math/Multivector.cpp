@@ -83,6 +83,17 @@ namespace OSE {
 
 	Multivector4::Multivector4() : v0(0) {}
 
+	Multivector4::Multivector4(t_float scalar, const vec4& x, const Bivector4& xy, const Trivector4& xyz, const Tetravector4& xyzw)
+		: v0(scalar), v1(x), v2(xy), v3(xyz), v4(xyzw) {}
+
+	Multivector4::Multivector4(t_float scalar) : v0(scalar) {}
+
+	Multivector4::Multivector4(const Bivector4& xy) : v0(0), v2(xy) {}
+
+	Multivector4::Multivector4(const Trivector4& xyz) : v0(0), v3(xyz) {}
+
+	Multivector4::Multivector4(const Tetravector4& xyzw) : v0(0), v4(xyzw) {}
+
 	Multivector4 Multivector4::operator+ (const Multivector4& a) const {
 		Multivector4 result;
 		result.v0 = this->v0 + a.v0;

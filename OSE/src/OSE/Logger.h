@@ -28,11 +28,40 @@ namespace OSE {
 		Logger();
 		~Logger();
 
-		void Log(int LogLevel, string message);
+		template<class T>
+		void Log(int LogLevel, const T& message) {
+			if (std::abs(LogLevel) < this->m_logLevel) {
+				return;
+			}
+			if (LogLevel > 0) {
+				std::cout << "OSE:";
+			}
+			else {
+				std::cout << S_APP_NAME << ":";
+			}
+			switch (LogLevel & -LogLevel) {
+			case LOG_OSE_TRACE:
+				std::cout << "TRACE     <";
+				break;
+			case LOG_OSE_INFO:
+				std::cout << "INFO      <";
+				break;
+			case LOG_OSE_WARNING:
+				std::cout << "WARNING   <";
+				break;
+			case LOG_OSE_ERROR:
+				std::cout << "ERROR     <";
+			}
+			std::cout << message << std::endl;
+		}
 
 		void Start();
 
 		void Stop();
+
+		void setLogLevel(int level);
+	private:
+		int m_logLevel;
 	};
 
 	template<typename T>
@@ -50,7 +79,7 @@ namespace OSE {
 	}
 }
 
-#define OSE_LOG(...);	::OSE::Logger::instance->Log(__VA_ARGS__);
+#define OSE_LOG(...);	::OSE::Logger::instance->Log(__VA_ARGS__)
 
 #else
 #define OSE_LOG(...)

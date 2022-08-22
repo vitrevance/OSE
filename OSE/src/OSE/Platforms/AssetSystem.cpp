@@ -38,7 +38,7 @@ namespace OSE {
 
 	StaticMesh* AssetSystem::loadStaticMesh(const string& name, string path, vec4 bottomExtrusion, vec4 topExtrusion) {
 		if (this->m_staticMeshes.count(name) > 0) {
-			OSE_LOG(LOG_OSE_ERROR, "AssetSystem: static mesh with name <" + name + "> already exists!")
+			OSE_LOG(LOG_OSE_ERROR, "AssetSystem: static mesh with name <" + name + "> already exists!");
 			return nullptr;
 		}
 		const aiScene* scene = aiImportFile((this->m_assetDir + path).c_str(),
@@ -103,7 +103,7 @@ namespace OSE {
 			return mesh;
 		}
 		else {
-			OSE_LOG(LOG_OSE_ERROR, ("Failed to load asset: " + string(aiGetErrorString())))
+			OSE_LOG(LOG_OSE_ERROR, ("Failed to load asset: " + string(aiGetErrorString())));
 		}
 		return nullptr;
 	}
@@ -126,13 +126,17 @@ namespace OSE {
 
 	Material* AssetSystem::createMaterial(const string& name, string materialText) {
 		if (this->m_materials.count(name) > 0) {
-			OSE_LOG(LOG_OSE_ERROR, "AssetSystem: material with name <" + name + "> already exists!")
+			OSE_LOG(LOG_OSE_ERROR, "AssetSystem: material with name <" + name + "> already exists!");
+			return nullptr;
+		}
+		std::string::size_type defloc = materialText.find("material");
+		if (defloc == string::npos) {
+			OSE_LOG(LOG_OSE_ERROR, "AssetSystem: material <" + name + "> : bad format!");
 			return nullptr;
 		}
 		Material* material = new Material(this->m_materials.size() + 1);
-		unsigned int defloc = materialText.find("material");
 		materialText.insert(defloc + 8, std::to_string(material->id));
-		unsigned int texture = materialText.find("#texture ");
+		unsigned long long texture = materialText.find("#texture ");
 		while (texture != string::npos) {
 			if (texture > defloc) {
 				break;
@@ -141,12 +145,12 @@ namespace OSE {
 			string texName = materialText.substr(texture + 9, texEnd - texture - 9);
 			material->textures.push_back(texName);
 			if (materialText.size() < texEnd + 1) {
-				OSE_LOG(LOG_OSE_ERROR, "AssetSystem: material <" + name + "> : bad format!")
+				OSE_LOG(LOG_OSE_ERROR, "AssetSystem: material <" + name + "> : bad format!");
 				delete material;
 				return nullptr;
 			}
 			if (this->m_textures[texName] == nullptr) {
-				OSE_LOG(LOG_OSE_WARNING, "AssetSystem: material <" + name + "> : unresolved reference to texture <" + texName + "> !")
+				OSE_LOG(LOG_OSE_WARNING, "AssetSystem: material <" + name + "> : unresolved reference to texture <" + texName + "> !");
 			}
 			materialText = materialText.substr(texEnd + 1);
 			texture = materialText.find("#texture ");
@@ -154,6 +158,11 @@ namespace OSE {
 		material->text = materialText;
 		this->m_materials[name] = material;
 		return material;
+	}
+
+	Material* OSE::AssetSystem::loadMaterial(const string& name, const string& path) {
+		string texture_text = AssetSystem::loadRawString(path);
+		return AssetSystem::createMaterial(name, texture_text);
 	}
 
 	void AssetSystem::attachMaterial(const string& meshName, string materialName) {
@@ -170,7 +179,7 @@ namespace OSE {
 
 	Texture* AssetSystem::loadTexture(const string& name, const string& path) {
 		if (this->m_textures.count(name) > 0) {
-			OSE_LOG(LOG_OSE_ERROR, "AssetSystem: texture with name <" + name + "> already exists!")
+			OSE_LOG(LOG_OSE_ERROR, "AssetSystem: texture with name <" + name + "> already exists!");
 			return nullptr;
 		}
 		Texture* texture = new Texture();
@@ -178,7 +187,7 @@ namespace OSE {
 		texture->pixels = stbi_load((this->m_assetDir + path).c_str(), &width, &height, &channels, STBI_rgb_alpha);
 		if (texture->pixels == nullptr) {
 			delete texture;
-			OSE_LOG(LOG_OSE_ERROR, "Failed to load asset : " + path)
+			OSE_LOG(LOG_OSE_ERROR, "Failed to load asset : " + path);
 			return nullptr;
 		}
 		texture->width = width;

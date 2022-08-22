@@ -21,8 +21,7 @@ namespace OSE {
 		Convex* getConvex();
 		Transform& getTransform();
 
-		friend class PhysicsSystem;
-	private:
+	protected:
 		Convex* m_convex;
 		Transform m_transform;
 	};

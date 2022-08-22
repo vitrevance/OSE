@@ -34,6 +34,7 @@ namespace OSE {
 		StaticMesh* getStaticMesh(const string& name);
 		//MATERIAL
 		Material* createMaterial(const string& name, string materialText);
+		Material* loadMaterial(const string& name, const string& path);
 		void attachMaterial(const string& meshName, string materialName);
 		void attachMaterial(StaticMesh* mesh, Material* material);
 		Material* getMeshMaterial(StaticMesh* mesh);

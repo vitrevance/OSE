@@ -33,10 +33,10 @@ namespace OSE {
 	void WindowsWindow::init() {
 		if (WindowsWindow::s_isWindowInit <= 0) {
 			if (glfwInit()) {
-				OSE_LOG(LOG_OSE_INFO, "GLFW initialized")
+				OSE_LOG(LOG_OSE_INFO, "GLFW initialized");
 			}
 			else {
-				OSE_LOG(LOG_OSE_ERROR, "GLFW initialization failed")
+				OSE_LOG(LOG_OSE_ERROR, "GLFW initialization failed");
 			}
 		}
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -47,15 +47,15 @@ namespace OSE {
 		this->m_glfwWindow = glfwCreateWindow(this->m_windowProps.width, this->m_windowProps.height, this->m_windowProps.title.c_str(),
 			this->m_windowProps.isFullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
 		if (!this->m_glfwWindow) {
-			OSE_LOG(LOG_OSE_ERROR, "GLFW window creation failed")
+			OSE_LOG(LOG_OSE_ERROR, "GLFW window creation failed");
 		}
 		glfwMakeContextCurrent(this->m_glfwWindow);
 		glewExperimental = GL_TRUE;
 		if (glewInit() == GLEW_OK) {
-			OSE_LOG(LOG_OSE_INFO, "GLEW initialized")
+			OSE_LOG(LOG_OSE_INFO, "GLEW initialized");
 		}
 		else {
-			OSE_LOG(LOG_OSE_ERROR, "GLEW initialization failed")
+			OSE_LOG(LOG_OSE_ERROR, "GLEW initialization failed");
 		}
 		glfwSetInputMode(this->m_glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		glfwSetKeyCallback(this->m_glfwWindow, key_callback);

@@ -23,6 +23,18 @@ namespace OSE {
 		*this = r * *this;
 	}
 
+	Multivector4 Rotor4::asMultivector() const {
+		return Multivector4(this->v0, vec4(), this->v2, Trivector4(), Tetravector4(this->v4));
+	}
+
+	Rotor4 Rotor4::fromMultivector(const Multivector4& value) {
+		Rotor4 result;
+		result.v0 = value.v0;
+		result.v2 = value.v2;
+		result.v4 = value.v4.xyzw;
+		return result;
+	}
+
 	Rotor4 Rotor4::xy(t_float angle) {
 		return Rotor4(vec4(1, 0, 0, 0), vec4(cos(angle/2), sin(angle/2), 0, 0));
 	}

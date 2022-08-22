@@ -16,7 +16,9 @@ namespace OSE {
 
 		Rotor4 reverse() const;
 		void rotate(const Rotor4& r);
+		Multivector4 asMultivector() const;
 
+		static Rotor4 fromMultivector(const Multivector4& value);
 		static Rotor4 xy(t_float angle);
 		static Rotor4 yz(t_float angle);
 		static Rotor4 xz(t_float angle);

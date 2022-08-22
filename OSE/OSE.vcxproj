@@ -101,6 +101,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\OSE\DebugData.h" />
     <ClInclude Include="src\OSE\Blueprints\Camera.h" />
     <ClInclude Include="src\OSE\Blueprints\Convex.h" />
     <ClInclude Include="src\OSE\Blueprints\LightSource.h" />
@@ -137,6 +138,7 @@
     <ClInclude Include="src\OSE\Math\Vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\OSE\DebugData.cpp" />
     <ClCompile Include="src\OSE\Blueprints\Camera.cpp" />
     <ClCompile Include="src\OSE\Blueprints\Convex.cpp" />
     <ClCompile Include="src\OSE\Blueprints\Material.cpp" />

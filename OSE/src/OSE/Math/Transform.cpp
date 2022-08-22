@@ -14,10 +14,10 @@ namespace OSE {
 	mat4 Transform::toMatrixTransposed() {
 		mat4 result;
 
-		vec4 x = this->rotation * vec4(1, 0, 0, 0);
-		vec4 y = this->rotation * vec4(0, 1, 0, 0);
-		vec4 z = this->rotation * vec4(0, 0, 1, 0);
-		vec4 w = this->rotation * vec4(0, 0, 0, 1);
+		vec4 x = this->rotation * vec4(this->scale.x, 0, 0, 0);
+		vec4 y = this->rotation * vec4(0, this->scale.y, 0, 0);
+		vec4 z = this->rotation * vec4(0, 0, this->scale.z, 0);
+		vec4 w = this->rotation * vec4(0, 0, 0, this->scale.w);
 
 		for (int i = 0; i < 4; i++) {
 			result[0][i] = x[i];
@@ -26,21 +26,16 @@ namespace OSE {
 			result[3][i] = w[i];
 		}
 
-		result[0][0] *= this->scale.x;
-		result[1][1] *= this->scale.y;
-		result[2][2] *= this->scale.z;
-		result[3][3] *= this->scale.w;
-
 		return result;
 	}
 
 	mat4 Transform::toMatrix() {
 		mat4 result;
 
-		vec4 x = this->rotation * vec4(1, 0, 0, 0);
-		vec4 y = this->rotation * vec4(0, 1, 0, 0);
-		vec4 z = this->rotation * vec4(0, 0, 1, 0);
-		vec4 w = this->rotation * vec4(0, 0, 0, 1);
+		vec4 x = this->rotation * vec4(this->scale.x, 0, 0, 0);
+		vec4 y = this->rotation * vec4(0, this->scale.y, 0, 0);
+		vec4 z = this->rotation * vec4(0, 0, this->scale.z, 0);
+		vec4 w = this->rotation * vec4(0, 0, 0, this->scale.w);
 
 		for (int i = 0; i < 4; i++) {
 			result[i][0] = x[i];
@@ -48,11 +43,6 @@ namespace OSE {
 			result[i][2] = z[i];
 			result[i][3] = w[i];
 		}
-
-		result[0][0] *= this->scale.x;
-		result[1][1] *= this->scale.y;
-		result[2][2] *= this->scale.z;
-		result[3][3] *= this->scale.w;
 
 		return result;
 	}

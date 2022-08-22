@@ -12,7 +12,7 @@ namespace OSE {
 			for (string textureName : it.second->textures) {
 				Texture* texture = AssetSystem::instance->getTexture(textureName);
 				if (texture == nullptr) {
-					OSE_LOG(LOG_OSE_ERROR, "GlRenderer: unresolved texture <" + textureName + ">!")
+					OSE_LOG(LOG_OSE_ERROR, "GlRenderer: unresolved texture <" + textureName + ">!");
 					break;
 				}
 				if (texture->id == 0) {
@@ -132,7 +132,7 @@ namespace OSE {
 			glGetShaderiv(vertexId, GL_INFO_LOG_LENGTH, &length);
 			std::vector<char> error(length);
 			glGetShaderInfoLog(vertexId, length, &length, &error[0]);
-			OSE_LOG(LOG_OSE_ERROR, string(&error[0]))
+			OSE_LOG(LOG_OSE_ERROR, string(&error[0]));
 			glDeleteShader(vertexId);
 
 			return 0;
@@ -149,7 +149,7 @@ namespace OSE {
 			glGetShaderiv(fragmentId, GL_INFO_LOG_LENGTH, &length);
 			std::vector<char> error(length);
 			glGetShaderInfoLog(fragmentId, length, &length, &error[0]);
-			OSE_LOG(LOG_OSE_ERROR, string(&error[0]))
+			OSE_LOG(LOG_OSE_ERROR, string(&error[0]));
 			glDeleteShader(fragmentId);
 
 			return 0;
@@ -168,8 +168,8 @@ namespace OSE {
 				glGetShaderiv(geometryId, GL_INFO_LOG_LENGTH, &length);
 				std::vector<char> error(length);
 				glGetShaderInfoLog(geometryId, length, &length, &error[0]);
-				OSE_LOG(LOG_OSE_ERROR, string(&error[0]))
-					glDeleteShader(geometryId);
+				OSE_LOG(LOG_OSE_ERROR, string(&error[0]));
+				glDeleteShader(geometryId);
 
 				return 0;
 			}
@@ -293,8 +293,8 @@ namespace OSE {
 			glGetShaderiv(vertexId, GL_INFO_LOG_LENGTH, &length);
 			std::vector<char> error(length);
 			glGetShaderInfoLog(vertexId, length, &length, &error[0]);
-			OSE_LOG(LOG_OSE_ERROR, string(&error[0]))
-				glDeleteShader(vertexId);
+			OSE_LOG(LOG_OSE_ERROR, string(&error[0]));
+			glDeleteShader(vertexId);
 
 			return 0;
 		}
@@ -310,8 +310,8 @@ namespace OSE {
 			glGetShaderiv(fragmentId, GL_INFO_LOG_LENGTH, &length);
 			std::vector<char> error(length);
 			glGetShaderInfoLog(fragmentId, length, &length, &error[0]);
-			OSE_LOG(LOG_OSE_ERROR, string(&error[0]))
-				glDeleteShader(fragmentId);
+			OSE_LOG(LOG_OSE_ERROR, string(&error[0]));
+			glDeleteShader(fragmentId);
 
 			return 0;
 		}
@@ -329,8 +329,8 @@ namespace OSE {
 				glGetShaderiv(geometryId, GL_INFO_LOG_LENGTH, &length);
 				std::vector<char> error(length);
 				glGetShaderInfoLog(geometryId, length, &length, &error[0]);
-				OSE_LOG(LOG_OSE_ERROR, string(&error[0]))
-					glDeleteShader(geometryId);
+				OSE_LOG(LOG_OSE_ERROR, string(&error[0]));
+				glDeleteShader(geometryId);
 
 				return 0;
 			}

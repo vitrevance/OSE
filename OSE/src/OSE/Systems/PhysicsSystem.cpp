@@ -51,14 +51,14 @@ namespace OSE {
 
 			simplex.push_back(support);
 			
-			std::cout << "---------------------------------" << std::endl;
-			std::cout << simplex.size() << std::endl;
+			OSE_LOG(LOG_OSE_TRACE, "---------------------------------");
+			OSE_LOG(LOG_OSE_TRACE, simplex.size());
 			for (vec4 it : simplex) {
-				std::cout << to_str(it) << std::endl;
+				//std::cout << to_str(it) << std::endl;
 			}
 			
 			int scheck = this->SimplexCheck(simplex, direction);
-			std::cout << "check " << scheck << std::endl;
+			OSE_LOG(LOG_OSE_TRACE, "check " + std::to_string(scheck));
 			if (scheck == 1) {
 				//std::cout << "Collision" << std::endl;
 				result.normal = EPA(rba, rbb, simplex);
@@ -118,7 +118,7 @@ namespace OSE {
 		struct cell {
 			int a, b, c, d;
 		};
-
+		//pick any cell to begin
 		std::vector<cell> cells;
 		cells.push_back({ 0, 1, 2, 3 });
 		cells.push_back({ 0, 1, 2, 4 });
@@ -129,40 +129,49 @@ namespace OSE {
 		vec4 leastNormal;
 
 		while (true) {
-			std::cout << "CELLS " << cells.size() << std::endl;
+			OSE_LOG(LOG_OSE_TRACE, "CELLS " + std::to_string(cells.size()));
 			int nearestCell = 0;
 			t_float minDot = FLT_MAX;
+			//find cell nearest to 0-coord
 			for (int i = 0; i < cells.size(); i++) {
+				OSE_LOG(LOG_OSE_TRACE, "Finding nearest " + std::to_string(i));
 				cell& it = cells[i];
 				vec4 a = simplex[it.a];
 				vec4 b = simplex[it.b];
 				vec4 c = simplex[it.c];
 				vec4 d = simplex[it.d];
-
+				//get normal for the cell
 				vec4 normal = cross(b - a, c - a, d - a).normalized();
 				if (dot(normal, a) < 0) {
 					normal = -normal;
 				}
 
 				t_float dd = std::max({ dot(a, normal), dot(b, normal), dot(c, normal), dot(d, normal) });
-
+				//vertices are in the same hyperplane - not a cell
 				if (isnan(dd)) {
 					//std::cout << "cc " << cells.size() << std::endl;
 					//std::cout << "b " << to_str(b - a) << std::endl;
 					//std::cout << "c " << to_str(c - a) << std::endl;
 					//std::cout << "d " << to_str(d - a) << std::endl;
 					//std::cout << ((b - a) ^ (c - a) ^ (d - a)).value() << std::endl;
-					std::cout << "broken cell" << std::endl;
+					OSE_LOG(LOG_OSE_TRACE, "broken cell");
 					continue;
 				}
+				else if (dd == 0) {
+					OSE_LOG(LOG_OSE_TRACE, "cell to cell collision");
+					//is 0 in cell
+					std::vector<vec4> tetra = { a, b, c, d };
+					int tetraSum = PhysicsSystem::FTetrahedron(tetra, normal); //not tested
 
+				}
+				//save cell nearest to 0-coord
 				if (dd < minDot) {
 					minDot = dd;
 					nearestCell = i;
 				}
 			}
-
-			cell nearestIt = cells[nearestCell];
+			//get nearest cell
+			cell& nearestIt = cells[nearestCell];
 			vec4 na = simplex[nearestIt.a];
 			vec4 nb = simplex[nearestIt.b];
 			vec4 nc = simplex[nearestIt.c];
@@ -174,8 +183,8 @@ namespace OSE {
 			}
 			vec4 support = this->getSupport(rba, rbb, mainNormal);
 			leastNormal = -mainNormal * minDot;
-
-
+			OSE_LOG(LOG_OSE_TRACE, "MinDot: " + std::to_string(minDot));
+			//check if new support vector is not already a part of simplex
 			bool uniq = true;
 			for (vec4& vert : simplex) {
 				if ((vert - support).length() == 0) {
@@ -183,13 +192,13 @@ namespace OSE {
 					break;
 				}
 			}
-
+			//if new support is unique and further than chosen vertex
 			if (dot(support, mainNormal) > minDot && uniq) {
 				simplex.push_back(support);
 				int ind = simplex.size() - 1;
 
 				cells.erase(cells.begin() + nearestCell);
-
+				//build all possible cells with new vertex
 				cell cell1;
 				cell1.a = nearestIt.a;
 				cell1.b = nearestIt.b;
@@ -215,17 +224,21 @@ namespace OSE {
 				cells.push_back(cell2);
 				cells.push_back(cell3);
 				cells.push_back(cell4);
-
+				//erase non unique cells
 				for (int i = 0; i < cells.size(); i++) {
 					bool marked = false;
-					cell c1 = cells[i];
+					cell& c1 = cells[i];
 					for (int j = i + 1; j < cells.size(); j++) {
-						cell c2 = cells[j];
-
+						cell& c2 = cells[j];
+						//check if cells are not equal by calculation ind1 xor ind2 xor ... == 0 if all in pairs
 						if ((c1.a ^ c1.b ^ c1.c ^ c1.d ^ c2.a ^ c2.b ^ c2.c ^ c2.d) == 0) {
 							marked = true;
 							cells.erase(cells.begin() + j - 1);
 							j--;
+							OSE_LOG(LOG_OSE_TRACE, "IF is True");
+						}
+						else {
+							OSE_LOG(LOG_OSE_TRACE, "IF is False");
 						}
 					}
 					if (marked) {
@@ -305,6 +318,7 @@ namespace OSE {
 				break;
 			}
 		}
+		OSE_LOG(LOG_OSE_TRACE, "Exiting EPA " + to_str(leastNormal));
 		return leastNormal;
 	}
 
@@ -502,8 +516,16 @@ namespace OSE {
 	}
 
 	void PhysicsSystem::updateBodies(RigidBody* a, RigidBody* b, t_float delta) {
-		a->m_transform.position += a->m_velocity * delta;
-		b->m_transform.position += b->m_velocity * delta;
+		a->getTransform().position += a->m_velocity * delta;
+		b->getTransform().position += b->m_velocity * delta;
+
+		a->getTransform().rotation = Rotor4::fromMultivector(Multivector4(a->m_angVelocity * -0.5 * delta)
+			* a->getTransform().rotation.asMultivector()
+			+ a->getTransform().rotation.asMultivector());
+		b->getTransform().rotation = Rotor4::fromMultivector(Multivector4(b->m_angVelocity * -0.5 * delta)
+			* b->getTransform().rotation.asMultivector()
+			+ b->getTransform().rotation.asMultivector());
+
 		//a->getTransform().rotation.v2 += a->m_angVelocity * delta;
 		//b->getTransform().rotation.v2 += b->m_angVelocity * delta;
 		//a->m_angVelocity = a->m_angVelocity * 0.9;
@@ -512,23 +534,31 @@ namespace OSE {
 		CollisionData result = this->GJK(a, b);
 		if (result.normal.length() > 0) {
 
-			vec4 sum_imp = a->m_velocity * a->m_mass + b->m_velocity * b->m_mass;
+			vec4 aVelocity = ((a->m_mass - b->m_mass) * a->m_velocity + 2 * b->m_mass * b->m_velocity) / (a->m_mass + b->m_mass);
+			vec4 bVelocity = ((b->m_mass - a->m_mass) * b->m_velocity + 2 * a->m_mass * a->m_velocity) / (a->m_mass + b->m_mass);
 
-			//a->m_velocity = result.normal.normalized() * sum_imp.length() / a->m_mass;
-			//b->m_velocity = -result.normal.normalized() * sum_imp.length() / b->m_mass;
+			a->m_velocity = aVelocity; //result.normal.normalized() * aVelocity.length();
+			b->m_velocity = bVelocity; //-result.normal.normalized() * bVelocity.length();
 
-			//a->m_angVelocity += (result.location - a->getTransform().position) ^ result.normal;// *b->m_mass;
-			//b->m_angVelocity += (result.location - b->getTransform().position) ^ result.normal;// *a->m_mass;
+			a->m_angVelocity += ((result.location - a->getTransform().position) ^ result.normal.normalized())
+				* (bVelocity.length() - aVelocity.length());
+			b->m_angVelocity += ((result.location - b->getTransform().position) ^ result.normal.normalized())
+				* (aVelocity.length() - bVelocity.length());
 			//a->getTransform().rotation.rotate(Rotor4((result.location - a->getTransform().position).normalized(), result.normal.normalized()));
 			//b->getTransform().rotation.rotate(Rotor4((result.location - b->getTransform().position).normalized(), result.normal.normalized()));
 
-			//a->m_angVelocity.rotate(Rotor4((result.location - a->getTransform().position).normalized(), result.normal.normalized()));
-			//b->m_angVelocity.rotate(Rotor4((result.location - b->getTransform().position), result.normal));
+			//a->m_angVelocity.rotate(Rotor4((result.location - a->getTransform().position).normalized(), -result.normal.normalized()));
+			//b->m_angVelocity.rotate(Rotor4((result.location - b->getTransform().position).normalized(), -result.normal.normalized()));
 
 			//a->getTransform().position += result;
 			//a->m_velocity *= -1;
 			//b->m_velocity *= -1;
-			a->m_transform.position += result.normal;
+			a->getTransform().position += result.normal;
+
+			DebugData::hit_pos[0] = result.location.x;
+			DebugData::hit_pos[1] = result.location.y;
+			DebugData::hit_pos[2] = result.location.z;
+			DebugData::hit_pos[3] = result.location.w;
 		}
 	}
 }

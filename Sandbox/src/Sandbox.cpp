@@ -12,12 +12,10 @@ public:
 	}
 
 	void onEvent(OSE::TickEvent& event) override {
-		/*
-		t_float angle = OSE::Random::decimal() / event.getDeltaTime() / 1000;
-		this->rigidBody.getTransform().rotate(angle / OSE::Random::integer(1, 4), angle / OSE::Random::integer(1, 4),
-			angle / OSE::Random::integer(1, 4), angle / OSE::Random::integer(1, 4), angle / OSE::Random::integer(1, 4),
-			angle / OSE::Random::integer(1, 4));
-			*/
+		/*this->getTransform().rotation.rotate(OSE::Rotor4::xw(event.getDeltaTime() / 1000));
+		this->getTransform().rotation.rotate(OSE::Rotor4::xz(event.getDeltaTime() / 1530));
+		this->getTransform().rotation.rotate(OSE::Rotor4::zw(event.getDeltaTime() / 1010));
+		this->getTransform().rotation.rotate(OSE::Rotor4::yw(event.getDeltaTime() / 1300));*/
 	}
 
 	void onRender(OSE::Renderer* renderer) {
@@ -140,18 +138,55 @@ public:
 	}
 };
 
+class DebugBox : public OSE::Actor, OSE::EventListener<OSE::KeyReleasedEvent> {
+public:
+	OSE::RigidBody rigidBody;
+	bool m_freeze = false;
+
+	DebugBox() : rigidBody(OSE::RigidBody(OSE::AssetSystem::instance->getConvex("cube"))) {
+		this->getTransform().scale = vec4(0.2) + vec4(0, 0, 0, 0.8);
+	}
+
+	void onEvent(OSE::TickEvent& event) override {
+		if (this->m_freeze) {
+			return;
+		}
+		this->getTransform().position.x = DebugData::hit_pos[0];
+		this->getTransform().position.y = DebugData::hit_pos[1];
+		this->getTransform().position.z = DebugData::hit_pos[2];
+		this->getTransform().position.w = DebugData::hit_pos[3];
+		if (this->getTransform().position.length() > 0) {
+			OSE_LOG(LOG_OSE_WARNING, to_str(this->getTransform().position));
+		}
+	}
+
+	void onEvent(OSE::KeyReleasedEvent& event) override {
+		if (event.getKeyCode() == GLFW_KEY_F) {
+			this->m_freeze = !this->m_freeze;
+		}
+	}
+
+	void onRender(OSE::Renderer* renderer) {
+		renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("cube"), &this->rigidBody.getTransform());
+	}
+
+	OSE::Transform& getTransform() override {
+		return this->rigidBody.getTransform();
+	}
+};
+
 class Sandbox : public OSE::Engine, OSE::EventListener<OSE::WindowClosedEvent>, OSE::EventListener<OSE::KeyPressedEvent>,
 		OSE::EventListener<OSE::MouseButtonPressedEvent> {
 public:
 
 	Sandbox() {
-		OSE_LOG(LOG_APP_TRACE, "Sandbox startup...")
+		OSE_LOG(LOG_APP_TRACE, "Sandbox startup...");
 
 		OSE::AssetSystem::instance->setAssetDir("assets/");
 
 		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube1.obj");
 		OSE::AssetSystem::instance->loadTexture("crate", "OSE/cube1.bmp");
-		OSE::AssetSystem::instance->createMaterial("flat", "#texture crate\nvec4 material() { vec4 matcol = texture(texture0, uv_coord); return vec4(0.1, 0.9, 0.5, 1); return matcol + vec4(0.2); }");
+		OSE::AssetSystem::instance->loadMaterial("flat", "crate.osem");
 		OSE::AssetSystem::instance->attachMaterial("cube", "flat");
 		OSE::AssetSystem::instance->genConvexForMesh("cube");
 
@@ -195,19 +230,18 @@ public:
 		//----------------------------------------------------------------------
 
 		TestActor* cube1 = new TestActor();
-		cube1->getTransform().position = vec4(-2, 0, 5, 0);
-		cube1->getTransform().scale = vec4(0.7);
-		//cube1->getTransform().rotate(1.8, 1.2, 1.2, 0, 1.4, 0.4);
-		cube1->getTransform().rotation = OSE::Rotor4::xy(OSE::toRadians(58)) * OSE::Rotor4::xw(OSE::toRadians(40)) * OSE::Rotor4::yw(OSE::toRadians(35)) * OSE::Rotor4::zw(OSE::toRadians(73));
-		//cube1->getTransform().rotation.rotate(OSE::Rotor4::zw(OSE::toRadians(60)));
-		//cube1->getTransform().rotation.rotate(OSE::Rotor4::yw(OSE::toRadians(45)));
+		cube1->getTransform().position = vec4(-2, -0.5, 5, 0);
+		//cube1->getTransform().scale = vec4(0.7);
+		//cube1->getTransform().rotation = OSE::Rotor4::xz(OSE::toRadians(30)) * OSE::Rotor4::xy(OSE::toRadians(40)) * OSE::Rotor4::zw(OSE::toRadians(35));
+		cube1->getTransform().rotation = OSE::Rotor4::xy(OSE::toRadians(30)) * OSE::Rotor4::xz(OSE::toRadians(5));
 		//cube1->getTransform().scale = vec4(2, 0.5, 1, 1);
-		cube1->rigidBody.m_velocity.x = 0.2;
+		cube1->rigidBody.m_velocity.x = 0.5;
 
 
 		TestActor* cube2 = new TestActor();
 		cube2->getTransform().position = vec4(2, 0, 5, 0);
 		//cube2->getTransform().rotation = OSE::Rotor4::xz(OSE::toRadians(0)) * OSE::Rotor4::xz(OSE::toRadians(35));
+		
 		layer->addAndSubscribe(cube1);
 		layer->addAndSubscribe(cube2);
 
@@ -219,6 +253,9 @@ public:
 		Player* player = new Player();
 		player->camera = camera;
 		layer->addAndSubscribe(player);
+
+		layer->addAndSubscribe(new DebugBox());
+
 		scene->add(layer);
 		this->setActiveScene(scene);
 		

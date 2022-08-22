@@ -60,6 +60,12 @@ namespace OSE {
 		Tetravector4 v4;
 
 		Multivector4();
+		Multivector4(t_float scalar, const vec4& x, const Bivector4& xy, const Trivector4& xyz, const Tetravector4& xyzw);
+		explicit Multivector4(t_float scalar);
+		explicit Multivector4(const vec4& x);
+		explicit Multivector4(const Bivector4& xy);
+		explicit Multivector4(const Trivector4& xyz);
+		explicit Multivector4(const Tetravector4& xyzw);
 
 		Multivector4 operator+ (const Multivector4& a) const;
 		Multivector4 operator- (const Multivector4& a) const;
