@@ -28,6 +28,7 @@
 #include <set>
 #include <cmath>
 #include <algorithm>
+#include <limits>
 
 namespace OSE {
 	using std::string;

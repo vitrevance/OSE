@@ -131,7 +131,7 @@ namespace OSE {
 		while (true) {
 			OSE_LOG(LOG_OSE_TRACE, "CELLS " + std::to_string(cells.size()));
 			int nearestCell = 0;
-			t_float minDot = FLT_MAX;
+			t_float minDot = std::numeric_limits<t_float>::max();
 			//find cell nearest to 0-coord
 			for (int i = 0; i < cells.size(); i++) {
 				OSE_LOG(LOG_OSE_TRACE, "Finding nearest " + std::to_string(i));
@@ -148,7 +148,7 @@ namespace OSE {
 
 				t_float dd = std::max({ dot(a, normal), dot(b, normal), dot(c, normal), dot(d, normal) });
 				//vertices are in the same hyperplane - not a cell
-				if (isnan(dd)) {
+				if (std::isnan(dd)) {
 					//std::cout << "cc " << cells.size() << std::endl;
 					//std::cout << "b " << to_str(b - a) << std::endl;
 					//std::cout << "c " << to_str(c - a) << std::endl;
@@ -555,10 +555,10 @@ namespace OSE {
 			//b->m_velocity *= -1;
 			a->getTransform().position += result.normal;
 
-			DebugData::hit_pos[0] = result.location.x;
-			DebugData::hit_pos[1] = result.location.y;
-			DebugData::hit_pos[2] = result.location.z;
-			DebugData::hit_pos[3] = result.location.w;
+			// DebugData::hit_pos[0] = result.location.x;
+			// DebugData::hit_pos[1] = result.location.y;
+			// DebugData::hit_pos[2] = result.location.z;
+			// DebugData::hit_pos[3] = result.location.w;
 		}
 	}
 }

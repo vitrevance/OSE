@@ -8,7 +8,7 @@ namespace OSE {
 	class OSE_API LightSource {
 	public:
 
-		static enum Type {
+		enum Type {
 			POINT_LIGHT,
 			DIRECTIONAL_LIGHT,
 			AMBIENT_LIGHT

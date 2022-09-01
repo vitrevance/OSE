@@ -1,6 +1,18 @@
 #include "AssetSystem.h"
+#include <cstring>
+#include <fstream>
+#include <assimp/cimport.h>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include <assimp/material.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image/stb_image.h>
+
+#ifdef WIN64
+namespace PLATFORM_WIN64 {
+#include <Windows.h>
+}
+#endif
 
 namespace OSE {
 
@@ -79,17 +91,17 @@ namespace OSE {
 				vec4* base = (vec4*)(&cellBase);
 				vec4* top = (vec4*)(&cellTop);
 				std::vector<Tetrahedron> sideCell;
-				sideCell = cutPrism(base[0], base[4].xy, base[1], base[4].zw, base[2], base[5].xy,
-					top[0], top[4].xy, top[1], top[4].zw, top[2], top[5].xy);
+				sideCell = cutPrism(base[0], base[4].xy(), base[1], base[4].zw(), base[2], base[5].xy(),
+					top[0], top[4].xy(), top[1], top[4].zw(), top[2], top[5].xy());
 				sideCells.insert(sideCells.end(), sideCell.begin(), sideCell.end());
-				sideCell = cutPrism(base[0], base[4].xy, base[3], base[5].zw, base[1], base[4].zw,
-					top[0], top[4].xy, top[3], top[5].zw, top[1], top[4].zw);
+				sideCell = cutPrism(base[0], base[4].xy(), base[3], base[5].zw(), base[1], base[4].zw(),
+					top[0], top[4].xy(), top[3], top[5].zw(), top[1], top[4].zw());
 				sideCells.insert(sideCells.end(), sideCell.begin(), sideCell.end());
-				sideCell = cutPrism(base[0], base[4].xy, base[2], base[5].xy, base[3], base[5].zw,
-					top[0], top[4].xy, top[2], top[5].xy, top[3], top[5].zw);
+				sideCell = cutPrism(base[0], base[4].xy(), base[2], base[5].xy(), base[3], base[5].zw(),
+					top[0], top[4].xy(), top[2], top[5].xy(), top[3], top[5].zw());
 				sideCells.insert(sideCells.end(), sideCell.begin(), sideCell.end());
-				sideCell = cutPrism(base[1], base[4].zw, base[2], base[5].xy, base[3], base[5].zw,
-					top[1], top[4].zw, top[2], top[5].xy, top[3], top[5].zw);
+				sideCell = cutPrism(base[1], base[4].zw(), base[2], base[5].xy(), base[3], base[5].zw(),
+					top[1], top[4].zw(), top[2], top[5].xy(), top[3], top[5].zw());
 				sideCells.insert(sideCells.end(), sideCell.begin(), sideCell.end());
 
 				mesh->cells.push_back(cellBase);

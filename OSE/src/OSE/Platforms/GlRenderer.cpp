@@ -1,4 +1,7 @@
 #include "GlRenderer.h"
+#include <GLFW/glew.h>
+#include <gl/GL.h>
+#include <GLFW/glfw3.h>
 
 namespace OSE {
 

@@ -4,7 +4,7 @@
 #include <OSE/Core.h>
 
 namespace DebugData {
-	OSE_API extern float hit_pos[4];
+	// OSE_API extern float hit_pos[4];
 }
 
 #endif
