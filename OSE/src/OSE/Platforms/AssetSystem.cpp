@@ -7,11 +7,11 @@
 #include <assimp/material.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image/stb_image.h>
+#include <filesystem>
+#include <sstream>
 
-#ifdef WIN64
-namespace PLATFORM_WIN64 {
-#include <Windows.h>
-}
+#ifdef __windows
+#include <windows.h>
 #endif
 
 namespace OSE {
@@ -39,13 +39,18 @@ namespace OSE {
 	}
 
 	void AssetSystem::setAssetDir(string path) {
-		this->m_assetDir = this->getRunnableDir() + path;
+		this->m_assetDir = (std::filesystem::path(this->getRunnableDir()) / path).make_preferred().lexically_normal().string();
 	}
 
 	string AssetSystem::loadRawString(const string& path) {
+		if (!std::filesystem::exists(std::filesystem::path(this->m_assetDir)/path)) {
+			OSE_LOG(LOG_OSE_ERROR, "Failed to load asset: " + path);
+			return "";
+		}
 		std::ifstream ifs(this->m_assetDir + path);
-		std::string text((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
-		return text;
+		std::stringstream ss;
+		ss << ifs.rdbuf();
+		return std::move(ss).str();
 	}
 
 	StaticMesh* AssetSystem::loadStaticMesh(const string& name, string path, vec4 bottomExtrusion, vec4 topExtrusion) {
@@ -266,13 +271,13 @@ namespace OSE {
 
 	string AssetSystem::getRunnableDir() {
 		string path;
-#ifdef WIN64
+#ifdef __windows
 		char buffer[MAX_PATH];
-		PLATFORM_WIN64::GetModuleFileNameA(NULL, buffer, MAX_PATH);
+		GetModuleFileNameA(NULL, buffer, MAX_PATH);
 		std::string::size_type pos = std::string(buffer).find_last_of("\\/");
 		path = string(buffer).substr(0, pos + 1);
 #else
-
+		path = std::filesystem::current_path().string();
 #endif
 		return path;
 	}

@@ -12,6 +12,9 @@ project ("OSE")
 
     filter "configurations:Release"
         defines { "OSE_DISABLE_LOGGER" }
+    
+    -- filter "configurations:Debug"
+    --     buildoptions { "-fsanitize=address", "-static-libasan" }
 
     filter "system:windows"
         defines { "__windows" }

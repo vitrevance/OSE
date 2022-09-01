@@ -185,7 +185,7 @@ public:
 	Sandbox() {
 		OSE_LOG(LOG_APP_TRACE, "Sandbox startup...");
 
-		OSE::AssetSystem::instance->setAssetDir("assets/");
+		OSE::AssetSystem::instance->setAssetDir("../../assets/");
 
 		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube1.obj");
 		OSE::AssetSystem::instance->loadTexture("crate", "OSE/cube1.bmp");
@@ -193,11 +193,13 @@ public:
 		OSE::AssetSystem::instance->attachMaterial("cube", "flat");
 		OSE::AssetSystem::instance->genConvexForMesh("cube");
 
+
 		this->createWindow();
 		OSE::EventSystem::instance->subscribeEventListener(this);
 		OSE::Scene* scene = new OSE::Scene();
 		OSE::Layer* layer = new OSE::Layer();
 
+		// std::cin.ignore();
 
 		//TEST FIELD
 		//GEOMETRIC ALGEBRA TEST

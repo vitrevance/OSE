@@ -1,0 +1,7 @@
+#texture crate
+
+vec4 material() {
+    vec4 matcol = texture(texture0, uv_coord);
+    //vec4 matcol = vec4(1, 0, 0, 1);
+    return matcol + vec4(0.2);
+}
