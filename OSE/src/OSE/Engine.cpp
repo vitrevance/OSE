@@ -1,4 +1,6 @@
 #include "Engine.h"
+#include <OSE/Platforms/WindowsWindow.h>
+#include <OSE/Platforms/GlRenderer.h>
 
 namespace OSE {
 
@@ -21,7 +23,7 @@ namespace OSE {
 		this->m_activeScene = nullptr;
 		EventSystem::instance = new EventSystem();
 		AssetSystem::instance = new AssetSystem();
-		AssetSystem::instance->setAssetDir("C:/Users/N Ashabokov/Desktop/OSE/bin/Debug-x64/Sandbox/assets/");
+		AssetSystem::instance->setAssetDir("./");
 	}
 
 	void Engine::stop() {

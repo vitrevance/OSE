@@ -10,7 +10,7 @@ namespace OSE {
 	}
 
 	vec4 RigidBody::getFurthestVertex(vec4 direction) {
-		t_float highest = FLT_MIN;
+		t_float highest = std::numeric_limits<t_float>::min();
 		vec4 support;
 
 		for (vec4 vertex : this->m_convex->vertices) {

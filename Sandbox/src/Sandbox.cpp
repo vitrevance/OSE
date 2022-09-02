@@ -1,4 +1,7 @@
 #include <OSE.h>
+#include <OSE/Events/KeyEvent.h>
+#include <OSE/Events/MouseEvent.h>
+#include <OSE/Events/WindowEvent.h>
 
 using OSE::vec2;
 using OSE::vec3;
@@ -18,7 +21,7 @@ public:
 		this->getTransform().rotation.rotate(OSE::Rotor4::yw(event.getDeltaTime() / 1300));*/
 	}
 
-	void onRender(OSE::Renderer* renderer) {
+	void onRender(OSE::Renderer* renderer) override {
 		renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("cube") , &this->rigidBody.getTransform());
 	}
 
@@ -92,10 +95,10 @@ public:
 			w = -1;
 		}
 		else if (event.getKeyCode() == 'L') {
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 		else if (event.getKeyCode() == 'K') {
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			// glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 	}
 
@@ -151,17 +154,17 @@ public:
 		if (this->m_freeze) {
 			return;
 		}
-		this->getTransform().position.x = DebugData::hit_pos[0];
-		this->getTransform().position.y = DebugData::hit_pos[1];
-		this->getTransform().position.z = DebugData::hit_pos[2];
-		this->getTransform().position.w = DebugData::hit_pos[3];
+		// this->getTransform().position.x = DebugData::hit_pos[0];
+		// this->getTransform().position.y = DebugData::hit_pos[1];
+		// this->getTransform().position.z = DebugData::hit_pos[2];
+		// this->getTransform().position.w = DebugData::hit_pos[3];
 		if (this->getTransform().position.length() > 0) {
 			OSE_LOG(LOG_OSE_WARNING, to_str(this->getTransform().position));
 		}
 	}
 
 	void onEvent(OSE::KeyReleasedEvent& event) override {
-		if (event.getKeyCode() == GLFW_KEY_F) {
+		if (event.getKeyCode() == 'F') {
 			this->m_freeze = !this->m_freeze;
 		}
 	}
@@ -182,7 +185,7 @@ public:
 	Sandbox() {
 		OSE_LOG(LOG_APP_TRACE, "Sandbox startup...");
 
-		OSE::AssetSystem::instance->setAssetDir("assets/");
+		OSE::AssetSystem::instance->setAssetDir("../../assets/");
 
 		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube1.obj");
 		OSE::AssetSystem::instance->loadTexture("crate", "OSE/cube1.bmp");
@@ -190,11 +193,13 @@ public:
 		OSE::AssetSystem::instance->attachMaterial("cube", "flat");
 		OSE::AssetSystem::instance->genConvexForMesh("cube");
 
+
 		this->createWindow();
 		OSE::EventSystem::instance->subscribeEventListener(this);
 		OSE::Scene* scene = new OSE::Scene();
 		OSE::Layer* layer = new OSE::Layer();
 
+		// std::cin.ignore();
 
 		//TEST FIELD
 		//GEOMETRIC ALGEBRA TEST

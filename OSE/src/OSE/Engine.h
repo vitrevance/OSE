@@ -6,10 +6,8 @@
 #include <OSE/Systems/EventSystem.h>
 #include <OSE/Platforms/AssetSystem.h>
 #include <OSE/Window.h>
-#include <OSE/Platforms/WindowsWindow.h>
 #include <OSE/Blueprints/Scene.h>
 #include <OSE/Blueprints/Actor.h>
-#include <OSE/Platforms/GlRenderer.h>
 #include <OSE/Math/Random.h>
 
 namespace OSE {

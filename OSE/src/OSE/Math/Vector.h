@@ -4,93 +4,134 @@
 #include <OSE/Core.h>
 
 namespace OSE {
-	class OSE_API vec2 {
-	public:
+	template<size_t N>
+	struct OSE_API vec {
+		static_assert(N > 0 && N < 5);
+		t_float coords[N];
+	};
+
+	namespace details {
+		template<char C>
+		struct vec_helper {
+			template<size_t N>
+			static inline constexpr decltype(auto) get(const vec<N>& v) {
+				if constexpr (C == 'x') return v.x;
+				if constexpr (C == 'y') return v.y;
+				if constexpr (C == 'z') return v.z;
+				if constexpr (C == 'w') return v.w;
+			}
+		};
+
+		template<char...chars>
+		struct extractor {
+			template<size_t N>
+			inline constexpr auto operator()(const vec<N>& v) {
+				static_assert(sizeof...(chars) > 0 && sizeof...(chars) <= 4);
+				if constexpr (sizeof...(chars) == 1) {
+					return float{vec_helper<chars>::get(v)...};
+				}
+				else {
+					return vec<sizeof...(chars)>{vec_helper<chars>::get(v)...};
+				}
+			}
+		};
+	}
+
+	template<typename charT, charT...chars>
+	inline consteval auto operator ""_vec() {
+		return details::extractor<chars...>{};
+	}
+
+	template<>
+	struct OSE_API vec<2> {
 		t_float x, y;
 
-		vec2();
-		vec2(t_float x, t_float y);
-		explicit vec2(t_float v);
+		vec();
+		vec(t_float x, t_float y);
+		explicit vec(t_float v);
 
 		t_float length() const;
 		void normalize();
-		vec2 normalized() const;
+		vec normalized() const;
 
 		t_float& operator[] (unsigned int i);
-		vec2 operator+ (const vec2& a) const;
-		vec2 operator- (const vec2& a) const;
-		vec2 operator* (t_float a) const;
-		vec2 operator/ (t_float a) const;
-		void operator+= (const vec2& a);
-		void operator-= (const vec2& a);
+		vec operator+ (const vec& a) const;
+		vec operator- (const vec& a) const;
+		vec operator* (t_float a) const;
+		vec operator/ (t_float a) const;
+		void operator+= (const vec& a);
+		void operator-= (const vec& a);
 		void operator*= (t_float a);
 		void operator/= (t_float a);
 	};
 
-	class OSE_API vec3 {
-	public:
-		union {
-			struct { t_float x, y, z; };
-			struct { vec2 xy; t_float _z; };
-			struct { t_float _x; vec2 yz; };
-		};
+	using vec2 = vec<2>;
 
-		vec3();
-		vec3(t_float x, t_float y, t_float z);
-		explicit vec3(t_float v);
-		vec3(vec2 xy, t_float z);
-		vec3(t_float x, vec2 yz);
+	template<>
+	struct OSE_API vec<3> {
+		t_float x, y, z;
+
+		vec();
+		vec(t_float x, t_float y, t_float z);
+		explicit vec(t_float v);
+		vec(vec2 xy, t_float z);
+		vec(t_float x, vec2 yz);
 
 		t_float length() const;
 		void normalize();
-		vec3 normalized() const;
+		vec normalized() const;
 
 		t_float& operator[] (unsigned int i);
-		vec3 operator+ (const vec3& a) const;
-		vec3 operator- (const vec3& a) const;
-		vec3 operator* (t_float a) const;
-		vec3 operator/ (t_float a) const;
-		void operator+= (const vec3& a);
-		void operator-= (const vec3& a);
+		vec operator+ (const vec& a) const;
+		vec operator- (const vec& a) const;
+		vec operator* (t_float a) const;
+		vec operator/ (t_float a) const;
+		void operator+= (const vec& a);
+		void operator-= (const vec& a);
 		void operator*= (t_float a);
 		void operator/= (t_float a);
 	};
 
-	class OSE_API vec4 {
-	public:
-		union {
-			struct { t_float x, y, z, w; };
-			struct { vec2 xy; t_float _z; t_float _w; };
-			struct { t_float _x; vec2 yz; t_float _w; };
-			struct { t_float _x, _y; vec2 zw; };
-			struct { vec3 xyz; t_float _w; };
-			struct { t_float _x; vec3 yzw; };
-		};
+	using vec3 = vec<3>;
 
-		vec4();
-		vec4(t_float x, t_float y, t_float z, t_float w);
-		explicit vec4(t_float v);
-		vec4(vec2 xy, t_float z, t_float w);
-		vec4(t_float x, vec2 yz, t_float w);
-		vec4(t_float x, t_float y, vec2 zw);
-		vec4(vec3 xyz, t_float w);
-		vec4(t_float x, vec3 yzw);
+	template<>
+	struct OSE_API vec<4> {
+		t_float x, y, z, w;
+
+		vec();
+		vec(t_float x, t_float y, t_float z, t_float w);
+		explicit vec(t_float v);
+		vec(vec2 xy, t_float z, t_float w);
+		vec(t_float x, vec2 yz, t_float w);
+		vec(t_float x, t_float y, vec2 zw);
+		vec(vec3 xyz, t_float w);
+		vec(t_float x, vec3 yzw);
 
 		t_float length() const;
 		void normalize();
-		vec4 normalized() const;
+		vec normalized() const;
 
 		t_float& operator[] (unsigned int i);
-		vec4 operator+ (const vec4& a) const;
-		vec4 operator- (const vec4& a) const;
-		vec4 operator* (t_float a) const;
-		vec4 operator/ (t_float a) const;
-		vec4 operator- () const;
-		void operator+= (const vec4& a);
-		void operator-= (const vec4& a);
+		vec operator+ (const vec& a) const;
+		vec operator- (const vec& a) const;
+		vec operator* (t_float a) const;
+		vec operator/ (t_float a) const;
+		vec operator- () const;
+		void operator+= (const vec& a);
+		void operator-= (const vec& a);
 		void operator*= (t_float a);
 		void operator/= (t_float a);
+
+		inline vec2 xy() {
+			return vec2(x, y);
+		}
+
+		inline vec2 zw() {
+			return vec2(z, w);
+		}
 	};
+
+	using vec4 = vec<4>;
 }
 
 #endif

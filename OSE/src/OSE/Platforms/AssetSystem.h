@@ -2,21 +2,10 @@
 #define OSE_ASSETSYSTEM_H
 
 #include <OSE/Core.h>
-#include <fstream>
 #include <OSE/Systems/Renderer.h>
 #include <OSE/Blueprints/Material.h>
 #include <OSE/Blueprints/Texture.h>
 #include <OSE/Blueprints/Convex.h>
-#include <assimp/cimport.h>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-#include <assimp/material.h>
-
-#ifdef WIN64
-namespace PLATFORM_WIN64 {
-#include <Windows.h>
-}
-#endif
 
 namespace OSE {
 	class OSE_API AssetSystem {

@@ -2,5 +2,5 @@
 
 namespace DebugData {
 
-	float DebugData::hit_pos[4];
+	// float DebugData::hit_pos[4];
 }

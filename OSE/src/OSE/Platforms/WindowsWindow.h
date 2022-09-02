@@ -1,13 +1,12 @@
 #ifndef OSE_WINDOWSWINDOW_H
 #define OSE_WINDOWSWINDOW_H
 
-#include <GLFW/glew.h>
-#include <gl/GL.h>
-#include <GLFW/glfw3.h>
 #include <OSE/Window.h>
 #include <OSE/Events/WindowEvent.h>
 #include <OSE/Events/KeyEvent.h>
 #include <OSE/Events/MouseEvent.h>
+
+struct GLFWwindow;
 
 namespace OSE {
 
@@ -22,14 +21,7 @@ namespace OSE {
 		void setVSync(bool state) override;
 		void grabMouse() override;
 		void releaseMouse() override;
-
-		static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-		static void window_close_callback(GLFWwindow* window);
-		static void window_size_callback(GLFWwindow* window, int width, int height);
-		static void window_moved_callback(GLFWwindow* window, int x, int y);
-		static void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-		static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
-
+		
 	protected:
 		static int s_isWindowInit;
 		GLFWwindow* m_glfwWindow;

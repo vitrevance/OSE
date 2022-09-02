@@ -1,4 +1,7 @@
 #include "GlRenderer.h"
+#include <GLFW/glew.h>
+#include <gl/GL.h>
+#include <GLFW/glfw3.h>
 
 namespace OSE {
 
@@ -95,7 +98,10 @@ namespace OSE {
 
 			std::vector<unsigned int>& textureId = this->m_textures[material];
 			for (int i = 0; i < textureId.size(); i++) {
-				glUniform1i(glGetUniformLocation(this->m_mainShader, ("texture" + std::to_string(i)).c_str()), i);
+				string textureLoc = "texture" + std::to_string(i);
+				auto loc = glGetUniformLocation(this->m_mainShader, textureLoc.c_str());
+				glUniform1i(loc, i);
+				// glUniform1i(glGetUniformLocation(this->m_mainShader, ("texture" + std::to_string(i)).c_str()), i);
 				glActiveTexture(GL_TEXTURE0 + i);
 				glBindTexture(GL_TEXTURE_2D, textureId[i]);
 			}
@@ -379,6 +385,8 @@ namespace OSE {
 		}
 
 		fragmentText += "\n" + uniformTextures + materialText + materialSwitch;
+
+		OSE_LOG(LOG_OSE_TRACE, fragmentText);
 
 		this->m_mainShader = createShader(vertexText, geometryText, fragmentText);
 	}

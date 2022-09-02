@@ -1,8 +1,6 @@
 #ifndef OSE_LOGGER_H
 #define OSE_LOGGER_H
 
-#ifndef OSE_DISABLE_LOGGER
-
 #include <OSE/Core.h>
 #include <iostream>
 #include <string>
@@ -30,6 +28,7 @@ namespace OSE {
 
 		template<class T>
 		void Log(int LogLevel, const T& message) {
+#ifndef OSE_DISABLE_LOGGER
 			if (std::abs(LogLevel) < this->m_logLevel) {
 				return;
 			}
@@ -53,6 +52,7 @@ namespace OSE {
 				std::cout << "ERROR     <";
 			}
 			std::cout << message << std::endl;
+#endif
 		}
 
 		void Start();
@@ -78,9 +78,8 @@ namespace OSE {
 		return res;
 	}
 }
-
+#ifndef OSE_DISABLE_LOGGER
 #define OSE_LOG(...);	::OSE::Logger::instance->Log(__VA_ARGS__)
-
 #else
 #define OSE_LOG(...)
 #endif
