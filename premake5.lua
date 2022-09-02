@@ -21,7 +21,8 @@ workspace (workspaceName)
         architecture "x86_64"
     filter {}
 	
-    targetdir "bin/%{cfg.buildcfg}/"
+    targetdir "bin/%%{cfg.platform}_{cfg.buildcfg}/"
+    objdir "bin-int/%{cfg.platform}_%{cfg.buildcfg}_%{prj.name}"
 
 include ("OSE")
 
@@ -35,13 +36,18 @@ for _, folderName in ipairs(folders) do
     end
 end
 
+os.mkdir("./bin")
+os.mkdir("./bin-int")
+
 newaction {
     trigger     = "clean",
     description = "clean binaries and objects",
     execute     = function ()
         print("clean the build...")
-        os.rmdir("./bin")
-        os.rmdir("./obj")
+        os.rmdir("bin")
+        os.mkdir("bin")
+        os.rmdir("bin-int")
+        os.mkdir("bin-int")
         print("done.")
     end
 }
@@ -51,7 +57,8 @@ newaction {
     description = "clean binaries",
     execute     = function ()
         print("clean the build...")
-        os.rmdir("./bin/*")
+        os.rmdir("bin")
+        os.mkdir("bin")
         print("done.")
     end
 }

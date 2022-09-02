@@ -1,12 +1,12 @@
 project ("Sandbox")
   	kind "ConsoleApp"
-    targetdir "../bin/%{cfg.buildcfg}"
-    objdir "../bin-int/"
+    -- targetdir "../bin/%{cfg.buildcfg}"
+    -- objdir "../bin-int/"
 	language "C++"
     cppdialect "C++20"
 	buildoptions { "-Werror=unknown-pragmas" }
     includedirs { "src", "lib", "../OSE/src" }
-    libdirs { "lib/**", "../bin/*" }
+    libdirs { "lib/**", "../bin/%{cfg.buildcfg}" }
     links { "OSE:shared" }
     files { "**.cpp" }
 	

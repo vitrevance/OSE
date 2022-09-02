@@ -21,7 +21,7 @@ public:
 		this->getTransform().rotation.rotate(OSE::Rotor4::yw(event.getDeltaTime() / 1300));*/
 	}
 
-	void onRender(OSE::Renderer* renderer) {
+	void onRender(OSE::Renderer* renderer) override {
 		renderer->drawStaticMesh(OSE::AssetSystem::instance->getStaticMesh("cube") , &this->rigidBody.getTransform());
 	}
 

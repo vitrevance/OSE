@@ -43,11 +43,11 @@ namespace OSE {
 	}
 
 	string AssetSystem::loadRawString(const string& path) {
-		if (!std::filesystem::exists(std::filesystem::path(this->m_assetDir)/path)) {
+		std::ifstream ifs(this->m_assetDir + path);
+		if (!ifs.good()) {
 			OSE_LOG(LOG_OSE_ERROR, "Failed to load asset: " + path);
 			return "";
 		}
-		std::ifstream ifs(this->m_assetDir + path);
 		std::stringstream ss;
 		ss << ifs.rdbuf();
 		return std::move(ss).str();

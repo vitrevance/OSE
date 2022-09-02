@@ -1,4 +1,3 @@
-#ifndef OSE_DISABLE_LOGGER
 #include "Logger.h"
 
 namespace OSE {
@@ -29,4 +28,3 @@ namespace OSE {
 		this->m_logLevel = level;
 	}
 }
-#endif

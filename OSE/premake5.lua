@@ -1,7 +1,7 @@
 project ("OSE")
   	kind "SharedLib"
-    targetdir "../bin/%{cfg.buildcfg}"
-    objdir "../bin-int"
+    -- targetdir "../bin/%{cfg.buildcfg}"
+    -- objdir "../bin-int"
 	language "C++"
     cppdialect "C++20"
 	buildoptions { "-Werror=unknown-pragmas" }
@@ -12,9 +12,10 @@ project ("OSE")
 
     filter "configurations:Release"
         defines { "OSE_DISABLE_LOGGER" }
+        optimize "On"
     
-    -- filter "configurations:Debug"
-    --     buildoptions { "-fsanitize=address", "-static-libasan" }
+    filter "configurations:Debug"
+        symbols "On"
 
     filter "system:windows"
         defines { "__windows" }
