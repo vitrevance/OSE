@@ -158,6 +158,7 @@ public:
 		// this->getTransform().position.y = DebugData::hit_pos[1];
 		// this->getTransform().position.z = DebugData::hit_pos[2];
 		// this->getTransform().position.w = DebugData::hit_pos[3];
+		this->getTransform().position = DebugData::Manager::instance->get<vec4>("hit_pos");
 		if (this->getTransform().position.length() > 0) {
 			OSE_LOG(LOG_OSE_WARNING, to_str(this->getTransform().position));
 		}

@@ -1,12 +1,10 @@
 project ("Sandbox")
   	kind "ConsoleApp"
-    -- targetdir "../bin/%{cfg.buildcfg}"
-    -- objdir "../bin-int/"
-	language "C++"
+    language "C++"
     cppdialect "C++20"
-	buildoptions { "-Werror=unknown-pragmas" }
+    buildoptions { "-Werror=unknown-pragmas" }
     includedirs { "src", "lib", "../OSE/src" }
-    libdirs { "lib/**", "../bin/%{cfg.buildcfg}" }
+    libdirs { "lib/**", "../bin/%{cfg.platform}_%{cfg.buildcfg}" }
     links { "OSE:shared" }
     files { "**.cpp" }
 	
@@ -14,12 +12,13 @@ project ("Sandbox")
 		kind "WindowedApp"
 		entrypoint "mainCRTStartup"
         defines { "OSE_DISABLE_LOGGER" }
+        optimize "On"
+    
+    filter "configurations:Debug"
+        symbols "On"
 
     filter "system:windows"
         defines { "__windows", "WIN64" }
-        -- links { "opengl32", "glfw3", "glew32s" }
 
     filter "system:linux"
         defines { "__linux" }
-        -- links { "pthread", "m", "dl", "glfw", "GL", "GLEW" }
-    

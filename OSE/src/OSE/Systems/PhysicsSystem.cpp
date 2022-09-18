@@ -51,14 +51,14 @@ namespace OSE {
 
 			simplex.push_back(support);
 			
-			OSE_LOG(LOG_OSE_TRACE, "---------------------------------");
-			OSE_LOG(LOG_OSE_TRACE, simplex.size());
+			// OSE_LOG(LOG_OSE_TRACE, "---------------------------------");
+			// OSE_LOG(LOG_OSE_TRACE, simplex.size());
 			for (vec4 it : simplex) {
 				//std::cout << to_str(it) << std::endl;
 			}
 			
 			int scheck = this->SimplexCheck(simplex, direction);
-			OSE_LOG(LOG_OSE_TRACE, "check " + std::to_string(scheck));
+			// OSE_LOG(LOG_OSE_TRACE, "check " + std::to_string(scheck));
 			if (scheck == 1) {
 				//std::cout << "Collision" << std::endl;
 				result.normal = EPA(rba, rbb, simplex);
@@ -129,12 +129,12 @@ namespace OSE {
 		vec4 leastNormal;
 
 		while (true) {
-			OSE_LOG(LOG_OSE_TRACE, "CELLS " + std::to_string(cells.size()));
+			// OSE_LOG(LOG_OSE_TRACE, "CELLS " + std::to_string(cells.size()));
 			int nearestCell = 0;
 			t_float minDot = std::numeric_limits<t_float>::max();
 			//find cell nearest to 0-coord
 			for (int i = 0; i < cells.size(); i++) {
-				OSE_LOG(LOG_OSE_TRACE, "Finding nearest " + std::to_string(i));
+				// OSE_LOG(LOG_OSE_TRACE, "Finding nearest " + std::to_string(i));
 				cell& it = cells[i];
 				vec4 a = simplex[it.a];
 				vec4 b = simplex[it.b];
@@ -154,11 +154,11 @@ namespace OSE {
 					//std::cout << "c " << to_str(c - a) << std::endl;
 					//std::cout << "d " << to_str(d - a) << std::endl;
 					//std::cout << ((b - a) ^ (c - a) ^ (d - a)).value() << std::endl;
-					OSE_LOG(LOG_OSE_TRACE, "broken cell");
+					// OSE_LOG(LOG_OSE_TRACE, "broken cell");
 					continue;
 				}
 				else if (dd == 0) {
-					OSE_LOG(LOG_OSE_TRACE, "cell to cell collision");
+					// OSE_LOG(LOG_OSE_TRACE, "cell to cell collision");
 					//is 0 in cell
 					std::vector<vec4> tetra = { a, b, c, d };
 					int tetraSum = PhysicsSystem::FTetrahedron(tetra, normal); //not tested
@@ -183,7 +183,7 @@ namespace OSE {
 			}
 			vec4 support = this->getSupport(rba, rbb, mainNormal);
 			leastNormal = -mainNormal * minDot;
-			OSE_LOG(LOG_OSE_TRACE, "MinDot: " + std::to_string(minDot));
+			// OSE_LOG(LOG_OSE_TRACE, "MinDot: " + std::to_string(minDot));
 			//check if new support vector is not already a part of simplex
 			bool uniq = true;
 			for (vec4& vert : simplex) {
@@ -235,10 +235,10 @@ namespace OSE {
 							marked = true;
 							cells.erase(cells.begin() + j - 1);
 							j--;
-							OSE_LOG(LOG_OSE_TRACE, "IF is True");
+							// OSE_LOG(LOG_OSE_TRACE, "IF is True");
 						}
 						else {
-							OSE_LOG(LOG_OSE_TRACE, "IF is False");
+							// OSE_LOG(LOG_OSE_TRACE, "IF is False");
 						}
 					}
 					if (marked) {
@@ -318,7 +318,7 @@ namespace OSE {
 				break;
 			}
 		}
-		OSE_LOG(LOG_OSE_TRACE, "Exiting EPA " + to_str(leastNormal));
+		// OSE_LOG(LOG_OSE_TRACE, "Exiting EPA " + to_str(leastNormal));
 		return leastNormal;
 	}
 
@@ -555,10 +555,7 @@ namespace OSE {
 			//b->m_velocity *= -1;
 			a->getTransform().position += result.normal;
 
-			// DebugData::hit_pos[0] = result.location.x;
-			// DebugData::hit_pos[1] = result.location.y;
-			// DebugData::hit_pos[2] = result.location.z;
-			// DebugData::hit_pos[3] = result.location.w;
+			DebugData::Manager::instance->put<vec4>("hit_pos", result.location);
 		}
 	}
 }

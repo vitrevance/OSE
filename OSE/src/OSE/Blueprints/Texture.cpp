@@ -2,7 +2,7 @@
 
 namespace OSE {
 
-	Texture::Texture() {
+	Texture::Texture() : id(0) {
 	}
 
 	Texture::~Texture() {
