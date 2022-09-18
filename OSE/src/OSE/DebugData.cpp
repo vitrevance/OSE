@@ -1,6 +1,5 @@
 #include "DebugData.h"
 
 namespace DebugData {
-
-	// float DebugData::hit_pos[4];
+	std::unique_ptr<Manager> Manager::instance = std::make_unique<Manager>();
 }

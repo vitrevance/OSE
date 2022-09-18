@@ -1,7 +1,5 @@
 project ("OSE")
   	kind "SharedLib"
-    -- targetdir "../bin/%{cfg.buildcfg}"
-    -- objdir "../bin-int"
 	language "C++"
     cppdialect "C++20"
 	buildoptions { "-Werror=unknown-pragmas" }

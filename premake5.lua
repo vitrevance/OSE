@@ -21,7 +21,7 @@ workspace (workspaceName)
         architecture "x86_64"
     filter {}
 	
-    targetdir "bin/%%{cfg.platform}_{cfg.buildcfg}/"
+    targetdir "bin/%{cfg.platform}_%{cfg.buildcfg}/"
     objdir "bin-int/%{cfg.platform}_%{cfg.buildcfg}_%{prj.name}"
 
 include ("OSE")
