@@ -1,8 +1,8 @@
 project ("OSE")
-  	kind "SharedLib"
-	language "C++"
+    kind "SharedLib"
+    language "C++"
     cppdialect "C++20"
-	buildoptions { "-Werror=unknown-pragmas" }
+    buildoptions { "-Werror=unknown-pragmas" }
     defines { "OSE_BUILD", "GLEW_STATIC" }
     includedirs { "src", "lib" }
     libdirs { "lib/**" }

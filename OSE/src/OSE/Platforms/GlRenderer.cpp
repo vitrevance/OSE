@@ -386,6 +386,8 @@ namespace OSE {
 
 		fragmentText += "\n" + uniformTextures + materialText + materialSwitch;
 
+		OSE_LOG(LOG_OSE_TRACE, fragmentText);
+
 		this->m_mainShader = createShader(vertexText, geometryText, fragmentText);
 	}
 }

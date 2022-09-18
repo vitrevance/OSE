@@ -186,8 +186,6 @@ public:
 	Sandbox() {
 		OSE_LOG(LOG_APP_TRACE, "Sandbox startup...");
 
-		// OSE::Logger::instance->setLogLevel(LOG_OSE_INFO);
-
 		OSE::AssetSystem::instance->setAssetDir("../../assets/");
 
 		OSE::AssetSystem::instance->loadStaticMesh("cube", "OSE/cube1.obj");

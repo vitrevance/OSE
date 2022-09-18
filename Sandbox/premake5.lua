@@ -1,8 +1,8 @@
 project ("Sandbox")
   	kind "ConsoleApp"
-	language "C++"
+    language "C++"
     cppdialect "C++20"
-	buildoptions { "-Werror=unknown-pragmas" }
+    buildoptions { "-Werror=unknown-pragmas" }
     includedirs { "src", "lib", "../OSE/src" }
     libdirs { "lib/**", "../bin/%{cfg.platform}_%{cfg.buildcfg}" }
     links { "OSE:shared" }
