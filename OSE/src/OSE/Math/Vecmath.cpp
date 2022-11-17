@@ -109,7 +109,7 @@ namespace OSE {
 	}
 
 	t_float dot(const vec2& a, const vec2& b) {
-		return a.x * b.x + a.y + b.y;
+		return a.x * b.x + a.y * b.y;
 	}
 
 	t_float dot(const vec3& a, const vec3& b) {
