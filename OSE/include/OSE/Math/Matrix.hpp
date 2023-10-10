@@ -3,6 +3,8 @@
 
 #include <OSE/Core.hpp>
 
+// NOLINTBEGIN
+
 namespace OSE {
 template <unsigned int ROWS, unsigned int COLS>
 class mat {
@@ -97,5 +99,7 @@ class mat {
   float m_values[ROWS][COLS];
 };
 }  // namespace OSE
+
+// NOLINTEND
 
 #endif

@@ -90,18 +90,18 @@ vec3 cross(const vec3& a, const vec3& b) {
 }
 
 vec4 cross(const vec4& u, const vec4& v, const vec4& w) {
-  float A = (v.x * w.y) - (v.y * w.x);
-  float B = (v.x * w.z) - (v.z * w.x);
-  float C = (v.x * w.w) - (v.w * w.x);
-  float D = (v.y * w.z) - (v.z * w.y);
-  float E = (v.y * w.w) - (v.w * w.y);
-  float F = (v.z * w.w) - (v.w * w.z);
+  float a = (v.x * w.y) - (v.y * w.x);
+  float b = (v.x * w.z) - (v.z * w.x);
+  float c = (v.x * w.w) - (v.w * w.x);
+  float d = (v.y * w.z) - (v.z * w.y);
+  float e = (v.y * w.w) - (v.w * w.y);
+  float f = (v.z * w.w) - (v.w * w.z);
   // Calculate the result-vector components.
   vec4 result;
-  result.x = (u.y * F) - (u.z * E) + (u.w * D);
-  result.y = -(u.x * F) + (u.z * C) - (u.w * B);
-  result.z = (u.x * E) - (u.y * C) + (u.w * A);
-  result.w = -(u.x * D) + (u.y * B) - (u.z * A);
+  result.x = (u.y * f) - (u.z * e) + (u.w * d);
+  result.y = -(u.x * f) + (u.z * c) - (u.w * b);
+  result.z = (u.x * e) - (u.y * c) + (u.w * a);
+  result.w = -(u.x * d) + (u.y * b) - (u.z * a);
   return -result;
 }
 

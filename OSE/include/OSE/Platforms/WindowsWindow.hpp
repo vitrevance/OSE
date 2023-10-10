@@ -23,7 +23,7 @@ class OSE_API WindowsWindow : public Window {
   void releaseMouse() override;
 
  protected:
-  static int s_isWindowInit;
+  static int isWindowInit;
   GLFWwindow* m_glfwWindow;
 
   void init();

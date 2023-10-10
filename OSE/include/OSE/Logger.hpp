@@ -27,17 +27,17 @@ class OSE_API Logger {
   ~Logger();
 
   template <class T>
-  void Log(int LogLevel, const T& message) {
+  void log(int logLevel, const T& message) {
 #ifndef OSE_DISABLE_LOGGER
-    if (std::abs(LogLevel) < this->m_logLevel) {
+    if (std::abs(logLevel) < this->m_logLevel) {
       return;
     }
-    if (LogLevel > 0) {
+    if (logLevel > 0) {
       std::cout << "OSE:";
     } else {
       std::cout << S_APP_NAME << ":";
     }
-    switch (LogLevel & -LogLevel) {
+    switch (logLevel & -logLevel) {
       case LOG_OSE_TRACE:
         std::cout << "TRACE     <";
         break;
@@ -54,9 +54,9 @@ class OSE_API Logger {
 #endif
   }
 
-  void Start();
+  void start();
 
-  void Stop();
+  void stop();
 
   void setLogLevel(int level);
 
@@ -64,24 +64,11 @@ class OSE_API Logger {
   int m_logLevel;
 };
 
-template <typename T>
-string to_str(const T& x) {
-  string res = "";
-  float* ptr = (float*)(&x);
-  int size = sizeof(x) / sizeof(float);
-  for (int i = 0; i < size; i++) {
-    res += std::to_string(ptr[i]);
-    if (i + 1 < size) {
-      res += " ";
-    }
-  }
-  return res;
-}
 }  // namespace OSE
 #ifndef OSE_DISABLE_LOGGER
 #define OSE_LOG(...) \
   ;                  \
-  ::OSE::Logger::instance->Log(__VA_ARGS__)
+  ::OSE::Logger::instance->log(__VA_ARGS__)
 #else
 #define OSE_LOG(...)
 #endif

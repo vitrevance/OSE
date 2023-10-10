@@ -1,13 +1,15 @@
 #include <OSE/Platforms/GlRenderer.hpp>
 
+#include <OSE/Logger.hpp>
+
 #include <GL/glew.h>
 
 #include <gl/GL.h>
 
 #include <GLFW/glfw3.h>
 
-#include <cmrc/cmrc.hpp>
 // NOLINTBEGIN
+#include <cmrc/cmrc.hpp>
 CMRC_DECLARE(OSE);
 // NOLINTEND
 
@@ -76,17 +78,18 @@ void GlRenderer::onRenderPost() {
   for (StaticMesh* mesh : this->m_drawQuery) {
     glBindVertexArray(mesh->VAO);
 
-    unsigned int MBO = this->m_instanceBuffers[mesh];
-    glBindBuffer(GL_ARRAY_BUFFER, MBO);
+    unsigned int meshBufferIndex = this->m_instanceBuffers[mesh];
+    glBindBuffer(GL_ARRAY_BUFFER, meshBufferIndex);
     std::vector<GLTransform>& batch = this->m_batch[mesh];
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLTransform) * batch.size(),
                  &(batch[0]), GL_DYNAMIC_DRAW);
-    int VAA = 6;
+    constexpr int kVertexAttribArrayIndex = 6;
     for (unsigned int i = 0; i < 5; i++) {
-      glEnableVertexAttribArray(VAA + i);
-      glVertexAttribPointer(VAA + i, 4, GL_FLOAT, GL_FALSE, sizeof(GLTransform),
+      glEnableVertexAttribArray(kVertexAttribArrayIndex + i);
+      glVertexAttribPointer(kVertexAttribArrayIndex + i, 4, GL_FLOAT, GL_FALSE,
+                            sizeof(GLTransform),
                             (const GLvoid*)(sizeof(GLfloat) * i * 4));
-      glVertexAttribDivisor(VAA + i, 1);
+      glVertexAttribDivisor(kVertexAttribArrayIndex + i, 1);
     }
     /*
 #define printv(v) std::cout << v.x << " " << v.y << " " << v.z << " " << v.w <<
@@ -148,7 +151,7 @@ Renderer::Shader GlRenderer::createShader(string shaderName) {
 
   unsigned int vertexId = glCreateShader(GL_VERTEX_SHADER);
   const char* vertexChar = vertexText.c_str();
-  glShaderSource(vertexId, 1, &vertexChar, NULL);
+  glShaderSource(vertexId, 1, &vertexChar, nullptr);
   glCompileShader(vertexId);
 
   GLint result;
@@ -166,7 +169,7 @@ Renderer::Shader GlRenderer::createShader(string shaderName) {
 
   unsigned int fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
   const char* fragmentChar = fragmentText.c_str();
-  glShaderSource(fragmentId, 1, &fragmentChar, NULL);
+  glShaderSource(fragmentId, 1, &fragmentChar, nullptr);
   glCompileShader(fragmentId);
 
   glGetShaderiv(fragmentId, GL_COMPILE_STATUS, &result);
@@ -182,10 +185,10 @@ Renderer::Shader GlRenderer::createShader(string shaderName) {
   }
 
   unsigned int geometryId = 0;
-  if (geometryText.size() > 0) {
+  if (!geometryText.empty()) {
     geometryId = glCreateShader(GL_GEOMETRY_SHADER);
     const char* geometryChar = geometryText.c_str();
-    glShaderSource(geometryId, 1, &geometryChar, NULL);
+    glShaderSource(geometryId, 1, &geometryChar, nullptr);
     glCompileShader(geometryId);
 
     glGetShaderiv(geometryId, GL_COMPILE_STATUS, &result);
@@ -287,7 +290,7 @@ void GlRenderer::setupStaticMesh(StaticMesh* mesh) {
   glBufferData(GL_ARRAY_BUFFER, sizeof(Tetrahedron) * mesh->cells.size(),
                &mesh->cells[0], GL_STATIC_DRAW);
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Tetrahedron), 0);
+  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Tetrahedron), nullptr);
   glEnableVertexAttribArray(1);
   glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Tetrahedron),
                         (void*)offsetof(Tetrahedron, base_1));
@@ -303,9 +306,9 @@ void GlRenderer::setupStaticMesh(StaticMesh* mesh) {
   glEnableVertexAttribArray(5);
   glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(Tetrahedron),
                         (void*)offsetof(Tetrahedron, uvbase_2));
-  unsigned int MBO;
-  glGenBuffers(1, &MBO);
-  this->m_instanceBuffers[mesh] = MBO;
+  unsigned int meshBufferIndex;
+  glGenBuffers(1, &meshBufferIndex);
+  this->m_instanceBuffers[mesh] = meshBufferIndex;
 
   glBindVertexArray(0);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -317,7 +320,7 @@ Renderer::Shader GlRenderer::createShader(string vertexText,
                                           string fragmentText) {
   unsigned int vertexId = glCreateShader(GL_VERTEX_SHADER);
   const char* vertexChar = vertexText.c_str();
-  glShaderSource(vertexId, 1, &vertexChar, NULL);
+  glShaderSource(vertexId, 1, &vertexChar, nullptr);
   glCompileShader(vertexId);
 
   GLint result;
@@ -335,7 +338,7 @@ Renderer::Shader GlRenderer::createShader(string vertexText,
 
   unsigned int fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
   const char* fragmentChar = fragmentText.c_str();
-  glShaderSource(fragmentId, 1, &fragmentChar, NULL);
+  glShaderSource(fragmentId, 1, &fragmentChar, nullptr);
   glCompileShader(fragmentId);
 
   glGetShaderiv(fragmentId, GL_COMPILE_STATUS, &result);
@@ -351,10 +354,10 @@ Renderer::Shader GlRenderer::createShader(string vertexText,
   }
 
   unsigned int geometryId = 0;
-  if (geometryText.size() > 0) {
+  if (!geometryText.empty()) {
     geometryId = glCreateShader(GL_GEOMETRY_SHADER);
     const char* geometryChar = geometryText.c_str();
-    glShaderSource(geometryId, 1, &geometryChar, NULL);
+    glShaderSource(geometryId, 1, &geometryChar, nullptr);
     glCompileShader(geometryId);
 
     glGetShaderiv(geometryId, GL_COMPILE_STATUS, &result);

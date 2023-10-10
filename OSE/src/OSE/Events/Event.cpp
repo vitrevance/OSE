@@ -9,7 +9,7 @@ Event::~Event() {
 }
 
 bool Event::isEventInCategory(EventCategory category) {
-  return this->getEventCategories() & (int)category;
+  return (this->getEventCategories() & (int)category) != 0;
 }
 
 bool Event::setCanceled(bool state) {

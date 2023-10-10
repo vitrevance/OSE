@@ -1,4 +1,5 @@
 #include <OSE.hpp>
+#include <OSE/Logger.hpp>
 #include <OSE/Events/KeyEvent.hpp>
 #include <OSE/Events/MouseEvent.hpp>
 #include <OSE/Events/WindowEvent.hpp>
@@ -175,15 +176,6 @@ class DebugBox : public OSE::Actor,
     if (this->m_freeze) {
       return;
     }
-    // this->getTransform().position.x = DebugData::hit_pos[0];
-    // this->getTransform().position.y = DebugData::hit_pos[1];
-    // this->getTransform().position.z = DebugData::hit_pos[2];
-    // this->getTransform().position.w = DebugData::hit_pos[3];
-    this->getTransform().position =
-        DebugData::Manager::instance->get<vec4>("hit_pos");
-    if (this->getTransform().position.length() > 0) {
-      OSE_LOG(LOG_OSE_WARNING, to_str(this->getTransform().position));
-    }
   }
 
   void onEvent(OSE::KeyReleasedEvent& event) override {
@@ -223,63 +215,19 @@ class Sandbox : public OSE::Engine,
     OSE::Scene* scene = new OSE::Scene();
     OSE::Layer* layer = new OSE::Layer();
 
-    // std::cin.ignore();
-
-    // TEST FIELD
-    // GEOMETRIC ALGEBRA TEST
-    /*
-    float alpha = OSE::toRadians(30);
-    vec4 ra = vec4(1, 0, 0, 0);
-    vec4 rb = vec4(cos(alpha / 2), sin(alpha / 2), 0, 0);
-
-    OSE::Multivector4 m = ra * rb;
-    OSE::Multivector4 rm = rb * ra;
-
-    OSE::Rotor4 r = OSE::Rotor4::xy(alpha);
-    r.rotate(r);
-
-    vec4 v = vec4(1, 0, 1, 2);
-
-    vec4 vv = r * v;
-
-    std::cout << OSE::to_str(vv) << std::endl;
-
-
-    m = m * v * rm;
-
-    std::cout << OSE::to_str(m.v0) << std::endl;
-    std::cout << OSE::to_str(m.v1) << std::endl;
-    std::cout << OSE::to_str(m.v2) << std::endl;
-    std::cout << OSE::to_str(m.v3) << std::endl;
-    std::cout << OSE::to_str(m.v4) << std::endl;
-    //std::cout << b.x << " " << b.y << " " << b.z << " " << b.w << std::endl;
-
-    this->stopEngine();
-    */
-    //----------------------------------------------------------------------
-
     TestActor* cube1 = new TestActor();
     cube1->getTransform().position = vec4(-2, -0.5, 5, 0);
-    // cube1->getTransform().scale = vec4(0.7);
-    // cube1->getTransform().rotation = OSE::Rotor4::xz(OSE::toRadians(30)) *
-    // OSE::Rotor4::xy(OSE::toRadians(40)) *
-    // OSE::Rotor4::zw(OSE::toRadians(35));
     cube1->getTransform().rotation = OSE::Rotor4::xy(OSE::toRadians(30)) *
                                      OSE::Rotor4::xz(OSE::toRadians(5));
-    // cube1->getTransform().scale = vec4(2, 0.5, 1, 1);
+
     cube1->rigidBody.m_velocity.x = 0;
 
     TestActor* cube2 = new TestActor();
     cube2->getTransform().position = vec4(2, 0, 5, 0);
-    // cube2->getTransform().rotation = OSE::Rotor4::xz(OSE::toRadians(0)) *
-    // OSE::Rotor4::xz(OSE::toRadians(35));
 
     layer->addAndSubscribe(cube1);
     layer->addAndSubscribe(cube2);
 
-    // layer->addLightSource(new
-    // OSE::LightSource(OSE::LightSource::Type::DIRECTIONAL_LIGHT, OSE::vec3(1),
-    // OSE::lookAt(OSE::vec3(), OSE::vec3({1, -1, 1}))));
     layer->addLightSource(
         new OSE::LightSource(OSE::LightSource::Type::POINT_LIGHT, OSE::vec3(1),
                              OSE::vec4(0, 15, 0, 0)));

@@ -16,8 +16,9 @@ void Layer::add(Entity* entity) {
 
 void Layer::remove(Entity* entity) {
   this->m_entities.erase(entity);
-  if (dynamic_cast<EventListenerBase*>(entity)) {
-    this->unsubscribeEventListener((EventListenerBase*)entity);
+  EventListenerBase* asEventListener = dynamic_cast<EventListenerBase*>(entity);
+  if (asEventListener != nullptr) {
+    this->unsubscribeEventListener(asEventListener);
   }
   if (entity->getPhysicsBody() != nullptr) {
     this->m_physicsSystem.remove(entity->getPhysicsBody());
@@ -65,7 +66,7 @@ void Layer::free() {
 }
 
 void Layer::onRender(Renderer* renderer) {
-  if (this->m_lights.size() > 0) {
+  if (!this->m_lights.empty()) {
     renderer->setLightData(this->m_lights);
   }
   for (Entity* entity : this->m_entities) {

@@ -34,9 +34,12 @@ if(NOT CLANG_TIDY_EXE)
     message(STATUS "clang-tidy not found.")
 else()
     message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
-    set(DO_CLANG_TIDY "${CLANG_TIDY_EXE}" "--verify-config" "--quiet" "-p=\"${CMAKE_BINARY_DIR}\"")
+    set(DO_CLANG_TIDY
+        ${CLANG_TIDY_EXE};
+        "--header-filter=(?<!^cmrc)\.hpp$"
+        )
+    set_target_properties(OSE PROPERTIES CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
 endif()
-set_target_properties(OSE PROPERTIES CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
 
 # Resources
 

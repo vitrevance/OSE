@@ -1,14 +1,17 @@
 #ifndef OSE_DEBUGDATA_H
 #define OSE_DEBUGDATA_H
 
-#include <OSE/Core.hpp>
-#include <iostream>
+#ifndef OSE_BUILD
+#error Do not use in application!
+#endif
+
 #include <any>
 #include <memory>
+#include <string>
+#include <map>
 
 namespace DebugData {
-// OSE_API extern float hit_pos[4];
-class OSE_API Manager {
+class Manager {
  public:
   static std::unique_ptr<Manager> instance;
 
@@ -20,15 +23,14 @@ class OSE_API Manager {
   template <typename T>
   inline T& get(const std::string& id) {
     if (!m_data.count(id)) {
-      // ::OSE::Logger::instance->Log(3, "Accessing unset debug variable: " +
-      // id);
-      std::cout << "Accessing unset debug variable: " << id << std::endl;
+      printError("Accessing unset debug variable: " + id);
       m_data[id] = T();
     }
     return std::any_cast<std::remove_reference_t<T>&>(m_data[id]);
   }
 
  private:
+  void printError(const std::string& message);
   std::map<std::string, std::any> m_data;
 };
 }  // namespace DebugData

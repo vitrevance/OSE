@@ -5,12 +5,12 @@ namespace OSE {
 Camera::Camera(int width, int height) {
   float zFar = 32768;
   float zNear = 0.625;
-  float FOV = 75;
+  float fieldOfView = 75;
   this->m_projection =
-      mat4({1 / (float)tan(FOV * 0.5 * CONST_PI / 180), 0, 0, 0, 0,
-            width / (float)tan(FOV * 0.5 * CONST_PI / 180) / height, 0, 0, 0, 0,
-            (zFar + zNear) / (zFar - zNear), -zFar * zNear / (zFar - zNear), 0,
-            0, 1, 0});
+      mat4({1 / (float)tan(fieldOfView * 0.5 * CONST_PI / 180), 0, 0, 0, 0,
+            width / (float)tan(fieldOfView * 0.5 * CONST_PI / 180) / height, 0,
+            0, 0, 0, (zFar + zNear) / (zFar - zNear),
+            -zFar * zNear / (zFar - zNear), 0, 0, 1, 0});
 }
 
 Camera::~Camera() {

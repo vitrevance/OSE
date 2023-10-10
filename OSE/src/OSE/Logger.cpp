@@ -11,14 +11,14 @@ Logger::Logger()
 Logger::~Logger() {
 }
 
-void Logger::Start() {
+void Logger::start() {
 #ifndef OSE_DISABLE_LOGGER
   Logger::instance = this;
   OSE_LOG(LOG_OSE_INFO, "Logger started!");
 #endif
 }
 
-void Logger::Stop() {
+void Logger::stop() {
 #ifndef OSE_DISABLE_LOGGER
   OSE_LOG(LOG_OSE_INFO, "Logger stopped!");
   Logger::instance = nullptr;

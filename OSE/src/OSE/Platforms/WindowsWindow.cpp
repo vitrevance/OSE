@@ -1,21 +1,24 @@
 #include <OSE/Platforms/WindowsWindow.hpp>
 
+#include <OSE/Logger.hpp>
+
 #include <GL/glew.h>
+
 #include <gl/GL.h>
+
 #include <GLFW/glfw3.h>
 
 namespace OSE {
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action,
-                  int mods);
-void window_close_callback(GLFWwindow* window);
-void window_size_callback(GLFWwindow* window, int width, int height);
-void window_moved_callback(GLFWwindow* window, int x, int y);
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void mouse_button_callback(GLFWwindow* window, int button, int action,
-                           int mods);
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action,
+                 int mods);
+void WindowCloseCallback(GLFWwindow* window);
+void WindowSizeCallback(GLFWwindow* window, int width, int height);
+void WindowMovedCallback(GLFWwindow* window, int x, int y);
+void MouseCallback(GLFWwindow* window, double xpos, double ypos);
+void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
-int WindowsWindow::s_isWindowInit = 0;
+int WindowsWindow::isWindowInit = 0;
 
 WindowsWindow::WindowsWindow(WindowProps windowProps) {
   this->m_windowProps = windowProps;
@@ -43,8 +46,8 @@ void WindowsWindow::onRenderPost() {
 }
 
 void WindowsWindow::init() {
-  if (WindowsWindow::s_isWindowInit <= 0) {
-    if (glfwInit()) {
+  if (WindowsWindow::isWindowInit <= 0) {
+    if (glfwInit() != 0) {
       OSE_LOG(LOG_OSE_INFO, "GLFW initialized");
     } else {
       OSE_LOG(LOG_OSE_ERROR, "GLFW initialization failed");
@@ -54,12 +57,13 @@ void WindowsWindow::init() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-  WindowsWindow::s_isWindowInit++;
+  WindowsWindow::isWindowInit++;
   this->m_glfwWindow = glfwCreateWindow(
       this->m_windowProps.width, this->m_windowProps.height,
       this->m_windowProps.title.c_str(),
-      this->m_windowProps.isFullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
-  if (!this->m_glfwWindow) {
+      this->m_windowProps.isFullscreen ? glfwGetPrimaryMonitor() : nullptr,
+      nullptr);
+  if (this->m_glfwWindow == nullptr) {
     OSE_LOG(LOG_OSE_ERROR, "GLFW window creation failed");
   }
   glfwMakeContextCurrent(this->m_glfwWindow);
@@ -70,18 +74,18 @@ void WindowsWindow::init() {
     OSE_LOG(LOG_OSE_ERROR, "GLEW initialization failed");
   }
   glfwSetInputMode(this->m_glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-  glfwSetKeyCallback(this->m_glfwWindow, key_callback);
-  glfwSetWindowCloseCallback(this->m_glfwWindow, window_close_callback);
-  glfwSetWindowSizeCallback(this->m_glfwWindow, window_size_callback);
-  glfwSetWindowPosCallback(this->m_glfwWindow, window_moved_callback);
-  glfwSetCursorPosCallback(this->m_glfwWindow, mouse_callback);
-  glfwSetMouseButtonCallback(this->m_glfwWindow, mouse_button_callback);
+  glfwSetKeyCallback(this->m_glfwWindow, KeyCallback);
+  glfwSetWindowCloseCallback(this->m_glfwWindow, WindowCloseCallback);
+  glfwSetWindowSizeCallback(this->m_glfwWindow, WindowSizeCallback);
+  glfwSetWindowPosCallback(this->m_glfwWindow, WindowMovedCallback);
+  glfwSetCursorPosCallback(this->m_glfwWindow, MouseCallback);
+  glfwSetMouseButtonCallback(this->m_glfwWindow, MouseButtonCallback);
 }
 
 void WindowsWindow::dispose() {
-  WindowsWindow::s_isWindowInit--;
+  WindowsWindow::isWindowInit--;
   glfwDestroyWindow(this->m_glfwWindow);
-  if (WindowsWindow::s_isWindowInit <= 0) {
+  if (WindowsWindow::isWindowInit <= 0) {
     glfwTerminate();
   }
 }
@@ -94,8 +98,8 @@ void WindowsWindow::releaseMouse() {
   glfwSetInputMode(this->m_glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action,
-                  int mods) {
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action,
+                 int mods) {
   if (action == GLFW_PRESS) {
     KeyPressedEvent event(key, 0);
     EventSystem::instance->postEvent(event);
@@ -110,22 +114,22 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action,
   }
 }
 
-void window_close_callback(GLFWwindow* window) {
+void WindowCloseCallback(GLFWwindow* window) {
   WindowClosedEvent event;
   EventSystem::instance->postEvent(event);
 }
 
-void window_size_callback(GLFWwindow* window, int width, int height) {
+void WindowSizeCallback(GLFWwindow* window, int width, int height) {
   WindowResizedEvent event(width, height);
   EventSystem::instance->postEvent(event);
 }
 
-void window_moved_callback(GLFWwindow* window, int x, int y) {
+void WindowMovedCallback(GLFWwindow* window, int x, int y) {
   WindowMovedEvent event(x, y);
   EventSystem::instance->postEvent(event);
 }
 
-void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
+void MouseCallback(GLFWwindow* window, double xpos, double ypos) {
   if (glfwGetInputMode(window, GLFW_CURSOR) != GLFW_CURSOR_NORMAL) {
     int width, height;
     glfwGetWindowSize(window, &width, &height);
@@ -135,8 +139,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
   }
 }
 
-void mouse_button_callback(GLFWwindow* window, int button, int action,
-                           int mods) {
+void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
   if (action == GLFW_PRESS) {
     MouseButtonPressedEvent event(button);
     EventSystem::instance->postEvent(event);

@@ -3,6 +3,8 @@
 
 #include <OSE/Core.hpp>
 
+// NOLINTBEGIN
+
 namespace OSE {
 template <size_t N>
 struct OSE_API vec {
@@ -136,5 +138,7 @@ struct OSE_API vec<4> {
 
 using vec4 = vec<4>;
 }  // namespace OSE
+
+// NOLINTEND
 
 #endif

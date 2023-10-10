@@ -14,17 +14,17 @@ void PhysicsSystem::free() {
 }
 
 void PhysicsSystem::update(float delta) {
-  std::set<RigidBody*>::iterator it_a = this->m_physicsBodies.begin();
-  std::set<RigidBody*>::iterator it_b = this->m_physicsBodies.begin();
-  it_b++;
-  while (it_b != this->m_physicsBodies.end()) {
-    while (it_b != this->m_physicsBodies.end()) {
-      this->updateBodies(*it_a, *it_b, delta);
-      it_b++;
+  std::set<RigidBody*>::iterator bodyA = this->m_physicsBodies.begin();
+  std::set<RigidBody*>::iterator bodyB = this->m_physicsBodies.begin();
+  bodyB++;
+  while (bodyB != this->m_physicsBodies.end()) {
+    while (bodyB != this->m_physicsBodies.end()) {
+      this->updateBodies(*bodyA, *bodyB, delta);
+      bodyB++;
     }
-    it_a++;
-    it_b = it_a;
-    it_b++;
+    bodyA++;
+    bodyB = bodyA;
+    bodyB++;
   }
 }
 
@@ -32,8 +32,8 @@ vec4 PhysicsSystem::getSupport(RigidBody* a, RigidBody* b, vec4 direction) {
   return a->getFurthestVertex(direction) - b->getFurthestVertex(-direction);
 }
 
-PhysicsSystem::CollisionData PhysicsSystem::GJK(RigidBody* rba,
-                                                RigidBody* rbb) {
+PhysicsSystem::CollisionData PhysicsSystem::calcGJK(RigidBody* rba,
+                                                    RigidBody* rbb) {
   vec4 support = this->getSupport(rba, rbb, vec4(1, 0, 0, 0));
   std::vector<vec4> simplex;
   simplex.push_back(support);
@@ -57,11 +57,11 @@ PhysicsSystem::CollisionData PhysicsSystem::GJK(RigidBody* rba,
       // std::cout << to_str(it) << std::endl;
     }
 
-    int scheck = this->SimplexCheck(simplex, direction);
+    int scheck = this->simplexCheck(simplex, direction);
     // OSE_LOG(LOG_OSE_TRACE, "check " + std::to_string(scheck));
     if (scheck == 1) {
       // std::cout << "Collision" << std::endl;
-      result.normal = EPA(rba, rbb, simplex);
+      result.normal = calcEPA(rba, rbb, simplex);
       result.location = rba->getFurthestVertex(-result.normal);
       return result;
     } else if (scheck == -1) {
@@ -113,13 +113,13 @@ PhysicsSystem::CollisionData PhysicsSystem::GJK(RigidBody* rba,
   return CollisionData();
 }
 
-vec4 PhysicsSystem::EPA(RigidBody* rba, RigidBody* rbb,
-                        std::vector<vec4>& simplex) {
-  struct cell {
+vec4 PhysicsSystem::calcEPA(RigidBody* rba, RigidBody* rbb,
+                            std::vector<vec4>& simplex) {
+  struct Cell {
     int a, b, c, d;
   };
   // pick any cell to begin
-  std::vector<cell> cells;
+  std::vector<Cell> cells;
   cells.push_back({0, 1, 2, 3});
   cells.push_back({0, 1, 2, 4});
   cells.push_back({0, 1, 3, 4});
@@ -135,7 +135,7 @@ vec4 PhysicsSystem::EPA(RigidBody* rba, RigidBody* rbb,
     // find cell nearest to 0-coord
     for (int i = 0; i < cells.size(); i++) {
       // OSE_LOG(LOG_OSE_TRACE, "Finding nearest " + std::to_string(i));
-      cell& it = cells[i];
+      Cell& it = cells[i];
       vec4 a = simplex[it.a];
       vec4 b = simplex[it.b];
       vec4 c = simplex[it.c];
@@ -161,8 +161,9 @@ vec4 PhysicsSystem::EPA(RigidBody* rba, RigidBody* rbb,
         // OSE_LOG(LOG_OSE_TRACE, "cell to cell collision");
         // is 0 in cell
         std::vector<vec4> tetra = {a, b, c, d};
-        int tetraSum = PhysicsSystem::FTetrahedron(tetra, normal);  // not
-                                                                    // tested
+        int tetraSum =
+            PhysicsSystem::caseFTetrahedron(tetra, normal);  // not
+                                                             // tested
       }
       // save cell nearest to 0-coord
       if (dd < minDot) {
@@ -171,7 +172,7 @@ vec4 PhysicsSystem::EPA(RigidBody* rba, RigidBody* rbb,
       }
     }
     // get nearest cell
-    cell& nearestIt = cells[nearestCell];
+    Cell& nearestIt = cells[nearestCell];
     vec4 na = simplex[nearestIt.a];
     vec4 nb = simplex[nearestIt.b];
     vec4 nc = simplex[nearestIt.c];
@@ -199,22 +200,22 @@ vec4 PhysicsSystem::EPA(RigidBody* rba, RigidBody* rbb,
 
       cells.erase(cells.begin() + nearestCell);
       // build all possible cells with new vertex
-      cell cell1;
+      Cell cell1;
       cell1.a = nearestIt.a;
       cell1.b = nearestIt.b;
       cell1.c = nearestIt.c;
       cell1.d = ind;
-      cell cell2;
+      Cell cell2;
       cell2.a = nearestIt.a;
       cell2.b = nearestIt.b;
       cell2.c = ind;
       cell2.d = nearestIt.d;
-      cell cell3;
+      Cell cell3;
       cell3.a = nearestIt.a;
       cell3.b = ind;
       cell3.c = nearestIt.c;
       cell3.d = nearestIt.d;
-      cell cell4;
+      Cell cell4;
       cell4.a = ind;
       cell4.b = nearestIt.b;
       cell4.c = nearestIt.c;
@@ -227,9 +228,9 @@ vec4 PhysicsSystem::EPA(RigidBody* rba, RigidBody* rbb,
       // erase non unique cells
       for (int i = 0; i < cells.size(); i++) {
         bool marked = false;
-        cell& c1 = cells[i];
+        Cell& c1 = cells[i];
         for (int j = i + 1; j < cells.size(); j++) {
-          cell& c2 = cells[j];
+          Cell& c2 = cells[j];
           // check if cells are not equal by calculation ind1 xor ind2 xor ...
           // == 0 if all in pairs
           if ((c1.a ^ c1.b ^ c1.c ^ c1.d ^ c2.a ^ c2.b ^ c2.c ^ c2.d) == 0) {
@@ -320,25 +321,25 @@ vec4 PhysicsSystem::EPA(RigidBody* rba, RigidBody* rbb,
   return leastNormal;
 }
 
-int PhysicsSystem::SimplexCheck(std::vector<vec4>& simplex, vec4& direction) {
+int PhysicsSystem::simplexCheck(std::vector<vec4>& simplex, vec4& direction) {
   switch (simplex.size()) {
     case 2:
-      return this->Line(simplex, direction);
+      return this->caseLine(simplex, direction);
       break;
     case 3:
-      return this->Triangle(simplex, direction);
+      return this->caseTriangle(simplex, direction);
       break;
     case 4:
-      return this->FTetrahedron(simplex, direction);
+      return this->caseFTetrahedron(simplex, direction);
       break;
     case 5:
-      return this->FiveCell(simplex, direction);
+      return this->caseFiveCell(simplex, direction);
       break;
   }
   return 0;
 }
 
-int PhysicsSystem::Line(std::vector<vec4>& simplex, vec4& direction) {
+int PhysicsSystem::caseLine(std::vector<vec4>& simplex, vec4& direction) {
   vec4 a = simplex[1];
   vec4 b = simplex[0];
   vec4 ab = b - a;
@@ -356,7 +357,7 @@ int PhysicsSystem::Line(std::vector<vec4>& simplex, vec4& direction) {
   return 0;
 }
 
-int PhysicsSystem::Triangle(std::vector<vec4>& simplex, vec4& direction) {
+int PhysicsSystem::caseTriangle(std::vector<vec4>& simplex, vec4& direction) {
   vec4 a = simplex[2];
   vec4 b = simplex[1];
   vec4 c = simplex[0];
@@ -383,13 +384,13 @@ int PhysicsSystem::Triangle(std::vector<vec4>& simplex, vec4& direction) {
 
   if (dot(pac, ao) > 0) {
     if (dot(ac, ao) > 0) {
-      return this->Line(simplex = {c, a}, direction);
+      return this->caseLine(simplex = {c, a}, direction);
     } else {
-      return this->Line(simplex = {b, a}, direction);
+      return this->caseLine(simplex = {b, a}, direction);
     }
   } else {
     if (dot(pab, ao) > 0) {
-      return this->Line(simplex = {b, a}, direction);
+      return this->caseLine(simplex = {b, a}, direction);
     } else {
       if (abco.length() > 0) {
         if (dot(cross(abco, ac, ab), ao) > 0) {
@@ -406,7 +407,8 @@ int PhysicsSystem::Triangle(std::vector<vec4>& simplex, vec4& direction) {
   return 0;
 }
 
-int PhysicsSystem::FTetrahedron(std::vector<vec4>& simplex, vec4& direction) {
+int PhysicsSystem::caseFTetrahedron(std::vector<vec4>& simplex,
+                                    vec4& direction) {
   vec4 a = simplex[3];
   vec4 b = simplex[2];
   vec4 c = simplex[1];
@@ -424,17 +426,18 @@ int PhysicsSystem::FTetrahedron(std::vector<vec4>& simplex, vec4& direction) {
   vec4 adb = cross(ad, ab, abcd);
 
   if (dot(abc, ao) > 0) {
-    return this->Triangle(simplex = {c, b, a}, direction);
+    return this->caseTriangle(simplex = {c, b, a}, direction);
   }
   if (dot(acd, ao) > 0) {
-    return this->Triangle(simplex = {d, c, a}, direction);
+    return this->caseTriangle(simplex = {d, c, a}, direction);
   }
   if (dot(adb, ao) > 0) {
-    return this->Triangle(simplex = {b, d, a}, direction);
+    return this->caseTriangle(simplex = {b, d, a}, direction);
   }
 
   if (abcd.length() == 0) {
-    std::cout << "bsdfa" << std::endl;
+    // TODO: additional check
+    return 0;
   }
 
   if (dot(abcd, ao) > 0) {
@@ -446,7 +449,7 @@ int PhysicsSystem::FTetrahedron(std::vector<vec4>& simplex, vec4& direction) {
   return 0;
 }
 
-int PhysicsSystem::FiveCell(std::vector<vec4>& simplex, vec4& direction) {
+int PhysicsSystem::caseFiveCell(std::vector<vec4>& simplex, vec4& direction) {
   vec4 a = simplex[4];
   vec4 b = simplex[3];
   vec4 c = simplex[2];
@@ -485,23 +488,23 @@ int PhysicsSystem::FiveCell(std::vector<vec4>& simplex, vec4& direction) {
 
   if (dot(abcd, ao) > 0) {
     // std::cout << "a" << std::endl;
-    return this->FTetrahedron(simplex = {d, c, b, a}, direction);
+    return this->caseFTetrahedron(simplex = {d, c, b, a}, direction);
   }
   if (dot(abce, ao) > 0) {
     // std::cout << "b" << std::endl;
-    return this->FTetrahedron(simplex = {e, c, b, a}, direction);
+    return this->caseFTetrahedron(simplex = {e, c, b, a}, direction);
   }
   if (dot(abde, ao) > 0) {
     // std::cout << "c" << std::endl;
-    return this->FTetrahedron(simplex = {e, d, b, a}, direction);
+    return this->caseFTetrahedron(simplex = {e, d, b, a}, direction);
   }
   if (dot(acde, ao) > 0) {
     // std::cout << "d" << std::endl;
-    return this->FTetrahedron(simplex = {e, d, c, a}, direction);
+    return this->caseFTetrahedron(simplex = {e, d, c, a}, direction);
   }
   if (dot(bcde, -b) > 0) {
     // std::cout << "e" << std::endl;
-    return this->FTetrahedron(simplex = {e, d, c, b}, direction);
+    return this->caseFTetrahedron(simplex = {e, d, c, b}, direction);
   }
   return 1;
 }
@@ -525,7 +528,7 @@ void PhysicsSystem::updateBodies(RigidBody* a, RigidBody* b, float delta) {
   // b->m_angVelocity = b->m_angVelocity * 0.9;
   // vec4 result = this->volumes(a->getConvex(), a->getTransform(),
   // b->getConvex(), b->getTransform());
-  CollisionData result = this->GJK(a, b);
+  CollisionData result = this->calcGJK(a, b);
   if (result.normal.length() > 0) {
     vec4 aVelocity = ((a->m_mass - b->m_mass) * a->m_velocity +
                       2 * b->m_mass * b->m_velocity) /
@@ -559,8 +562,6 @@ void PhysicsSystem::updateBodies(RigidBody* a, RigidBody* b, float delta) {
     // a->m_velocity *= -1;
     // b->m_velocity *= -1;
     a->getTransform().position += result.normal;
-
-    DebugData::Manager::instance->put<vec4>("hit_pos", result.location);
   }
 }
 }  // namespace OSE

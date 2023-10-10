@@ -1,5 +1,7 @@
 #include <OSE/Platforms/AssetSystem.hpp>
 
+#include <OSE/Logger.hpp>
+
 #include <assimp/cimport.h>
 #include <assimp/material.h>
 #include <assimp/postprocess.h>
@@ -70,7 +72,7 @@ StaticMesh* AssetSystem::loadStaticMesh(const string& name, string path,
       (this->m_assetDir + path).c_str(),
       aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_OptimizeGraph |
           aiProcess_OptimizeMeshes | aiProcess_GenUVCoords);
-  if (scene) {
+  if (scene != nullptr) {
     const aiMesh* amesh = scene->mMeshes[0];
     StaticMesh* mesh = new StaticMesh();
 
@@ -169,7 +171,7 @@ Material* AssetSystem::createMaterial(const string& name, string materialText) {
   }
   Material* material = new Material(this->m_materials.size() + 1);
   materialText.insert(defloc + 8, std::to_string(material->id));
-  unsigned long long texture = materialText.find("#texture ");
+  uint64_t texture = materialText.find("#texture ");
   while (texture != string::npos) {
     if (texture > defloc) {
       break;
@@ -198,8 +200,8 @@ Material* AssetSystem::createMaterial(const string& name, string materialText) {
 
 Material* OSE::AssetSystem::loadMaterial(const string& name,
                                          const string& path) {
-  string texture_text = AssetSystem::loadRawString(path);
-  return AssetSystem::createMaterial(name, texture_text);
+  string textureText = AssetSystem::loadRawString(path);
+  return AssetSystem::createMaterial(name, textureText);
 }
 
 void AssetSystem::attachMaterial(const string& meshName, string materialName) {

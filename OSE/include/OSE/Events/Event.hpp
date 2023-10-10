@@ -77,9 +77,9 @@ class OSE_API Event {
   }
 
 template <typename T>
-struct onEventWrapper {
+struct OnEventWrapper {
   std::function<void(T&)> m_fun;
-  onEventWrapper(std::function<void(T&)> fun) {
+  OnEventWrapper(std::function<void(T&)> fun) {
     this->m_fun = fun;
   }
   operator std::function<void(T&)>() const {
@@ -110,12 +110,12 @@ class EventListener : virtual public EventListenerBase {
                   "T must inherit from Event");
     std::function<void(T&)> callback =
         std::bind(&EventListener<T>::onEvent, this, std::placeholders::_1);
-    onEventWrapper<T>* fun = new onEventWrapper<T>(callback);
+    OnEventWrapper<T>* fun = new OnEventWrapper<T>(callback);
     this->m_eventTypes[T::getStaticEventType()] = (void*)fun;
   }
 
   virtual ~EventListener() {
-    delete (onEventWrapper<T>*)this->m_eventTypes[T::getStaticEventType()];
+    delete (OnEventWrapper<T>*)this->m_eventTypes[T::getStaticEventType()];
     this->m_eventTypes.erase(T::getStaticEventType());
   }
 

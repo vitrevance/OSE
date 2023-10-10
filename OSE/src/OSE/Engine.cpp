@@ -2,20 +2,21 @@
 
 #include <OSE/Platforms/WindowsWindow.hpp>
 #include <OSE/Platforms/GlRenderer.hpp>
+#include <OSE/Logger.hpp>
 
 namespace OSE {
 
 Engine* Engine::instance;
 
 Engine::Engine() {
-  (new Logger())->Start();
+  (new Logger())->start();
   Engine::instance = this;
   this->init();
 }
 
 Engine::~Engine() {
   this->stop();
-  Logger::instance->Stop();
+  Logger::instance->stop();
 }
 
 void Engine::init() {
@@ -60,11 +61,11 @@ Scene* Engine::getActiveScene() {
 }
 
 void Engine::run() {
-  typedef std::chrono::high_resolution_clock clock;
-  typedef std::chrono::duration<float, std::milli> duration;
+  typedef std::chrono::high_resolution_clock Clock;
+  typedef std::chrono::duration<float, std::milli> Duration;
 
-  static clock::time_point start = clock::now();
-  duration elapsed = clock::now() - start;
+  static Clock::time_point start = Clock::now();
+  Duration elapsed = Clock::now() - start;
 
   while (this->m_isRunning) {
     if (this->m_window != nullptr) {
@@ -75,12 +76,12 @@ void Engine::run() {
       this->m_renderer->onRenderPost();
       this->m_window->onRenderPost();
     }
-    elapsed = clock::now() - start;
+    elapsed = Clock::now() - start;
     if (elapsed.count() > 1) {
       TickEvent tickEvent(elapsed.count());
       EventSystem::instance->postEvent(tickEvent);
       this->m_activeScene->updatePhysics(elapsed.count() / 1000.0);
-      start = clock::now();
+      start = Clock::now();
     }
   }
 }

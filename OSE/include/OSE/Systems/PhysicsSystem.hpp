@@ -28,15 +28,15 @@ class OSE_API PhysicsSystem {
   std::set<RigidBody*> m_physicsBodies;
 
   vec4 getSupport(RigidBody* a, RigidBody* b, vec4 direction);
-  PhysicsSystem::CollisionData GJK(RigidBody* a, RigidBody* b);
-  vec4 EPA(RigidBody* rba, RigidBody* rbb, std::vector<vec4>& simplex);
+  PhysicsSystem::CollisionData calcGJK(RigidBody* a, RigidBody* b);
+  vec4 calcEPA(RigidBody* rba, RigidBody* rbb, std::vector<vec4>& simplex);
   void updateBodies(RigidBody* a, RigidBody* b, float delta);
 
-  int SimplexCheck(std::vector<vec4>& simplex, vec4& direction);
-  int Line(std::vector<vec4>& simplex, vec4& direction);
-  int Triangle(std::vector<vec4>& simplex, vec4& direction);
-  int FTetrahedron(std::vector<vec4>& simplex, vec4& direction);
-  int FiveCell(std::vector<vec4>& simplex, vec4& direction);
+  int simplexCheck(std::vector<vec4>& simplex, vec4& direction);
+  int caseLine(std::vector<vec4>& simplex, vec4& direction);
+  int caseTriangle(std::vector<vec4>& simplex, vec4& direction);
+  int caseFTetrahedron(std::vector<vec4>& simplex, vec4& direction);
+  int caseFiveCell(std::vector<vec4>& simplex, vec4& direction);
 };
 }  // namespace OSE
 

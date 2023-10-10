@@ -5,6 +5,8 @@
 #include <OSE/Math/Matrix.hpp>
 #include <OSE/Math/Multivector.hpp>
 
+// NOLINTBEGIN
+
 #define CONST_PI 3.141592653589793238462643383279502884L
 
 namespace OSE {
@@ -52,5 +54,7 @@ typedef mat<2, 2> mat2;
 typedef mat<3, 3> mat3;
 typedef mat<4, 4> mat4;
 }  // namespace OSE
+
+// NOLINTEND
 
 #endif

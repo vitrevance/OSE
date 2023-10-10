@@ -23,7 +23,7 @@ class OSE_API EventSystem {
       std::set<void*>& callbacks =
           this->m_subscribedEventListeners[T::getStaticEventType()];
       for (void* it : callbacks) {
-        std::function<void(T&)> callback = *((onEventWrapper<T>*)it);
+        std::function<void(T&)> callback = *((OnEventWrapper<T>*)it);
         callback(event);
       }
     }
@@ -32,7 +32,7 @@ class OSE_API EventSystem {
       std::set<void*>& callbacks =
           this->m_subscribedEventListeners[EventType::None];
       for (void* it : callbacks) {
-        std::function<void(Event&)> callback = *((onEventWrapper<Event>*)it);
+        std::function<void(Event&)> callback = *((OnEventWrapper<Event>*)it);
         callback(event);
       }
     }
