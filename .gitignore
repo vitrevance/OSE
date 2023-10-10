@@ -1,5 +1,8 @@
 .vs
 bin
 bin-int
-**/Makefile
+Makefile
 .vscode
+assets
+build
+.cache
