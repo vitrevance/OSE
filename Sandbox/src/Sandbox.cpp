@@ -51,7 +51,7 @@ class Player : public OSE::Actor,
   OSE::vec4 velocity;
   OSE::vec4 acceleration;
   OSE::Camera* camera;
-  t_float speed = 0.0005;
+  float speed = 0.0005;
 
   int f = 0, r = 0, u = 0, w = 0;
 
@@ -228,7 +228,7 @@ class Sandbox : public OSE::Engine,
     // TEST FIELD
     // GEOMETRIC ALGEBRA TEST
     /*
-    t_float alpha = OSE::toRadians(30);
+    float alpha = OSE::toRadians(30);
     vec4 ra = vec4(1, 0, 0, 0);
     vec4 rb = vec4(cos(alpha / 2), sin(alpha / 2), 0, 0);
 

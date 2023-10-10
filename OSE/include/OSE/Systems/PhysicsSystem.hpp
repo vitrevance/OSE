@@ -17,7 +17,7 @@ class OSE_API PhysicsSystem {
 
   void free();
 
-  void update(t_float delta);
+  void update(float delta);
 
  private:
   struct CollisionData {
@@ -30,7 +30,7 @@ class OSE_API PhysicsSystem {
   vec4 getSupport(RigidBody* a, RigidBody* b, vec4 direction);
   PhysicsSystem::CollisionData GJK(RigidBody* a, RigidBody* b);
   vec4 EPA(RigidBody* rba, RigidBody* rbb, std::vector<vec4>& simplex);
-  void updateBodies(RigidBody* a, RigidBody* b, t_float delta);
+  void updateBodies(RigidBody* a, RigidBody* b, float delta);
 
   int SimplexCheck(std::vector<vec4>& simplex, vec4& direction);
   int Line(std::vector<vec4>& simplex, vec4& direction);

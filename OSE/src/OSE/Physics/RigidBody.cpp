@@ -10,12 +10,12 @@ RigidBody::~RigidBody() {
 }
 
 vec4 RigidBody::getFurthestVertex(vec4 direction) {
-  t_float highest = std::numeric_limits<t_float>::min();
+  float highest = std::numeric_limits<float>::min();
   vec4 support;
 
   for (vec4 vertex : this->m_convex->vertices) {
     vec4 translated = this->m_transform.rotation * vertex;
-    t_float dp = dot(translated, direction);
+    float dp = dot(translated, direction);
     if (dp > highest) {
       highest = dp;
       support = translated + this->m_transform.position;

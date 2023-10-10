@@ -13,7 +13,7 @@ void PhysicsSystem::free() {
   this->m_physicsBodies.clear();
 }
 
-void PhysicsSystem::update(t_float delta) {
+void PhysicsSystem::update(float delta) {
   std::set<RigidBody*>::iterator it_a = this->m_physicsBodies.begin();
   std::set<RigidBody*>::iterator it_b = this->m_physicsBodies.begin();
   it_b++;
@@ -91,9 +91,9 @@ PhysicsSystem::CollisionData PhysicsSystem::GJK(RigidBody* rba,
           pbc = -pbc;
         }
 
-        t_float dab = dot(pab, a);
-        t_float dac = dot(pac, a);
-        t_float dbc = dot(pbc, b);
+        float dab = dot(pab, a);
+        float dac = dot(pac, a);
+        float dbc = dot(pbc, b);
 
         if (dab < dac && dab < dbc) {
           result.normal = pab * dab;
@@ -131,7 +131,7 @@ vec4 PhysicsSystem::EPA(RigidBody* rba, RigidBody* rbb,
   while (true) {
     // OSE_LOG(LOG_OSE_TRACE, "CELLS " + std::to_string(cells.size()));
     int nearestCell = 0;
-    t_float minDot = std::numeric_limits<t_float>::max();
+    float minDot = std::numeric_limits<float>::max();
     // find cell nearest to 0-coord
     for (int i = 0; i < cells.size(); i++) {
       // OSE_LOG(LOG_OSE_TRACE, "Finding nearest " + std::to_string(i));
@@ -146,7 +146,7 @@ vec4 PhysicsSystem::EPA(RigidBody* rba, RigidBody* rbb,
         normal = -normal;
       }
 
-      t_float dd = std::max(
+      float dd = std::max(
           {dot(a, normal), dot(b, normal), dot(c, normal), dot(d, normal)});
       // vertices are in the same hyperplane - not a cell
       if (std::isnan(dd)) {
@@ -506,7 +506,7 @@ int PhysicsSystem::FiveCell(std::vector<vec4>& simplex, vec4& direction) {
   return 1;
 }
 
-void PhysicsSystem::updateBodies(RigidBody* a, RigidBody* b, t_float delta) {
+void PhysicsSystem::updateBodies(RigidBody* a, RigidBody* b, float delta) {
   a->getTransform().position += a->m_velocity * delta;
   b->getTransform().position += b->m_velocity * delta;
 

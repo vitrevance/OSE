@@ -67,8 +67,8 @@ class OSE_API Logger {
 template <typename T>
 string to_str(const T& x) {
   string res = "";
-  t_float* ptr = (t_float*)(&x);
-  int size = sizeof(x) / sizeof(t_float);
+  float* ptr = (float*)(&x);
+  int size = sizeof(x) / sizeof(float);
   for (int i = 0; i < size; i++) {
     res += std::to_string(ptr[i]);
     if (i + 1 < size) {

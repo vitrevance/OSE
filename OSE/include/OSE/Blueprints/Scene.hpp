@@ -17,7 +17,7 @@ class OSE_API Scene {
   void free();
 
   virtual void render(Renderer* renderer);
-  void updatePhysics(t_float delta);
+  void updatePhysics(float delta);
   EventSystem* getLayerEventSystem(int index);
 
  protected:

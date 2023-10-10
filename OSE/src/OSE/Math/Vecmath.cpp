@@ -72,15 +72,15 @@ vec3 operator*(mat<3, 4> m, vec4 v) {
   return result;
 }
 
-vec2 operator*(t_float a, const vec2& b) {
+vec2 operator*(float a, const vec2& b) {
   return b * a;
 }
 
-vec3 operator*(t_float a, const vec3& b) {
+vec3 operator*(float a, const vec3& b) {
   return b * a;
 }
 
-vec4 operator*(t_float a, const vec4& b) {
+vec4 operator*(float a, const vec4& b) {
   return b * a;
 }
 
@@ -90,12 +90,12 @@ vec3 cross(const vec3& a, const vec3& b) {
 }
 
 vec4 cross(const vec4& u, const vec4& v, const vec4& w) {
-  t_float A = (v.x * w.y) - (v.y * w.x);
-  t_float B = (v.x * w.z) - (v.z * w.x);
-  t_float C = (v.x * w.w) - (v.w * w.x);
-  t_float D = (v.y * w.z) - (v.z * w.y);
-  t_float E = (v.y * w.w) - (v.w * w.y);
-  t_float F = (v.z * w.w) - (v.w * w.z);
+  float A = (v.x * w.y) - (v.y * w.x);
+  float B = (v.x * w.z) - (v.z * w.x);
+  float C = (v.x * w.w) - (v.w * w.x);
+  float D = (v.y * w.z) - (v.z * w.y);
+  float E = (v.y * w.w) - (v.w * w.y);
+  float F = (v.z * w.w) - (v.w * w.z);
   // Calculate the result-vector components.
   vec4 result;
   result.x = (u.y * F) - (u.z * E) + (u.w * D);
@@ -111,27 +111,27 @@ bool operator<(const vec4& a, const vec4& b) {
              : a.x < b.x;
 }
 
-t_float dot(const vec2& a, const vec2& b) {
+float dot(const vec2& a, const vec2& b) {
   return a.x * b.x + a.y * b.y;
 }
 
-t_float dot(const vec3& a, const vec3& b) {
+float dot(const vec3& a, const vec3& b) {
   return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
-t_float dot(const vec4& a, const vec4& b) {
+float dot(const vec4& a, const vec4& b) {
   return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 }
 
-t_float veccos(const vec2& a, const vec2& b) {
+float veccos(const vec2& a, const vec2& b) {
   return (a.x * b.x + a.y + b.y) / a.length() / b.length();
 }
 
-t_float veccos(const vec3& a, const vec3& b) {
+float veccos(const vec3& a, const vec3& b) {
   return (a.x * b.x + a.y * b.y + a.z * b.z) / a.length() / b.length();
 }
 
-t_float veccos(const vec4& a, const vec4& b) {
+float veccos(const vec4& a, const vec4& b) {
   return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w) / a.length() /
          b.length();
 }
@@ -144,7 +144,7 @@ mat<4, 4> lookAt(vec3 from, vec3 at) {
                     xaxis.z, yaxis.z, zaxis.z, 0, 0, 0, 0, 1});
 }
 
-t_float toRadians(t_float degrees) {
+float toRadians(float degrees) {
   return degrees / 180.0 * CONST_PI;
 }
 

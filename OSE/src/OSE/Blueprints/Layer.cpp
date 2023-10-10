@@ -73,7 +73,7 @@ void Layer::onRender(Renderer* renderer) {
   }
 }
 
-void Layer::updatePhysics(t_float delta) {
+void Layer::updatePhysics(float delta) {
   this->m_physicsSystem.update(delta);
 }
 

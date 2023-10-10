@@ -40,27 +40,27 @@ Rotor4 Rotor4::fromMultivector(const Multivector4& value) {
   return result;
 }
 
-Rotor4 Rotor4::xy(t_float angle) {
+Rotor4 Rotor4::xy(float angle) {
   return Rotor4(vec4(1, 0, 0, 0), vec4(cos(angle / 2), sin(angle / 2), 0, 0));
 }
 
-Rotor4 Rotor4::yz(t_float angle) {
+Rotor4 Rotor4::yz(float angle) {
   return Rotor4(vec4(0, 1, 0, 0), vec4(0, cos(angle / 2), sin(angle / 2), 0));
 }
 
-Rotor4 Rotor4::xz(t_float angle) {
+Rotor4 Rotor4::xz(float angle) {
   return Rotor4(vec4(1, 0, 0, 0), vec4(cos(angle / 2), 0, sin(angle / 2), 0));
 }
 
-Rotor4 Rotor4::xw(t_float angle) {
+Rotor4 Rotor4::xw(float angle) {
   return Rotor4(vec4(1, 0, 0, 0), vec4(cos(angle / 2), 0, 0, sin(angle / 2)));
 }
 
-Rotor4 Rotor4::yw(t_float angle) {
+Rotor4 Rotor4::yw(float angle) {
   return Rotor4(vec4(0, 1, 0, 0), vec4(0, cos(angle / 2), 0, sin(angle / 2)));
 }
 
-Rotor4 Rotor4::zw(t_float angle) {
+Rotor4 Rotor4::zw(float angle) {
   return Rotor4(vec4(0, 0, 1, 0), vec4(0, 0, cos(angle / 2), sin(angle / 2)));
 }
 

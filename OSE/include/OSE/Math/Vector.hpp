@@ -7,7 +7,7 @@ namespace OSE {
 template <size_t N>
 struct OSE_API vec {
   static_assert(N > 0 && N < 5);
-  t_float coords[N];
+  float coords[N];
 };
 
 namespace details {
@@ -47,83 +47,83 @@ inline consteval auto operator""_vec() {
 
 template <>
 struct OSE_API vec<2> {
-  t_float x, y;
+  float x, y;
 
   vec();
-  vec(t_float x, t_float y);
-  explicit vec(t_float v);
+  vec(float x, float y);
+  explicit vec(float v);
 
-  t_float length() const;
+  float length() const;
   void normalize();
   vec normalized() const;
 
-  t_float& operator[](unsigned int i);
+  float& operator[](unsigned int i);
   vec operator+(const vec& a) const;
   vec operator-(const vec& a) const;
-  vec operator*(t_float a) const;
-  vec operator/(t_float a) const;
+  vec operator*(float a) const;
+  vec operator/(float a) const;
   void operator+=(const vec& a);
   void operator-=(const vec& a);
-  void operator*=(t_float a);
-  void operator/=(t_float a);
+  void operator*=(float a);
+  void operator/=(float a);
 };
 
 using vec2 = vec<2>;
 
 template <>
 struct OSE_API vec<3> {
-  t_float x, y, z;
+  float x, y, z;
 
   vec();
-  vec(t_float x, t_float y, t_float z);
-  explicit vec(t_float v);
-  vec(vec2 xy, t_float z);
-  vec(t_float x, vec2 yz);
+  vec(float x, float y, float z);
+  explicit vec(float v);
+  vec(vec2 xy, float z);
+  vec(float x, vec2 yz);
 
-  t_float length() const;
+  float length() const;
   void normalize();
   vec normalized() const;
 
-  t_float& operator[](unsigned int i);
+  float& operator[](unsigned int i);
   vec operator+(const vec& a) const;
   vec operator-(const vec& a) const;
-  vec operator*(t_float a) const;
-  vec operator/(t_float a) const;
+  vec operator*(float a) const;
+  vec operator/(float a) const;
   void operator+=(const vec& a);
   void operator-=(const vec& a);
-  void operator*=(t_float a);
-  void operator/=(t_float a);
+  void operator*=(float a);
+  void operator/=(float a);
 };
 
 using vec3 = vec<3>;
 
 template <>
 struct OSE_API vec<4> {
-  t_float x, y, z, w;
+  float x, y, z, w;
 
   vec();
-  vec(t_float x, t_float y, t_float z, t_float w);
-  explicit vec(t_float v);
-  vec(vec2 xy, t_float z, t_float w);
-  vec(t_float x, vec2 yz, t_float w);
-  vec(t_float x, t_float y, vec2 zw);
-  vec(vec3 xyz, t_float w);
-  vec(t_float x, vec3 yzw);
+  vec(float x, float y, float z, float w);
+  explicit vec(float v);
+  vec(vec2 xy, float z, float w);
+  vec(float x, vec2 yz, float w);
+  vec(float x, float y, vec2 zw);
+  vec(vec3 xyz, float w);
+  vec(float x, vec3 yzw);
 
-  t_float length() const;
+  float length() const;
   void normalize();
   vec normalized() const;
 
-  t_float& operator[](unsigned int i);
+  float& operator[](unsigned int i);
   vec operator+(const vec& a) const;
   vec operator-(const vec& a) const;
-  vec operator*(t_float a) const;
-  vec operator/(t_float a) const;
+  vec operator*(float a) const;
+  vec operator/(float a) const;
   vec operator-() const;
   void operator+=(const vec& a);
   void operator-=(const vec& a);
-  void operator*=(t_float a);
-  void operator/=(t_float a);
+  void operator*=(float a);
+  void operator/=(float a);
 
   inline vec2 xy() {
     return vec2(x, y);

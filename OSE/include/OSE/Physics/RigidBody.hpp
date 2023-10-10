@@ -10,7 +10,7 @@ class OSE_API RigidBody {
   vec4 m_velocity;
   Rotor4 m_rotation;
   Bivector4 m_angVelocity;
-  t_float m_mass;
+  float m_mass;
 
   RigidBody(Convex* convex);
   ~RigidBody();

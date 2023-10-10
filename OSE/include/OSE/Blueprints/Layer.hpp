@@ -26,7 +26,7 @@ class OSE_API Layer {
   void free();
 
   virtual void onRender(Renderer* renderer);
-  void updatePhysics(t_float delta);
+  void updatePhysics(float delta);
   EventSystem& eventSystem();
 
  protected:

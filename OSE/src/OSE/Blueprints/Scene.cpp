@@ -48,7 +48,7 @@ void Scene::render(Renderer* renderer) {
   }
 }
 
-void Scene::updatePhysics(t_float delta) {
+void Scene::updatePhysics(float delta) {
   for (Layer* layer : this->m_layers) {
     layer->updatePhysics(delta);
   }

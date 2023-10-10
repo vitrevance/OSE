@@ -15,7 +15,7 @@ class mat {
     }
   }
 
-  mat(t_float values[ROWS][COLS]) {
+  mat(float values[ROWS][COLS]) {
     for (unsigned int row = 0; row < ROWS; row++) {
       for (unsigned int col = 0; col < COLS; col++) {
         this->m_values[row][col] = values[row][col];
@@ -23,7 +23,7 @@ class mat {
     }
   }
 
-  mat(t_float values[ROWS * COLS]) {
+  mat(float values[ROWS * COLS]) {
     for (unsigned int row = 0; row < ROWS; row++) {
       for (unsigned int col = 0; col < COLS; col++) {
         this->m_values[row][col] = values[col + row * COLS];
@@ -31,8 +31,8 @@ class mat {
     }
   }
 
-  mat(const std::initializer_list<t_float>& values) {
-    std::initializer_list<t_float>::iterator it = values.begin();
+  mat(const std::initializer_list<float>& values) {
+    std::initializer_list<float>::iterator it = values.begin();
     for (unsigned int row = 0; row < ROWS; row++) {
       for (unsigned int col = 0; col < COLS; col++) {
         this->m_values[row][col] = *it;
@@ -89,12 +89,12 @@ class mat {
     return result;
   }
 
-  t_float* operator[](unsigned int row) {
+  float* operator[](unsigned int row) {
     return this->m_values[row];
   }
 
  private:
-  t_float m_values[ROWS][COLS];
+  float m_values[ROWS][COLS];
 };
 }  // namespace OSE
 
