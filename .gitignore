@@ -1,5 +1,6 @@
+# IDE
 .vs
-bin
-bin-int
-**/Makefile
 .vscode
+# Build
+build
+.cache

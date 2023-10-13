@@ -1,33 +1,23 @@
 # OSE
 Oversimplified engine (OpenGL C++)
 ## Description
-A simple game engine designed for 4D rendering.
+A simple engine designed for 4D rendering.
 ## Examples
 Rendering two hypercubes
 
 ![Hypercubes](Screenshot_1.png)
 # Build
-### Use [premake5](https://premake.github.io/) to generate prject
-## Makefile
-- Build library + demo
-```
-$ premake5 gmake
-$ make [config=release_x64]
-```
-- Build library only
-```
-$ premake5 gmake
-$ make OSE [config=release_x64]
-```
-## Visual Studio project
-```
-premake5 vs2022
-```
+CMake targets:
+- OSE - Engine dynamic library
+- SandboxBundle - sandbox executable for testing
+## Build options
+- OSE_DISABLE_LOGGING - disable logging (default ON)
+- S_APP_NAME=App - define app name (default "APP")
 # Setup
 ## Using Sandbox project
 - Clone this repository
-- Put you code into __./Sandbox/src__
-- Build target **all**
+- Put your code into __./Sandbox/src__
+- Build target **SandboxBundle**
 ## Custom setup
 OSE is designed as dynamic library
 - Build library
@@ -49,6 +39,7 @@ OSE::Engine* OSE::CreateApplication() {
 ```
 - Do **not** define/declare entry point ("main" function), it is already defined in OSE.h
 - See [Sandbox.cpp](Sandbox/src/Sandbox.cpp) for more examples
+- Use __bundle(target relative_path_to_assets)__ CMake function to add custom target for building final application
 # Essential docs
 ## Events
 ```OSE::EventListener``` - template class, inherite from it to subsribe for events

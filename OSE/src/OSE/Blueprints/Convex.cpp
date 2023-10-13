@@ -1,7 +1,6 @@
-#include <OSE/Blueprints/Convex.h>
+#include <OSE/Blueprints/Convex.hpp>
 
 namespace OSE {
-	Convex::Convex() {
-
-	}
+Convex::Convex() {
 }
+}  // namespace OSE

@@ -1,9 +1,10 @@
-#include <OSE/Blueprints/Material.h>
+#include <OSE/Blueprints/Material.hpp>
 
 namespace OSE {
-	Material::Material(int id) : id(id) {
-	}
-
-	Material::~Material() {
-	}
+Material::Material(int id)
+    : id(id) {
 }
+
+Material::~Material() {
+}
+}  // namespace OSE
