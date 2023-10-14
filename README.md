@@ -1,7 +1,7 @@
 # OSE
-Oversimplified engine (OpenGL C++)
+OpenGL 4D rendering engine.
 ## Description
-A simple engine designed for 4D rendering.
+This engine is designed for rendering objects in 4-dimensional space. It allows loading 3D models of various formats, which will be automatically converted to 4D. Interaction with objects is based on an event system.
 ## Examples
 Rendering two hypercubes
 
